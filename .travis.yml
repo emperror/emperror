@@ -1,0 +1,16 @@
+language: go
+
+sudo: false
+
+go:
+    - 1.7.x
+    - 1.8.x
+    - tip
+
+matrix:
+    allow_failures:
+        - go: tip
+
+script:
+    - go test $(go list ./... | grep -v /vendor/)
+    - gofmt -l $(find . -type f -name "*.go" -not -path "./vendor/*") | read something && echo "Code differs from gofmt's style" 1>&2 && exit 1 || true
