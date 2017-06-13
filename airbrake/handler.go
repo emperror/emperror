@@ -1,3 +1,27 @@
+/*
+Package airbrake provides Airbrake integration.
+
+Create a new handler as you would create a gobrake.Notifier:
+
+	projectID  := int64(1)
+	projectKey := "key"
+
+	handler := airbrake.NewHandler(projectID, projectKey)
+
+If you need access to the underlying Notifier instance (or need more advanced construction), you can access it from the handler:
+
+	handler.Notifier.SetHost("https://errbit.domain.com")
+
+By default Gobrake sends errors asynchronously and expects to be closed before the program finishes:
+
+	func main() {
+		defer handler.Close()
+	}
+
+If you want to Flush notices you can do it as you would with Gobrake's notifier or you can configure the handler to send notices synchronously:
+
+	handler.SendSynchronously = true
+*/
 package airbrake
 
 import (
@@ -8,14 +32,14 @@ import (
 
 // Handler is responsible for sending errors to Airbrake/Errbit.
 type Handler struct {
-	Gobrake           *gobrake.Notifier
+	Notifier          *gobrake.Notifier
 	SendSynchronously bool
 }
 
 // NewHandler creates a new Airbrake handler.
 func NewHandler(projectID int64, projectKey string) *Handler {
 	return &Handler{
-		Gobrake: gobrake.NewNotifier(projectID, projectKey),
+		Notifier: gobrake.NewNotifier(projectID, projectKey),
 	}
 }
 
@@ -27,17 +51,17 @@ func (h *Handler) Handle(err error) {
 		req = err.Request()
 	}
 
-	notice := h.Gobrake.Notice(err, req, 1)
+	notice := h.Notifier.Notice(err, req, 1)
 
 	if h.SendSynchronously {
-		h.Gobrake.SendNotice(notice)
+		h.Notifier.SendNotice(notice)
 	} else {
-		h.Gobrake.SendNoticeAsync(notice)
+		h.Notifier.SendNoticeAsync(notice)
 	}
 
 }
 
 // Close closes the underlying Airbrake instance.
 func (h *Handler) Close() error {
-	return h.Gobrake.Close()
+	return h.Notifier.Close()
 }
