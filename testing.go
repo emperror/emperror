@@ -6,7 +6,7 @@ type TestHandler struct {
 }
 
 // NewTestHandler returns a new TestHandler.
-func NewTestHandler() Handler {
+func NewTestHandler() *TestHandler {
 	return &TestHandler{}
 }
 
