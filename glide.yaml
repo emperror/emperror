@@ -1,0 +1,4 @@
+package: github.com/goph/emperror
+import:
+- package: github.com/airbrake/gobrake
+  version: ^3.0.1

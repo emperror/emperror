@@ -11,6 +11,13 @@ matrix:
     allow_failures:
         - go: tip
 
+before_install:
+    - mkdir -p $HOME/bin
+    - curl -sL http://get.binhq.io/gitbin | DEST=$HOME/bin bash
+    - gitbin get Masterminds/glide 0.12.3 -o $HOME/bin
+
+install: glide install
+
 script:
     - go test $(go list ./... | grep -v /vendor/)
     - gofmt -l $(find . -type f -name "*.go" -not -path "./vendor/*") | read something && echo "Code differs from gofmt's style" 1>&2 && exit 1 || true
