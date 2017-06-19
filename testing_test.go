@@ -1,12 +1,15 @@
-package emperror
+package emperror_test
 
 import (
-	"errors"
 	"testing"
+
+	"errors"
+
+	"github.com/goph/emperror"
 )
 
 func TestTestHandler_Handle(t *testing.T) {
-	handler := &TestHandler{}
+	handler := &emperror.TestHandler{}
 
 	err1 := errors.New("error 1")
 	err2 := errors.New("error 2")
@@ -22,7 +25,7 @@ func TestTestHandler_Handle(t *testing.T) {
 }
 
 func TestTestHandler_Last(t *testing.T) {
-	handler := &TestHandler{}
+	handler := &emperror.TestHandler{}
 
 	err1 := errors.New("error 1")
 	err2 := errors.New("error 2")
@@ -36,7 +39,7 @@ func TestTestHandler_Last(t *testing.T) {
 }
 
 func TestTestHandler_Last_Empty(t *testing.T) {
-	handler := &TestHandler{}
+	handler := &emperror.TestHandler{}
 
 	if handler.Last() != nil {
 		t.Error("empty handler, expected nil")

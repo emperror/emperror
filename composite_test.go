@@ -1,15 +1,18 @@
-package emperror
+package emperror_test
 
 import (
-	"errors"
 	"testing"
+
+	"errors"
+
+	"github.com/goph/emperror"
 )
 
 func TestCompositeHandler_Handle(t *testing.T) {
-	handler1 := NewTestHandler()
-	handler2 := NewTestHandler()
+	handler1 := emperror.NewTestHandler()
+	handler2 := emperror.NewTestHandler()
 
-	handler := NewCompositeHandler(handler1, handler2)
+	handler := emperror.NewCompositeHandler(handler1, handler2)
 
 	err := errors.New("error")
 

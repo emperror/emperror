@@ -1,22 +1,24 @@
-package emperror
+package emperror_test
 
 import (
 	"testing"
 
 	"fmt"
+
+	"github.com/goph/emperror"
 )
 
-type testErrorLogger struct {
+type testLogger struct {
 	last error
 }
 
-func (l *testErrorLogger) Error(args ...interface{}) {
+func (l *testLogger) Error(args ...interface{}) {
 	l.last = args[0].(error)
 }
 
 func TestLogHandler_Handle(t *testing.T) {
-	logger := &testErrorLogger{}
-	handler := NewLogHandler(logger)
+	logger := &testLogger{}
+	handler := emperror.NewLogHandler(logger)
 
 	err := fmt.Errorf("internal error")
 
