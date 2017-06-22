@@ -16,7 +16,7 @@ func TestHandleRecovery(t *testing.T) {
 			t.Error("handler was expected to handle the error")
 		}
 	}()
-	defer emperror.HandleRecover(handler)()
+	defer emperror.HandleRecover(handler)
 
 	panic(err)
 }

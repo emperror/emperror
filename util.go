@@ -1,14 +1,12 @@
 package emperror
 
-// HandleRecover returns a function that can be deferred.
+// HandleRecover recovers from a panic and handles the error.
 //
-// 		go emperror.HandleRecover(errorHandler)()
-func HandleRecover(handler Handler) func() {
-	return func() {
-		err := Recover(recover())
-		if err != nil {
-			handler.Handle(err)
-		}
+// 		go emperror.HandleRecover(errorHandler)
+func HandleRecover(handler Handler) {
+	err := Recover(recover())
+	if err != nil {
+		handler.Handle(err)
 	}
 }
 
