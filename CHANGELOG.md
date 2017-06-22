@@ -1,6 +1,15 @@
 # Change Log
 
 
+## Unreleased
+
+### Added
+
+- `Recover` function (from [github.com/goph/stdlib](https://github.com/goph/stdlib))
+- `HandlerRecover` to make recovering from a panic easier
+- `HandleIfErr` to spare ifs in code if the only handling logic is passing to an error handler
+
+
 ## 0.1.0 - 2017-06-19
 
 ### Added
