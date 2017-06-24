@@ -1,6 +1,13 @@
 # Change Log
 
 
+## 0.2.1 - 2017-07-24
+
+### Changed
+
+- Errors are passed as messages to loggers
+
+
 ## 0.2.0 - 2017-07-24
 
 ### Changed

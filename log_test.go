@@ -9,11 +9,11 @@ import (
 )
 
 type testLogger struct {
-	last error
+	last string
 }
 
 func (l *testLogger) Log(keyvals ...interface{}) error {
-	l.last = keyvals[3].(error)
+	l.last = keyvals[3].(string)
 
 	return nil
 }
@@ -26,7 +26,7 @@ func TestLogHandler_Handle(t *testing.T) {
 
 	handler.Handle(err)
 
-	if got, want := logger.last, err; got != want {
+	if got, want := logger.last, err.Error(); got != want {
 		t.Fatalf("expected to log a specific error, received: %v", got)
 	}
 }

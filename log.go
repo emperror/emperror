@@ -21,6 +21,6 @@ func NewLogHandler(l logger) Handler {
 func (h *LogHandler) Handle(err error) {
 	h.l.Log(
 		"level", "error",
-		"error", err,
+		"msg", err.Error(),
 	)
 }
