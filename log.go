@@ -9,7 +9,7 @@ type LogHandler struct {
 
 // logger covers most of the level-based logging solutions.
 type logger interface {
-	Error(args ...interface{})
+	Log(keyvals ...interface{}) error
 }
 
 // NewLogHandler returns a new LogHandler.
@@ -19,5 +19,8 @@ func NewLogHandler(l logger) Handler {
 
 // Handle takes care of an error by logging it.
 func (h *LogHandler) Handle(err error) {
-	h.l.Error(err)
+	h.l.Log(
+		"level", "error",
+		"error", err,
+	)
 }

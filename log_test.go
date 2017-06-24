@@ -12,8 +12,10 @@ type testLogger struct {
 	last error
 }
 
-func (l *testLogger) Error(args ...interface{}) {
-	l.last = args[0].(error)
+func (l *testLogger) Log(keyvals ...interface{}) error {
+	l.last = keyvals[3].(error)
+
+	return nil
 }
 
 func TestLogHandler_Handle(t *testing.T) {

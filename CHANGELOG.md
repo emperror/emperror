@@ -1,6 +1,13 @@
 # Change Log
 
 
+## Unreleased
+
+### Changed
+
+- Use go-kit log interface
+
+
 ## 0.1.2 - 2017-06-22
 
 ### Changed
