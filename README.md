@@ -7,6 +7,20 @@
 **The Emperor takes care of all errors personally.**
 
 
+## Development
+
+The project requires [Glide](https://glide.sh/) to install dependencies.
+
+``` bash
+$ make install
+```
+
+When all coding and testing is done, please run the test suite:
+
+``` bash
+$ make check
+```
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
