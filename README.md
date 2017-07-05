@@ -12,7 +12,7 @@
 The project requires [Glide](https://glide.sh/) to install dependencies.
 
 ``` bash
-$ make install
+$ make dep
 ```
 
 When all coding and testing is done, please run the test suite:

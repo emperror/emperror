@@ -1,14 +1,14 @@
 # A Self-Documenting Makefile: http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 
 # Dev variables
-GO_SOURCE_FILES = $(shell find . -type f -name "*.go" -not -name "bindata.go" -not -path "./vendor/*")
+GO_SOURCE_FILES = $(shell find . -type f -name "*.go" -not -name "bindata.go" -not -path "./vendor/*" -not -path "./mocks/*")
 GO_PACKAGES = $(shell go list ./... | grep -v /vendor/)
 
-.PHONY: setup install clean check test watch-test cs csfix envcheck
+.PHONY: setup dep clean check test watch-test cs csfix envcheck
 
-setup: install ## Setup the project for development
+setup: dep ## Setup the project for development
 
-install: ## Install dependencies
+dep: ## Install dependencies
 	@glide install
 
 clean:: ## Clean the working area
