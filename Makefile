@@ -2,7 +2,7 @@
 
 # Dev variables
 GO_SOURCE_FILES = $(shell find . -type f -name "*.go" -not -name "bindata.go" -not -path "./vendor/*" -not -path "./mocks/*")
-GO_PACKAGES = $(shell go list ./... | grep -v /vendor/)
+GO_PACKAGES = $(shell go list ./... | grep -v /vendor | grep -v /mocks)
 
 .PHONY: setup dep clean check test watch-test cs csfix envcheck
 
