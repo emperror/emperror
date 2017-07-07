@@ -1,6 +1,13 @@
 # Change Log
 
 
+## Unreleased
+
+### Added
+
+- Testing handler wrapping test state
+
+
 ## 0.2.1 - 2017-07-24
 
 ### Changed
