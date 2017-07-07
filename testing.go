@@ -10,7 +10,7 @@ func NewTestHandler() *TestHandler {
 	return &TestHandler{}
 }
 
-// Handle does the actual throwing away.
+// Handle saves the error in a list.
 func (h *TestHandler) Handle(err error) {
 	h.errors = append(h.errors, err)
 }
