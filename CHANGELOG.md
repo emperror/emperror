@@ -1,6 +1,13 @@
 # Change Log
 
 
+## Unreleased
+
+### Changed
+
+- Make error level default in Log handler
+
+
 ## 0.2.2 - 2017-07-07
 
 ### Added
