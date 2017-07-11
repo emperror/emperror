@@ -28,6 +28,7 @@ import (
 	"net/http"
 
 	"github.com/airbrake/gobrake"
+	"github.com/goph/emperror/internal"
 )
 
 // Handler is responsible for sending errors to Airbrake/Errbit.
@@ -52,6 +53,10 @@ func (h *Handler) Handle(err error) {
 	}
 
 	notice := h.Notifier.Notice(err, req, 1)
+
+	if cerr, ok := err.(internal.ContextualError); ok {
+		notice.Params = internal.MapContext(cerr)
+	}
 
 	if h.SendSynchronously {
 		h.Notifier.SendNotice(notice)

@@ -6,6 +6,7 @@
 ### Added
 
 - Contextual logging of errors
+- Contextual error support to Airbrake handler
 
 ### Changed
 
