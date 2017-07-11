@@ -1,8 +1,11 @@
 package emperror
 
-import "github.com/go-kit/kit/log/level"
+import (
+	"github.com/go-kit/kit/log/level"
+	"github.com/goph/emperror/internal"
+)
 
-// logHandler accepts an logger instance and logs an error.
+// logHandler accepts a logger instance and logs an error.
 //
 // Compatible with most level-based loggers.
 type logHandler struct {
@@ -21,7 +24,11 @@ func NewLogHandler(l logger) Handler {
 
 // Handle takes care of an error by logging it.
 func (h *logHandler) Handle(err error) {
-	h.l.Log(
-		"msg", err.Error(),
-	)
+	keyvals := []interface{}{"msg", err.Error()}
+
+	if cerr, ok := err.(internal.ContextualError); ok {
+		keyvals = append(keyvals, cerr.Context()...)
+	}
+
+	h.l.Log(keyvals...)
 }

@@ -3,6 +3,10 @@
 
 ## Unreleased
 
+### Added
+
+- Contextual logging of errors
+
 ### Changed
 
 - Make error level default in Log handler
