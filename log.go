@@ -2,10 +2,10 @@ package emperror
 
 import "github.com/go-kit/kit/log/level"
 
-// LogHandler accepts an logger instance and logs an error.
+// logHandler accepts an logger instance and logs an error.
 //
 // Compatible with most level-based loggers.
-type LogHandler struct {
+type logHandler struct {
 	l logger
 }
 
@@ -14,13 +14,13 @@ type logger interface {
 	Log(keyvals ...interface{}) error
 }
 
-// NewLogHandler returns a new LogHandler.
+// NewLogHandler returns a new logHandler.
 func NewLogHandler(l logger) Handler {
-	return &LogHandler{level.Error(l)}
+	return &logHandler{level.Error(l)}
 }
 
 // Handle takes care of an error by logging it.
-func (h *LogHandler) Handle(err error) {
+func (h *logHandler) Handle(err error) {
 	h.l.Log(
 		"msg", err.Error(),
 	)
