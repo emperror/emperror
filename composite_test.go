@@ -9,6 +9,8 @@ import (
 )
 
 func TestCompositeHandler_Handle(t *testing.T) {
+	t.Parallel()
+
 	handler1 := emperror.NewTestHandler()
 	handler2 := emperror.NewTestHandler()
 
@@ -18,7 +20,11 @@ func TestCompositeHandler_Handle(t *testing.T) {
 
 	handler.Handle(err)
 
-	if handler1.Last() != err || handler2.Last() != err {
-		t.Error("error is not handled by all handlers")
+	if want, have := err, handler1.Last(); want != have {
+		t.Errorf("\nwant: %v\nhave: %v", want, have)
+	}
+
+	if want, have := err, handler2.Last(); want != have {
+		t.Errorf("\nwant: %v\nhave: %v", want, have)
 	}
 }

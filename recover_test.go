@@ -23,23 +23,23 @@ func TestRecover_ErrorPanic(t *testing.T) {
 
 	f := createRecoverFunc(err)
 
-	if got, want := f(), err; got != want {
-		t.Fatalf("expected to recover a specific error, received: %v", got)
+	if want, have := err, f(); want != have {
+		t.Errorf("\nwant: %v\nhave: %v", want, have)
 	}
 }
 
 func TestRecover_StringPanic(t *testing.T) {
 	f := createRecoverFunc("internal error")
 
-	if got, want := f().Error(), "internal error"; got != want {
-		t.Fatalf("expected to recover a specific error, received: %v", got)
+	if want, have := "internal error", f().Error(); want != have {
+		t.Errorf("\nwant: %v\nhave: %v", want, have)
 	}
 }
 
 func TestRecover_AnyPanic(t *testing.T) {
 	f := createRecoverFunc(123)
 
-	if got, want := f().Error(), "Unknown panic, received: 123"; got != want {
-		t.Fatalf("expected to recover a specific error, received: %v", got)
+	if want, have := "Unknown panic, received: 123", f().Error(); want != have {
+		t.Errorf("\nwant: %v\nhave: %v", want, have)
 	}
 }

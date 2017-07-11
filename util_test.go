@@ -12,8 +12,8 @@ func TestHandleRecovery(t *testing.T) {
 	err := errors.New("error")
 
 	defer func() {
-		if handler.Last() != err {
-			t.Error("handler was expected to handle the error")
+		if want, have := err, handler.Last(); want != have {
+			t.Errorf("\nwant: %v\nhave: %v", want, have)
 		}
 	}()
 	defer emperror.HandleRecover(handler)
@@ -22,22 +22,27 @@ func TestHandleRecovery(t *testing.T) {
 }
 
 func TestHandleIfErr(t *testing.T) {
+	t.Parallel()
+
 	handler := emperror.NewTestHandler()
 	err := errors.New("error")
 
 	emperror.HandleIfErr(handler, err)
 
-	if handler.Last() != err {
-		t.Error("handler was expected to handle the error")
+	if want, have := err, handler.Last(); want != have {
+		t.Errorf("\nwant: %v\nhave: %v", want, have)
 	}
 }
 
 func TestHandleIfErr_Nil(t *testing.T) {
+	t.Parallel()
+
 	handler := emperror.NewTestHandler()
 
 	emperror.HandleIfErr(handler, nil)
 
-	if handler.Last() != nil {
-		t.Error("handler was not expected to handle anything")
+	var want, have error
+	if want, have = nil, handler.Last(); want != have {
+		t.Errorf("\nwant: %v\nhave: %v", want, have)
 	}
 }
