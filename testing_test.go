@@ -9,6 +9,8 @@ import (
 )
 
 func TestTestHandler_Handle(t *testing.T) {
+	t.Parallel()
+
 	handler := &emperror.TestHandler{}
 
 	err1 := errors.New("error 1")
@@ -19,12 +21,18 @@ func TestTestHandler_Handle(t *testing.T) {
 
 	errors := handler.Errors()
 
-	if errors[0] != err1 || errors[1] != err2 {
-		t.Error("errors do not match with the handled ones")
+	if want, have := err1, errors[0]; want != have {
+		t.Errorf("\nwant: %v\nhave: %v", want, have)
+	}
+
+	if want, have := err2, errors[1]; want != have {
+		t.Errorf("\nwant: %v\nhave: %v", want, have)
 	}
 }
 
 func TestTestHandler_Last(t *testing.T) {
+	t.Parallel()
+
 	handler := &emperror.TestHandler{}
 
 	err1 := errors.New("error 1")
@@ -33,15 +41,18 @@ func TestTestHandler_Last(t *testing.T) {
 	handler.Handle(err1)
 	handler.Handle(err2)
 
-	if handler.Last() != err2 {
-		t.Error("last error does not match with the expected one")
+	if want, have := err2, handler.Last(); want != have {
+		t.Errorf("\nwant: %v\nhave: %v", want, have)
 	}
 }
 
 func TestTestHandler_Last_Empty(t *testing.T) {
+	t.Parallel()
+
 	handler := &emperror.TestHandler{}
 
-	if handler.Last() != nil {
-		t.Error("empty handler, expected nil")
+	var want, have error
+	if want, have = nil, handler.Last(); want != have {
+		t.Errorf("\nwant: %v\nhave: %v", want, have)
 	}
 }
