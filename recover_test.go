@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/goph/emperror"
+	"github.com/stretchr/testify/assert"
 )
 
 func createRecoverFunc(p interface{}) func() error {
@@ -23,23 +24,17 @@ func TestRecover_ErrorPanic(t *testing.T) {
 
 	f := createRecoverFunc(err)
 
-	if want, have := err, f(); want != have {
-		t.Errorf("\nwant: %v\nhave: %v", want, have)
-	}
+	assert.Equal(t, err, f())
 }
 
 func TestRecover_StringPanic(t *testing.T) {
 	f := createRecoverFunc("internal error")
 
-	if want, have := "internal error", f().Error(); want != have {
-		t.Errorf("\nwant: %v\nhave: %v", want, have)
-	}
+	assert.Equal(t, "internal error", f().Error())
 }
 
 func TestRecover_AnyPanic(t *testing.T) {
 	f := createRecoverFunc(123)
 
-	if want, have := "Unknown panic, received: 123", f().Error(); want != have {
-		t.Errorf("\nwant: %v\nhave: %v", want, have)
-	}
+	assert.Equal(t, "Unknown panic, received: 123", f().Error())
 }

@@ -6,11 +6,10 @@ import (
 	"errors"
 
 	"github.com/goph/emperror"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestTestHandler_Handle(t *testing.T) {
-	t.Parallel()
-
 	handler := &emperror.TestHandler{}
 
 	err1 := errors.New("error 1")
@@ -21,18 +20,11 @@ func TestTestHandler_Handle(t *testing.T) {
 
 	errors := handler.Errors()
 
-	if want, have := err1, errors[0]; want != have {
-		t.Errorf("\nwant: %v\nhave: %v", want, have)
-	}
-
-	if want, have := err2, errors[1]; want != have {
-		t.Errorf("\nwant: %v\nhave: %v", want, have)
-	}
+	assert.Equal(t, err1, errors[0])
+	assert.Equal(t, err2, errors[1])
 }
 
 func TestTestHandler_Last(t *testing.T) {
-	t.Parallel()
-
 	handler := &emperror.TestHandler{}
 
 	err1 := errors.New("error 1")
@@ -41,18 +33,11 @@ func TestTestHandler_Last(t *testing.T) {
 	handler.Handle(err1)
 	handler.Handle(err2)
 
-	if want, have := err2, handler.Last(); want != have {
-		t.Errorf("\nwant: %v\nhave: %v", want, have)
-	}
+	assert.Equal(t, err2, handler.Last())
 }
 
 func TestTestHandler_Last_Empty(t *testing.T) {
-	t.Parallel()
-
 	handler := &emperror.TestHandler{}
 
-	var want, have error
-	if want, have = nil, handler.Last(); want != have {
-		t.Errorf("\nwant: %v\nhave: %v", want, have)
-	}
+	assert.NoError(t, handler.Last())
 }

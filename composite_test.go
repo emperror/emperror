@@ -6,25 +6,22 @@ import (
 	"errors"
 
 	"github.com/goph/emperror"
+	"github.com/goph/emperror/internal/mocks"
 )
 
 func TestCompositeHandler_Handle(t *testing.T) {
-	t.Parallel()
-
-	handler1 := emperror.NewTestHandler()
-	handler2 := emperror.NewTestHandler()
+	handler1 := &mocks.Handler{}
+	handler2 := &mocks.Handler{}
 
 	handler := emperror.NewCompositeHandler(handler1, handler2)
 
 	err := errors.New("error")
 
+	handler1.On("Handle", err).Once().Return()
+	handler2.On("Handle", err).Once().Return()
+
 	handler.Handle(err)
 
-	if want, have := err, handler1.Last(); want != have {
-		t.Errorf("\nwant: %v\nhave: %v", want, have)
-	}
-
-	if want, have := err, handler2.Last(); want != have {
-		t.Errorf("\nwant: %v\nhave: %v", want, have)
-	}
+	handler1.AssertExpectations(t)
+	handler2.AssertExpectations(t)
 }
