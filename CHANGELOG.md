@@ -6,6 +6,7 @@
 ### Changed
 
 - `compositeHandler` not exported anymore
+- `nullHandler` not exported anymore
 
 
 ## 0.3.0 - 2017-07-11

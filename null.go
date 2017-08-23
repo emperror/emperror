@@ -1,14 +1,15 @@
 package emperror
 
-// NullHandler throws every error away.
+import "github.com/goph/stdlib/errors"
+
+// nullHandler throws every error away.
 // Can be used as a fallback.
-type NullHandler struct{}
+type nullHandler struct{}
 
-// NewNullHandler returns a new NullHandler.
-func NewNullHandler() Handler {
-	return &NullHandler{}
+// NewNullHandler returns a new nullHandler.
+func NewNullHandler() errors.Handler {
+	return &nullHandler{}
 }
 
-// Handle does the actual throwing away.
-func (h *NullHandler) Handle(err error) {
-}
+// Handle throws the error away.
+func (h *nullHandler) Handle(err error) {}
