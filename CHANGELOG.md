@@ -8,6 +8,11 @@
 - `compositeHandler` not exported anymore
 - `nullHandler` not exported anymore
 
+### Removed
+
+- Handler interface (use the one in stdlib)
+- Recovery (use the one in stdlib)
+
 
 ## 0.3.0 - 2017-07-11
 

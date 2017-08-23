@@ -1,20 +1,21 @@
-package emperror
+package errors
 
-import (
-	"errors"
-	"fmt"
-)
+import "fmt"
 
 // Recover accepts a recovered panic (if any) and converts it to an error (if necessary).
 func Recover(r interface{}) (err error) {
 	if r != nil {
 		switch x := r.(type) {
 		case string:
-			err = errors.New(x)
+			err = NewWithStackTrace(x)
 		case error:
+			if _, ok := x.(StackTracer); !ok {
+				x = WithStack(x)
+			}
+
 			err = x
 		default:
-			err = fmt.Errorf("Unknown panic, received: %v", r)
+			err = NewWithStackTrace(fmt.Sprintf("Unknown panic, received: %v", r))
 		}
 	}
 

@@ -10,8 +10,8 @@ import (
 )
 
 func TestCompositeHandler_Handle(t *testing.T) {
-	handler1 := &mocks.Handler{}
-	handler2 := &mocks.Handler{}
+	handler1 := new(mocks.Handler)
+	handler2 := new(mocks.Handler)
 
 	handler := emperror.NewCompositeHandler(handler1, handler2)
 

@@ -1,12 +1,14 @@
 package emperror
 
+import "github.com/goph/stdlib/errors"
+
 // compositeHandler allows an error to be processed by multiple handlers.
 type compositeHandler struct {
-	handlers []Handler
+	handlers []errors.Handler
 }
 
 // NewCompositeHandler returns a new compositeHandler.
-func NewCompositeHandler(handlers ...Handler) Handler {
+func NewCompositeHandler(handlers ...errors.Handler) errors.Handler {
 	return &compositeHandler{handlers}
 }
 

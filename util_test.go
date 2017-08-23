@@ -13,7 +13,7 @@ func TestHandleRecovery(t *testing.T) {
 	err := errors.New("error")
 
 	defer func() {
-		assert.Equal(t, err, handler.Last())
+		assert.EqualError(t, handler.Last(), "error")
 	}()
 	defer emperror.HandleRecover(handler)
 
