@@ -28,6 +28,7 @@ import (
 	"net/http"
 
 	"github.com/airbrake/gobrake"
+	"github.com/goph/emperror"
 	"github.com/goph/emperror/internal"
 )
 
@@ -54,7 +55,7 @@ func (h *Handler) Handle(err error) {
 
 	notice := h.Notifier.Notice(err, req, 1)
 
-	if cerr, ok := err.(internal.ContextualError); ok {
+	if cerr, ok := err.(emperror.Contextor); ok {
 		notice.Params = internal.MapContext(cerr)
 	}
 
