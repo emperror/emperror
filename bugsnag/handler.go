@@ -2,7 +2,7 @@
 Package bugsnag provides Bugsnag integration.
 
 Bugsnag recommends to create a global scope error handler.
-Although that works, makes writting software harder,
+Although that works, makes writing software harder,
 so this package recommends creating a separate instance:
 
 	APIKey := "key"
