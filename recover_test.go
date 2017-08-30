@@ -5,7 +5,7 @@ import (
 
 	"fmt"
 
-	"github.com/goph/emperror"
+	. "github.com/goph/emperror"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -13,7 +13,7 @@ import (
 func createRecoverFunc(p interface{}) func() error {
 	return func() (err error) {
 		defer func() {
-			err = emperror.Recover(recover())
+			err = Recover(recover())
 		}()
 
 		panic(p)
@@ -30,8 +30,8 @@ func TestRecover_ErrorPanic(t *testing.T) {
 	v := f()
 
 	assert.EqualError(t, v, "internal error")
-	assert.Equal(t, err, v.(emperror.Causer).Cause())
-	assert.Implements(t, (*emperror.StackTracer)(nil), v)
+	assert.Equal(t, err, v.(Causer).Cause())
+	assert.Implements(t, (*StackTracer)(nil), v)
 }
 
 func TestRecover_StringPanic(t *testing.T) {
@@ -42,7 +42,7 @@ func TestRecover_StringPanic(t *testing.T) {
 	v := f()
 
 	assert.EqualError(t, v, "internal error")
-	assert.Implements(t, (*emperror.StackTracer)(nil), v)
+	assert.Implements(t, (*StackTracer)(nil), v)
 }
 
 func TestRecover_AnyPanic(t *testing.T) {
@@ -53,5 +53,5 @@ func TestRecover_AnyPanic(t *testing.T) {
 	v := f()
 
 	assert.EqualError(t, v, "Unknown panic, received: 123")
-	assert.Implements(t, (*emperror.StackTracer)(nil), v)
+	assert.Implements(t, (*StackTracer)(nil), v)
 }

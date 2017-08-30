@@ -3,7 +3,7 @@ package emperror_test
 import (
 	"testing"
 
-	"github.com/goph/emperror"
+	. "github.com/goph/emperror"
 	"github.com/goph/emperror/internal/mocks"
 )
 
@@ -11,9 +11,9 @@ func TestCompositeHandler(t *testing.T) {
 	handler1 := new(mocks.Handler)
 	handler2 := new(mocks.Handler)
 
-	handler := emperror.NewCompositeHandler(handler1, handler2)
+	handler := NewCompositeHandler(handler1, handler2)
 
-	err := emperror.New("error")
+	err := New("error")
 
 	handler1.On("Handle", err).Once().Return()
 	handler2.On("Handle", err).Once().Return()
