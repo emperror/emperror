@@ -7,6 +7,10 @@
 
 - All error related code from [github.com/goph/stdlib](github.com/goph/stdlib)
 
+### Changed
+
+- Moved log handler to separate package
+
 
 ## 0.4.0 - 2017-08-23
 
