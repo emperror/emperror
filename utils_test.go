@@ -1,38 +1,37 @@
 package emperror_test
 
 import (
-	"errors"
 	"testing"
 
-	"github.com/goph/emperror"
+	. "github.com/goph/emperror"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestHandleRecovery(t *testing.T) {
-	handler := emperror.NewTestHandler()
-	err := errors.New("error")
+	handler := new(TestHandler)
+	err := New("error")
 
 	defer func() {
 		assert.EqualError(t, handler.Last(), "error")
 	}()
-	defer emperror.HandleRecover(handler)
+	defer HandleRecover(handler)
 
 	panic(err)
 }
 
 func TestHandleIfErr(t *testing.T) {
-	handler := emperror.NewTestHandler()
-	err := errors.New("error")
+	handler := new(TestHandler)
+	err := New("error")
 
-	emperror.HandleIfErr(handler, err)
+	HandleIfErr(handler, err)
 
 	assert.Equal(t, err, handler.Last())
 }
 
 func TestHandleIfErr_Nil(t *testing.T) {
-	handler := emperror.NewTestHandler()
+	handler := new(TestHandler)
 
-	emperror.HandleIfErr(handler, nil)
+	HandleIfErr(handler, nil)
 
 	assert.NoError(t, handler.Last())
 }

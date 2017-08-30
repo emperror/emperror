@@ -1,6 +1,18 @@
 # Change Log
 
 
+## Unreleased
+
+### Added
+
+- All error related code from [github.com/goph/stdlib](github.com/goph/stdlib)
+
+### Changed
+
+- Moved log handler to separate package
+- Import subject package in tests to allow [using the exported identifiers without a qualifier](https://golang.org/ref/spec#Import_declarations)
+
+
 ## 0.4.0 - 2017-08-23
 
 ### Changed

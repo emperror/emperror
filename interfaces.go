@@ -1,4 +1,4 @@
-package errors
+package emperror
 
 import "github.com/pkg/errors"
 

@@ -4,17 +4,14 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
-)
 
-// ContextualError exposes the same interface as the one in github.com/goph/stdlib/errors.
-type ContextualError interface {
-	Context() []interface{}
-}
+	"github.com/goph/emperror"
+)
 
 // MapContext creates a map of key-value pairs.
 //
 // The implementation bellow is from go-kit's JSON logger.
-func MapContext(err ContextualError) map[string]interface{} {
+func MapContext(err emperror.Contextor) map[string]interface{} {
 	keyvals := err.Context()
 
 	n := (len(keyvals) + 1) / 2 // +1 to handle case when len is odd

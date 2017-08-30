@@ -1,4 +1,4 @@
-package emperror_test
+package log_test
 
 import (
 	"testing"
@@ -7,15 +7,15 @@ import (
 	"errors"
 
 	"github.com/go-kit/kit/log"
-	"github.com/goph/emperror"
 	"github.com/goph/emperror/internal"
+	. "github.com/goph/emperror/log"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestLogHandler_Handle(t *testing.T) {
+func TestHandler_Handle(t *testing.T) {
 	buf := &bytes.Buffer{}
 	logger := log.NewLogfmtLogger(buf)
-	handler := emperror.NewLogHandler(logger)
+	handler := NewHandler(logger)
 
 	err := errors.New("internal error")
 
@@ -24,10 +24,10 @@ func TestLogHandler_Handle(t *testing.T) {
 	assert.Equal(t, "level=error msg=\"internal error\"\n", buf.String())
 }
 
-func TestLogHandler_HandleContext(t *testing.T) {
+func TestHandler_HandleContext(t *testing.T) {
 	buf := &bytes.Buffer{}
 	logger := log.NewLogfmtLogger(buf)
-	handler := emperror.NewLogHandler(logger)
+	handler := NewHandler(logger)
 
 	err := internal.ErrorWithContext{
 		Msg: "internal error",
