@@ -1,6 +1,13 @@
 # Change Log
 
 
+## Unreleased
+
+### Added
+
+- All error related code from [github.com/goph/stdlib](github.com/goph/stdlib)
+
+
 ## 0.4.0 - 2017-08-23
 
 ### Changed

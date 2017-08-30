@@ -5,11 +5,6 @@ type TestHandler struct {
 	errors []error
 }
 
-// NewTestHandler returns a new TestHandler.
-func NewTestHandler() *TestHandler {
-	return &TestHandler{}
-}
-
 // Handle saves the error in a list.
 func (h *TestHandler) Handle(err error) {
 	h.errors = append(h.errors, err)

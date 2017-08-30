@@ -1,7 +1,6 @@
 package emperror_test
 
 import (
-	"errors"
 	"testing"
 
 	"github.com/goph/emperror"
@@ -9,8 +8,8 @@ import (
 )
 
 func TestHandleRecovery(t *testing.T) {
-	handler := emperror.NewTestHandler()
-	err := errors.New("error")
+	handler := new(emperror.TestHandler)
+	err := emperror.New("error")
 
 	defer func() {
 		assert.EqualError(t, handler.Last(), "error")
@@ -21,8 +20,8 @@ func TestHandleRecovery(t *testing.T) {
 }
 
 func TestHandleIfErr(t *testing.T) {
-	handler := emperror.NewTestHandler()
-	err := errors.New("error")
+	handler := new(emperror.TestHandler)
+	err := emperror.New("error")
 
 	emperror.HandleIfErr(handler, err)
 
@@ -30,7 +29,7 @@ func TestHandleIfErr(t *testing.T) {
 }
 
 func TestHandleIfErr_Nil(t *testing.T) {
-	handler := emperror.NewTestHandler()
+	handler := new(emperror.TestHandler)
 
 	emperror.HandleIfErr(handler, nil)
 

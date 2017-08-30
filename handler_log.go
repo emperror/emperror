@@ -2,7 +2,6 @@ package emperror
 
 import (
 	"github.com/go-kit/kit/log/level"
-	"github.com/goph/emperror/internal/errors"
 )
 
 // logger covers most of the level-based logging solutions.
@@ -18,7 +17,7 @@ type logHandler struct {
 }
 
 // NewLogHandler returns a new logHandler.
-func NewLogHandler(l logger) errors.Handler {
+func NewLogHandler(l logger) Handler {
 	return &logHandler{level.Error(l)}
 }
 
@@ -26,7 +25,7 @@ func NewLogHandler(l logger) errors.Handler {
 func (h *logHandler) Handle(err error) {
 	keyvals := []interface{}{"msg", err.Error()}
 
-	if cerr, ok := err.(errors.Contextor); ok {
+	if cerr, ok := err.(Contextor); ok {
 		keyvals = append(keyvals, cerr.Context()...)
 	}
 
