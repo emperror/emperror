@@ -10,7 +10,7 @@ func HandleRecover(handler Handler) {
 	}
 }
 
-// HandleIfErr handles an error whenever it occures.
+// HandleIfErr handles an error whenever it occurs.
 func HandleIfErr(handler Handler, err error) {
 	if err != nil {
 		handler.Handle(err)
