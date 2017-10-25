@@ -1,2 +1,9 @@
 /glide.lock
 /vendor/
+
+# IDE integration
+/.vscode/*
+!/.vscode/tasks.json
+/.idea/*
+!/.idea/runConfigurations/
+!/.idea/go.imports.xml

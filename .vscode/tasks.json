@@ -1,0 +1,43 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "taskName": "build",
+            "command": "make build",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "taskName": "test",
+            "command": "make test -v",
+            "type": "shell",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "taskName": "test integration",
+            "command": "make test TAGS=\"integration\" ARGS=\"-v\"",
+            "type": "shell",
+            "group": "test"
+        },
+        {
+            "taskName": "test acceptance",
+            "command": "make test TAGS=\"acceptance\" ARGS=\"-v\"",
+            "type": "shell",
+            "group": "test"
+        },
+        {
+            "taskName": "test all",
+            "command": "make test TAGS=\"acceptance integration\" ARGS=\"-v\"",
+            "type": "shell",
+            "group": "test"
+        }
+    ]
+}
