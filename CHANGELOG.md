@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- HttpError interface for representing errors with an HTTP error context
+
+
 ### Removed
 
 - Aliases to functions in [github.com/pkg/errors](https://github.com/pkg/errors)

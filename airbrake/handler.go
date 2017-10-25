@@ -49,14 +49,29 @@ func NewHandler(projectID int64, projectKey string) *Handler {
 func (h *Handler) Handle(err error) {
 	var req *http.Request
 
-	if err, ok := err.(httpError); ok {
-		req = err.Request()
+	if err, ok := err.(emperror.HttpError); ok {
+		req = err.HttpRequest()
+	} else if err, ok := err.(emperror.Causer); ok { // Look up in the error stack if there is an HTTP error
+		for err != nil {
+			cause := err.Cause()
+
+			if httpErr, ok := cause.(emperror.HttpError); ok {
+				req = httpErr.HttpRequest()
+
+				break
+			}
+
+			err, ok = cause.(emperror.Causer)
+			if !ok {
+				break
+			}
+		}
 	}
 
 	notice := h.Notifier.Notice(err, req, 1)
 
-	if cerr, ok := err.(emperror.Contextor); ok {
-		notice.Params = internal.MapContext(cerr)
+	if contextErr, ok := err.(emperror.Contextor); ok {
+		notice.Params = internal.MapContext(contextErr)
 	}
 
 	if h.SendSynchronously {
