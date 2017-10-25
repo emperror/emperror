@@ -1,10 +1,12 @@
 package emperror
 
+import "errors"
+
 // The implementation bellow is heavily influenced by go-kit's log context.
 
 // ErrMissingValue is appended to keyvals slices with odd length to substitute
 // the missing value.
-var ErrMissingValue = New("(MISSING)")
+var ErrMissingValue = errors.New("(MISSING)")
 
 // With returns a new error with keyvals context appended to it.
 // If the wrapped error is already a contextual error created by With or WithPrefix

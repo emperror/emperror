@@ -52,6 +52,6 @@ func TestRecover_AnyPanic(t *testing.T) {
 
 	v := f()
 
-	assert.EqualError(t, v, "Unknown panic, received: 123")
+	assert.EqualError(t, v, "unknown panic, received: 123")
 	assert.Implements(t, (*StackTracer)(nil), v)
 }

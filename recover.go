@@ -1,21 +1,25 @@
 package emperror
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/pkg/errors"
+)
 
 // Recover accepts a recovered panic (if any) and converts it to an error (if necessary).
 func Recover(r interface{}) (err error) {
 	if r != nil {
 		switch x := r.(type) {
 		case string:
-			err = NewWithStackTrace(x)
+			err = errors.New(x)
 		case error:
 			if _, ok := x.(StackTracer); !ok {
-				x = WithStack(x)
+				x = errors.WithStack(x)
 			}
 
 			err = x
 		default:
-			err = NewWithStackTrace(fmt.Sprintf("Unknown panic, received: %v", r))
+			err = errors.New(fmt.Sprintf("unknown panic, received: %v", r))
 		}
 	}
 

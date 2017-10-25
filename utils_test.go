@@ -3,13 +3,14 @@ package emperror_test
 import (
 	"testing"
 
+	"errors"
 	. "github.com/goph/emperror"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestHandleRecovery(t *testing.T) {
 	handler := new(TestHandler)
-	err := New("error")
+	err := errors.New("error")
 
 	defer func() {
 		assert.EqualError(t, handler.Last(), "error")
@@ -21,7 +22,7 @@ func TestHandleRecovery(t *testing.T) {
 
 func TestHandleIfErr(t *testing.T) {
 	handler := new(TestHandler)
-	err := New("error")
+	err := errors.New("error")
 
 	HandleIfErr(handler, err)
 

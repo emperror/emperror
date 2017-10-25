@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Removed
+
+- Aliases to functions in [github.com/pkg/errors](https://github.com/pkg/errors)
+
 
 ## [0.5.0] - 2017-08-30
 

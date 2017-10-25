@@ -3,13 +3,15 @@ package emperror_test
 import (
 	"testing"
 
+	"errors"
+
 	. "github.com/goph/emperror"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 func TestContext(t *testing.T) {
-	err := New("error")
+	err := errors.New("error")
 
 	kvs := []interface{}{"a", 123}
 	err = With(err, kvs...)
@@ -25,7 +27,7 @@ func TestContext(t *testing.T) {
 }
 
 func TestContext_Multi(t *testing.T) {
-	err := New("")
+	err := errors.New("")
 
 	err = With(With(err, "a", 123), "b", 321)
 
@@ -40,7 +42,7 @@ func TestContext_Multi(t *testing.T) {
 }
 
 func TestContext_MultiPrefix(t *testing.T) {
-	err := New("")
+	err := errors.New("")
 
 	err = WithPrefix(With(err, "a", 123), "b", 321)
 
@@ -55,7 +57,7 @@ func TestContext_MultiPrefix(t *testing.T) {
 }
 
 func TestContext_MissingValue(t *testing.T) {
-	err := New("")
+	err := errors.New("")
 
 	err = WithPrefix(With(err, "k0"), "k1")
 
