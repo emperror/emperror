@@ -8,6 +8,10 @@ go:
     - 1.9.x
     - tip
 
+branches:
+    only:
+        - master
+
 matrix:
     allow_failures:
         - go: tip
