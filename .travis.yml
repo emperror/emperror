@@ -18,8 +18,8 @@ matrix:
 
 before_install:
     - mkdir -p $HOME/bin
-    - curl -sL http://get.binhq.io/gitbin | DEST=$HOME/bin bash
-    - gitbin get Masterminds/glide 0.12.3 -o $HOME/bin
+    - curl -sL https://get.binhq.io/binbrew | DEST=$HOME/bin NAME=bin bash
+    - bin get Masterminds/glide@0.13.0 $HOME/bin
 
 install: make dep
 
