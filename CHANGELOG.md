@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- `HandlerWith` and `HandlerWithPrefix` to attach context to a handler
+
 
 ## [0.6.0] - 2017-10-26
 
