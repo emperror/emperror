@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `HandlerWith` and `HandlerWithPrefix` to attach context to a handler
 
+### Changed
+
+- Append nil instead of `ErrMissingValue` to the context when a value is missing
+
 
 ## [0.6.0] - 2017-10-26
 
