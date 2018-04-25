@@ -71,7 +71,7 @@ func extractContext(err error) ([]interface{}, error) {
 	return kvs, err
 }
 
-// contextualError is the ContextualError implementation returned by With.
+// contextualError is the ContextualError implementation returned by With or WithPrefix.
 //
 // It wraps an error and a holds keyvals as the context.
 type contextualError struct {
