@@ -1,12 +1,6 @@
 package emperror
 
-import "errors"
-
 // The implementation bellow is heavily influenced by go-kit's log context.
-
-// ErrMissingValue is appended to keyvals slices with odd length to substitute
-// the missing value.
-var ErrMissingValue = errors.New("(MISSING)")
 
 // With returns a new error with keyvals context appended to it.
 // If the wrapped error is already a contextual error created by With or WithPrefix
@@ -21,7 +15,7 @@ func With(err error, keyvals ...interface{}) error {
 	kvs = append(kvs, keyvals...)
 
 	if len(kvs)%2 != 0 {
-		kvs = append(kvs, ErrMissingValue)
+		kvs = append(kvs, nil)
 	}
 
 	// Limiting the capacity of the stored keyvals ensures that a new
@@ -49,7 +43,7 @@ func WithPrefix(err error, keyvals ...interface{}) error {
 	kvs = append(kvs, keyvals...)
 
 	if len(kvs)%2 != 0 {
-		kvs = append(kvs, ErrMissingValue)
+		kvs = append(kvs, nil)
 	}
 
 	kvs = append(kvs, prevkvs...)

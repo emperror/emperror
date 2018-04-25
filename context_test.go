@@ -68,6 +68,6 @@ func TestContext_MissingValue(t *testing.T) {
 	require.Len(t, ctx, 4)
 
 	for i := 1; i < 4; i += 2 {
-		assert.Equal(t, ErrMissingValue, ctx[i])
+		assert.Nil(t, ctx[i])
 	}
 }
