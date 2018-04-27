@@ -9,9 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- `ErrorCollection` errors are handled as separate lines in the log handler
+
 
 ## [0.7.0] - 2018-04-26
-
 
 ### Added
 

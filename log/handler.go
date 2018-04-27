@@ -24,11 +24,21 @@ func NewHandler(l logger) emperror.Handler {
 
 // Handle logs an error.
 func (h *handler) Handle(err error) {
-	keyvals := []interface{}{"msg", err.Error()}
+	var keyvals []interface{}
 
 	if cerr, ok := err.(emperror.Contextor); ok {
 		keyvals = append(keyvals, cerr.Context()...)
 	}
 
-	h.l.Log(keyvals...)
+	if errs, ok := err.(emperror.ErrorCollection); ok {
+		for _, e := range errs.Errors() {
+			keyvals := append(keyvals, "msg", e.Error(), "parent", err.Error())
+
+			h.l.Log(keyvals...)
+		}
+	} else {
+		keyvals = append(keyvals, "msg", err.Error())
+
+		h.l.Log(keyvals...)
+	}
 }
