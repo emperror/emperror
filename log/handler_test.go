@@ -45,8 +45,8 @@ func TestHandler_Handle_Context(t *testing.T) {
 }
 
 func TestHandler_Handle_MultiError(t *testing.T) {
-	tests := map[string]struct{
-		logger func(w io.Writer) log.Logger
+	tests := map[string]struct {
+		logger   func(w io.Writer) log.Logger
 		expected string
 	}{
 		"logfmt": {
