@@ -21,11 +21,3 @@ type Causer interface {
 type StackTracer interface {
 	StackTrace() errors.StackTrace
 }
-
-// Handler is responsible for handling an error.
-//
-// This interface allows libraries to decouple from logging and error handling solutions.
-type Handler interface {
-	// Handle processes an error.
-	Handle(err error)
-}
