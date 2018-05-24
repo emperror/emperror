@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `ForEachCause` function to be able to loop through all errors in a chain
 
+### Changed
+
+- **airbrake:** Use `ForEachCause` to find an HTTP request embedded into an error
+
 
 ## [0.7.1] - 2018-04-27
 
