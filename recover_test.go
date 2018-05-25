@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	. "github.com/goph/emperror"
+	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -30,7 +31,7 @@ func TestRecover_ErrorPanic(t *testing.T) {
 	v := f()
 
 	assert.EqualError(t, v, "internal error")
-	assert.Equal(t, err, v.(Causer).Cause())
+	assert.Equal(t, err, errors.Cause(v))
 	assert.Implements(t, (*StackTracer)(nil), v)
 }
 
