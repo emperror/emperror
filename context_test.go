@@ -3,37 +3,36 @@ package emperror_test
 import (
 	"testing"
 
-	"errors"
-
-	. "github.com/goph/emperror"
+	"github.com/goph/emperror"
+	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
-func TestContext(t *testing.T) {
+func TestContextor(t *testing.T) {
 	err := errors.New("error")
 
 	kvs := []interface{}{"a", 123}
-	err = With(err, kvs...)
+	err = emperror.With(err, kvs...)
 	kvs[1] = 0 // With should copy its key values
 
-	require.Implements(t, (*Contextor)(nil), err)
+	require.Implements(t, (*emperror.Contextor)(nil), err)
 
-	ctx := err.(Contextor).Context()
+	ctx := err.(emperror.Contextor).Context()
 
 	assert.Equal(t, "a", ctx[0])
 	assert.Equal(t, 123, ctx[1])
 	assert.EqualError(t, err, "error")
 }
 
-func TestContext_Multi(t *testing.T) {
+func TestContextor_Multi(t *testing.T) {
 	err := errors.New("")
 
-	err = With(With(err, "a", 123), "b", 321)
+	err = emperror.With(emperror.With(err, "a", 123), "b", 321)
 
-	require.Implements(t, (*Contextor)(nil), err)
+	require.Implements(t, (*emperror.Contextor)(nil), err)
 
-	ctx := err.(Contextor).Context()
+	ctx := err.(emperror.Contextor).Context()
 
 	assert.Equal(t, "a", ctx[0])
 	assert.Equal(t, 123, ctx[1])
@@ -41,14 +40,14 @@ func TestContext_Multi(t *testing.T) {
 	assert.Equal(t, 321, ctx[3])
 }
 
-func TestContext_MultiPrefix(t *testing.T) {
+func TestContextor_MultiPrefix(t *testing.T) {
 	err := errors.New("")
 
-	err = WithPrefix(With(err, "a", 123), "b", 321)
+	err = emperror.WithPrefix(emperror.With(err, "a", 123), "b", 321)
 
-	require.Implements(t, (*Contextor)(nil), err)
+	require.Implements(t, (*emperror.Contextor)(nil), err)
 
-	ctx := err.(Contextor).Context()
+	ctx := err.(emperror.Contextor).Context()
 
 	assert.Equal(t, "a", ctx[2])
 	assert.Equal(t, 123, ctx[3])
@@ -56,14 +55,14 @@ func TestContext_MultiPrefix(t *testing.T) {
 	assert.Equal(t, 321, ctx[1])
 }
 
-func TestContext_MissingValue(t *testing.T) {
+func TestContextor_MissingValue(t *testing.T) {
 	err := errors.New("")
 
-	err = WithPrefix(With(err, "k0"), "k1")
+	err = emperror.WithPrefix(emperror.With(err, "k0"), "k1")
 
-	require.Implements(t, (*Contextor)(nil), err)
+	require.Implements(t, (*emperror.Contextor)(nil), err)
 
-	ctx := err.(Contextor).Context()
+	ctx := err.(emperror.Contextor).Context()
 
 	require.Len(t, ctx, 4)
 
