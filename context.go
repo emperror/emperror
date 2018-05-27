@@ -51,6 +51,25 @@ func WithPrefix(err error, keyvals ...interface{}) error {
 	return newContextualError(err, kvs)
 }
 
+// Context extracts the context key-value pairs from an error (or error chain).
+func Context(err error) []interface{} {
+	type contextor interface {
+		Context() []interface{}
+	}
+
+	var kvs []interface{}
+
+	ForEachCause(err, func(err error) bool {
+		if cerr, ok := err.(contextor); ok {
+			kvs = append(kvs, cerr.Context()...)
+		}
+
+		return true
+	})
+
+	return kvs
+}
+
 // extractContext extracts the context and optionally the wrapped error when it's the same container.
 func extractContext(err error) ([]interface{}, error) {
 	var kvs []interface{}

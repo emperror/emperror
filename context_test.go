@@ -70,3 +70,32 @@ func TestContextor_MissingValue(t *testing.T) {
 		assert.Nil(t, ctx[i])
 	}
 }
+
+func TestContext(t *testing.T) {
+	err := emperror.With(
+		errors.WithMessage(
+			emperror.With(
+				errors.Wrap(
+					emperror.With(
+						errors.New("error"),
+						"key", "value",
+					),
+					"wrapped error",
+				),
+				"key2", "value2",
+			),
+			"another wrapped error",
+		),
+		"key3", "value3",
+	)
+
+	expected := []interface{}{
+		"key3", "value3",
+		"key2", "value2",
+		"key", "value",
+	}
+
+	actual := emperror.Context(err)
+
+	assert.Equal(t, expected, actual)
+}
