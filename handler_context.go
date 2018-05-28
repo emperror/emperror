@@ -87,7 +87,7 @@ func newContextualHandler(handler Handler, kvs []interface{}) Handler {
 
 // Handle prepends the handler's context to the error's (if any) and delegates the call to the underlying handler.
 func (h *contextualHandler) Handle(err error) {
-	err = WithPrefix(err, h.keyvals...)
+	err = With(err, h.keyvals...)
 
 	h.handler.Handle(err)
 }

@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 
 - `Causer` interface
+- `WithPrefix` didn't really make sense with the decorator pattern
 
 
 ## [0.7.1] - 2018-04-27

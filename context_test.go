@@ -9,30 +9,26 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestContextor(t *testing.T) {
+func TestWith(t *testing.T) {
 	err := errors.New("error")
 
 	kvs := []interface{}{"a", 123}
 	err = emperror.With(err, kvs...)
 	kvs[1] = 0 // With should copy its key values
 
-	require.Implements(t, (*emperror.Contextor)(nil), err)
-
-	ctx := err.(emperror.Contextor).Context()
+	ctx := emperror.Context(err)
 
 	assert.Equal(t, "a", ctx[0])
 	assert.Equal(t, 123, ctx[1])
 	assert.EqualError(t, err, "error")
 }
 
-func TestContextor_Multi(t *testing.T) {
+func TestWith_Multiple(t *testing.T) {
 	err := errors.New("")
 
 	err = emperror.With(emperror.With(err, "a", 123), "b", 321)
 
-	require.Implements(t, (*emperror.Contextor)(nil), err)
-
-	ctx := err.(emperror.Contextor).Context()
+	ctx := emperror.Context(err)
 
 	assert.Equal(t, "a", ctx[0])
 	assert.Equal(t, 123, ctx[1])
@@ -40,29 +36,12 @@ func TestContextor_Multi(t *testing.T) {
 	assert.Equal(t, 321, ctx[3])
 }
 
-func TestContextor_MultiPrefix(t *testing.T) {
-	err := errors.New("")
-
-	err = emperror.WithPrefix(emperror.With(err, "a", 123), "b", 321)
-
-	require.Implements(t, (*emperror.Contextor)(nil), err)
-
-	ctx := err.(emperror.Contextor).Context()
-
-	assert.Equal(t, "a", ctx[2])
-	assert.Equal(t, 123, ctx[3])
-	assert.Equal(t, "b", ctx[0])
-	assert.Equal(t, 321, ctx[1])
-}
-
 func TestContextor_MissingValue(t *testing.T) {
 	err := errors.New("")
 
-	err = emperror.WithPrefix(emperror.With(err, "k0"), "k1")
+	err = emperror.With(emperror.With(err, "k0"), "k1")
 
-	require.Implements(t, (*emperror.Contextor)(nil), err)
-
-	ctx := err.(emperror.Contextor).Context()
+	ctx := emperror.Context(err)
 
 	require.Len(t, ctx, 4)
 
@@ -90,9 +69,9 @@ func TestContext(t *testing.T) {
 	)
 
 	expected := []interface{}{
-		"key3", "value3",
-		"key2", "value2",
 		"key", "value",
+		"key2", "value2",
+		"key3", "value3",
 	}
 
 	actual := emperror.Context(err)
