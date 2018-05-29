@@ -47,18 +47,7 @@ func NewHandler(projectID int64, projectKey string) *Handler {
 
 // Handle calls the underlying Airbrake notifier.
 func (h *Handler) Handle(err error) {
-	var req *http.Request
-
-	// Get the request from the error chain
-	emperror.ForEachCause(err, func(err error) bool {
-		if httpErr, ok := err.(emperror.HttpError); ok {
-			req = httpErr.HttpRequest()
-
-			return false
-		}
-
-		return true
-	})
+	req, _ := emperror.HttpRequest(err)
 
 	notice := h.Notifier.Notice(err, req, 1)
 

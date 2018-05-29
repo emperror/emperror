@@ -4,32 +4,39 @@ import "net/http"
 
 // WithHttpRequest attaches an HTTP request to the error.
 func WithHttpRequest(err error, r *http.Request) error {
-	herr := &httpError{
-		httpRequest: r,
-		err:         err,
+	return &httpError{
+		req: r,
+		err: err,
 	}
-
-	if serr, ok := err.(StackTracer); ok {
-		return struct {
-			*httpError
-			StackTracer
-		}{
-			httpError:   herr,
-			StackTracer: serr,
-		}
-	}
-
-	return herr
 }
 
-// HttpError interface provides a way to attach an http.Request to the error.
-type HttpError interface {
-	HttpRequest() *http.Request
+// HttpRequest extracts an HTTP request from an error (if any).
+//
+// It loops through the whole error chain (if any).
+func HttpRequest(err error) (*http.Request, bool) {
+	type httpError interface {
+		HttpRequest() *http.Request
+	}
+
+	var req *http.Request
+
+	// Get the request from the error chain
+	ForEachCause(err, func(err error) bool {
+		if httpErr, ok := err.(httpError); ok {
+			req = httpErr.HttpRequest()
+
+			return false
+		}
+
+		return true
+	})
+
+	return req, req != nil
 }
 
 type httpError struct {
-	httpRequest *http.Request
-	err         error
+	req *http.Request
+	err error
 }
 
 // Error implements the error interface.
@@ -44,5 +51,5 @@ func (e *httpError) Cause() error {
 
 // HttpRequest implements the HttpError interface.
 func (e *httpError) HttpRequest() *http.Request {
-	return e.httpRequest
+	return e.req
 }
