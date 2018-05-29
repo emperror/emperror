@@ -5,13 +5,13 @@ import (
 
 	"fmt"
 
-	. "github.com/goph/emperror"
+	"github.com/goph/emperror"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 func TestMultiErrorBuilder_ErrOrNil(t *testing.T) {
-	builder := NewMultiErrorBuilder()
+	builder := emperror.NewMultiErrorBuilder()
 
 	err := fmt.Errorf("error")
 
@@ -19,19 +19,19 @@ func TestMultiErrorBuilder_ErrOrNil(t *testing.T) {
 
 	merr := builder.ErrOrNil()
 
-	require.Implements(t, (*ErrorCollection)(nil), merr)
-	assert.Equal(t, err, merr.(ErrorCollection).Errors()[0])
+	require.Implements(t, (*emperror.ErrorCollection)(nil), merr)
+	assert.Equal(t, err, merr.(emperror.ErrorCollection).Errors()[0])
 }
 
 func TestMultiErrorBuilder_ErrOrNil_NilWhenEmpty(t *testing.T) {
-	builder := NewMultiErrorBuilder()
+	builder := emperror.NewMultiErrorBuilder()
 
 	assert.NoError(t, builder.ErrOrNil())
 }
 
 func TestMultiErrorBuilder_ErrOrNil_Single(t *testing.T) {
-	builder := &MultiErrorBuilder{
-		SingleWrapMode: ReturnSingle,
+	builder := &emperror.MultiErrorBuilder{
+		SingleWrapMode: emperror.ReturnSingle,
 	}
 
 	err := fmt.Errorf("error")
@@ -44,7 +44,7 @@ func TestMultiErrorBuilder_ErrOrNil_Single(t *testing.T) {
 func TestMultiErrorBuilder_Message(t *testing.T) {
 	want := "Multiple errors happened during action"
 
-	builder := &MultiErrorBuilder{
+	builder := &emperror.MultiErrorBuilder{
 		Message: want,
 	}
 
