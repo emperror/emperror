@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - **airbrake:** Use `ForEachCause` to find an HTTP request embedded into an error
 - HTTP Request handling
 
+### Fixed
+
+- **airbrake:** Make sure the stack trace is available from the topmost error
+
 ### Removed
 
 - `Causer` interface

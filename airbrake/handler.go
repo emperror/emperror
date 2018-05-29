@@ -45,7 +45,11 @@ func NewHandler(projectID int64, projectKey string) *Handler {
 
 // Handle calls the underlying Airbrake notifier.
 func (h *Handler) Handle(err error) {
+	// Get HTTP request (if any)
 	req, _ := emperror.HttpRequest(err)
+
+	// Expose the stackTracer interface on the outer error (if there is stack trace in the error)
+	err = emperror.ExposeStackTrace(err)
 
 	notice := h.Notifier.Notice(err, req, 1)
 
