@@ -20,7 +20,6 @@ func HttpRequest(err error) (*http.Request, bool) {
 
 	var req *http.Request
 
-	// Get the request from the error chain
 	ForEachCause(err, func(err error) bool {
 		if httpErr, ok := err.(httpError); ok {
 			req = httpErr.HttpRequest()
