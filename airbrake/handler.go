@@ -25,8 +25,6 @@ If you want to Flush notices you can do it as you would with Gobrake's notifier 
 package airbrake
 
 import (
-	"net/http"
-
 	"github.com/airbrake/gobrake"
 	"github.com/goph/emperror"
 	"github.com/goph/emperror/internal"
