@@ -27,7 +27,7 @@ package airbrake
 import (
 	"github.com/airbrake/gobrake"
 	"github.com/goph/emperror"
-	"github.com/goph/emperror/internal"
+	"github.com/goph/emperror/internal/keyvals"
 )
 
 // Handler is responsible for sending errors to Airbrake/Errbit.
@@ -53,8 +53,9 @@ func (h *Handler) Handle(err error) {
 
 	notice := h.Notifier.Notice(err, req, 1)
 
-	if contextErr, ok := err.(emperror.Contextor); ok {
-		notice.Params = internal.MapContext(contextErr)
+	// Extract context from the error and attach it to the notice
+	if kvs := emperror.Context(err); len(kvs) > 0 {
+		notice.Params = keyvals.ToMap(kvs)
 	}
 
 	if h.SendSynchronously {

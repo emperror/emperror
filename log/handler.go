@@ -26,8 +26,9 @@ func NewHandler(l logger) emperror.Handler {
 func (h *handler) Handle(err error) {
 	var keyvals []interface{}
 
-	if cerr, ok := err.(emperror.Contextor); ok {
-		keyvals = append(keyvals, cerr.Context()...)
+	// Extract context from the error and attach it to the log
+	if kvs := emperror.Context(err); len(kvs) > 0 {
+		keyvals = append(keyvals, kvs...)
 	}
 
 	if errs, ok := err.(emperror.ErrorCollection); ok {

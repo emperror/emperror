@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - **airbrake:** Use `ForEachCause` to find an HTTP request embedded into an error
 - HTTP Request handling
+- Refactor converting key-value pairs to maps
 
 ### Fixed
 

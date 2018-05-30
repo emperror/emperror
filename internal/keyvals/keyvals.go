@@ -1,32 +1,26 @@
-package internal
+package keyvals
 
 import (
-	"errors"
 	"fmt"
 	"reflect"
-
-	"github.com/goph/emperror"
 )
 
-// MapContext creates a map of key-value pairs.
+// ToMap creates a map of key-value pairs.
 //
 // The implementation bellow is from go-kit's JSON logger.
-func MapContext(err emperror.Contextor) map[string]interface{} {
-	keyvals := err.Context()
+func ToMap(keyvals []interface{}) map[string]interface{} {
+	m := map[string]interface{}{}
 
-	n := (len(keyvals) + 1) / 2 // +1 to handle case when len is odd
+	if len(keyvals) == 0 {
+		return m
+	}
 
-	m := make(map[string]interface{}, n)
+	if len(keyvals)%2 == 1 {
+		keyvals = append(keyvals, nil)
+	}
 
 	for i := 0; i < len(keyvals); i += 2 {
-		k := keyvals[i]
-		var v interface{} = errors.New("(MISSING)")
-
-		if i+1 < len(keyvals) {
-			v = keyvals[i+1]
-		}
-
-		merge(m, k, v)
+		merge(m, keyvals[i], keyvals[i+1])
 	}
 
 	return m
