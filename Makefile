@@ -9,7 +9,7 @@ setup:: dep ## Setup the project for development
 
 .PHONY: dep
 dep: ## Install dependencies
-	@glide install
+	@dep ensure
 
 .PHONY: clean
 clean:: ## Clean the working area
