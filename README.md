@@ -10,7 +10,7 @@
 
 ## Development
 
-The project requires [Glide](https://glide.sh/) to install dependencies.
+The project requires [Dep](https://golang.github.io/dep/) to install dependencies.
 
 ``` bash
 $ make dep
