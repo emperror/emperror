@@ -1,4 +1,5 @@
 /glide.lock
+/Gopkg.lock
 /vendor/
 
 # IDE integration

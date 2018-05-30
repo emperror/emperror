@@ -20,7 +20,7 @@ matrix:
 before_install:
     - mkdir -p $HOME/bin
     - curl -sL https://get.binhq.io/binbrew | DEST=$HOME/bin NAME=bin bash
-    - bin get Masterminds/glide@0.13.0 $HOME/bin
+    - bin get golang/dep@0.4.1 $HOME/bin
 
 install: make dep
 
