@@ -1,6 +1,6 @@
 package emperror
 
-//go:generate sh -c "CGO_ENABLED=0 go run vendor/github.com/vektra/mockery/cmd/mockery/mockery.go -name=Handler -output . -outpkg emperror_test -testonly -case underscore"
+//go:generate sh -c "CGO_ENABLED=0 go run internal/bin/mockery.go -name=Handler -output . -outpkg emperror_test -testonly -case underscore"
 
 // Handler is responsible for handling an error.
 //
