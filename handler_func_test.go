@@ -5,7 +5,7 @@ import (
 
 	"errors"
 
-	. "github.com/goph/emperror"
+	"github.com/goph/emperror"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -15,7 +15,7 @@ func TestHandlerFunc(t *testing.T) {
 		actual = err
 	}
 
-	fn := HandlerFunc(log)
+	fn := emperror.HandlerFunc(log)
 
 	expected := errors.New("error")
 
@@ -30,7 +30,7 @@ func TestHandlerLogFunc(t *testing.T) {
 		actual = args[0].(error)
 	}
 
-	fn := HandlerLogFunc(log)
+	fn := emperror.HandlerLogFunc(log)
 
 	expected := errors.New("error")
 

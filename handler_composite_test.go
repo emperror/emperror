@@ -5,15 +5,14 @@ import (
 
 	"errors"
 
-	. "github.com/goph/emperror"
-	"github.com/goph/emperror/internal/mocks"
+	"github.com/goph/emperror"
 )
 
 func TestCompositeHandler(t *testing.T) {
-	handler1 := new(mocks.Handler)
-	handler2 := new(mocks.Handler)
+	handler1 := new(Handler)
+	handler2 := new(Handler)
 
-	handler := NewCompositeHandler(handler1, handler2)
+	handler := emperror.NewCompositeHandler(handler1, handler2)
 
 	err := errors.New("error")
 

@@ -3,14 +3,12 @@ package emperror_test
 import (
 	"testing"
 
-	stderrors "errors"
+	"errors"
 	"net/http"
 	"net/url"
 
 	"github.com/goph/emperror"
-	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 func TestWithHttpRequest(t *testing.T) {
@@ -26,16 +24,6 @@ func TestWithHttpRequest(t *testing.T) {
 					Host:   "localhost",
 				},
 			},
-			err: stderrors.New("error"),
-		},
-		"error with stacktrace": {
-			request: &http.Request{
-				Method: "POST",
-				URL: &url.URL{
-					Scheme: "http",
-					Host:   "localhost",
-				},
-			},
 			err: errors.New("error"),
 		},
 	}
@@ -44,15 +32,11 @@ func TestWithHttpRequest(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			nerr := emperror.WithHttpRequest(test.err, test.request)
 
-			assert.Implements(t, new(emperror.HttpError), nerr)
 			assert.EqualError(t, nerr, test.err.Error())
 
-			if serr, ok := test.err.(emperror.StackTracer); ok {
-				require.Implements(t, new(emperror.StackTracer), nerr)
-
-				snerr := nerr.(emperror.StackTracer)
-				assert.Equal(t, serr.StackTrace(), snerr.StackTrace())
-			}
+			req, ok := emperror.HttpRequest(nerr)
+			assert.True(t, ok)
+			assert.Equal(t, test.request, req)
 		})
 	}
 }

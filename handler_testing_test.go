@@ -5,12 +5,12 @@ import (
 
 	"errors"
 
-	. "github.com/goph/emperror"
+	"github.com/goph/emperror"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestTestHandler_Handle(t *testing.T) {
-	handler := new(TestHandler)
+	handler := new(emperror.TestHandler)
 
 	err1 := errors.New("error 1")
 	err2 := errors.New("error 2")
@@ -25,7 +25,7 @@ func TestTestHandler_Handle(t *testing.T) {
 }
 
 func TestTestHandler_Last(t *testing.T) {
-	handler := new(TestHandler)
+	handler := new(emperror.TestHandler)
 
 	err1 := errors.New("error 1")
 	err2 := errors.New("error 2")
@@ -37,7 +37,7 @@ func TestTestHandler_Last(t *testing.T) {
 }
 
 func TestTestHandler_Last_Empty(t *testing.T) {
-	handler := new(TestHandler)
+	handler := new(emperror.TestHandler)
 
 	assert.NoError(t, handler.Last())
 }
