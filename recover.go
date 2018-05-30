@@ -13,7 +13,7 @@ func Recover(r interface{}) (err error) {
 		case string:
 			err = errors.New(x)
 		case error:
-			if _, ok := x.(StackTracer); !ok {
+			if _, ok := x.(stackTracer); !ok {
 				x = errors.WithStack(x)
 			}
 

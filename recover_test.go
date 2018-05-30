@@ -32,7 +32,7 @@ func TestRecover_ErrorPanic(t *testing.T) {
 
 	assert.EqualError(t, v, "internal error")
 	assert.Equal(t, err, errors.Cause(v))
-	assert.Implements(t, (*emperror.StackTracer)(nil), v)
+	assert.Implements(t, (*stackTracer)(nil), v)
 }
 
 func TestRecover_StringPanic(t *testing.T) {
@@ -43,7 +43,7 @@ func TestRecover_StringPanic(t *testing.T) {
 	v := f()
 
 	assert.EqualError(t, v, "internal error")
-	assert.Implements(t, (*emperror.StackTracer)(nil), v)
+	assert.Implements(t, (*stackTracer)(nil), v)
 }
 
 func TestRecover_AnyPanic(t *testing.T) {
@@ -54,5 +54,5 @@ func TestRecover_AnyPanic(t *testing.T) {
 	v := f()
 
 	assert.EqualError(t, v, "unknown panic, received: 123")
-	assert.Implements(t, (*emperror.StackTracer)(nil), v)
+	assert.Implements(t, (*stackTracer)(nil), v)
 }
