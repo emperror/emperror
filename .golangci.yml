@@ -1,0 +1,5 @@
+linters:
+    enable-all: true
+    disable:
+        - errcheck
+        - maligned
