@@ -30,11 +30,7 @@ func TestForEachCause_BreakTheLoop(t *testing.T) {
 	fn := func(err error) bool {
 		i++
 
-		if i > 2 {
-			return false
-		}
-
-		return true
+		return !(i > 2)
 	}
 
 	emperror.ForEachCause(err, fn)
@@ -47,11 +43,7 @@ func TestForEachCause_NilError(t *testing.T) {
 	fn := func(err error) bool {
 		i++
 
-		if i > 2 {
-			return false
-		}
-
-		return true
+		return !(i > 2)
 	}
 
 	emperror.ForEachCause(nil, fn)
