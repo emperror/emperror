@@ -30,11 +30,11 @@ func TestWithHttpRequest(t *testing.T) {
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			nerr := emperror.WithHttpRequest(test.err, test.request)
+			nerr := emperror.WithHTTPRequest(test.err, test.request)
 
 			assert.EqualError(t, nerr, test.err.Error())
 
-			req, ok := emperror.HttpRequest(nerr)
+			req, ok := emperror.HTTPRequest(nerr)
 			assert.True(t, ok)
 			assert.Equal(t, test.request, req)
 		})
