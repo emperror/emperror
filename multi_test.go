@@ -7,8 +7,11 @@ import (
 
 	"github.com/goph/emperror"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
+
+type errorCollection interface {
+	Errors() []error
+}
 
 func TestMultiErrorBuilder_ErrOrNil(t *testing.T) {
 	builder := emperror.NewMultiErrorBuilder()
@@ -19,8 +22,7 @@ func TestMultiErrorBuilder_ErrOrNil(t *testing.T) {
 
 	merr := builder.ErrOrNil()
 
-	require.Implements(t, (*emperror.ErrorCollection)(nil), merr)
-	assert.Equal(t, err, merr.(emperror.ErrorCollection).Errors()[0])
+	assert.Equal(t, err, merr.(errorCollection).Errors()[0])
 }
 
 func TestMultiErrorBuilder_ErrOrNil_NilWhenEmpty(t *testing.T) {

@@ -31,7 +31,11 @@ func (h *handler) Handle(err error) {
 		keyvals = append(keyvals, kvs...)
 	}
 
-	if errs, ok := err.(emperror.ErrorCollection); ok {
+	type errorCollection interface {
+		Errors() []error
+	}
+
+	if errs, ok := err.(errorCollection); ok {
 		for _, e := range errs.Errors() {
 			keyvals := append(keyvals, "msg", e.Error(), "parent", err.Error())
 

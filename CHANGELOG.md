@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `WithPrefix` didn't really make sense with the decorator pattern
 - `Contextor` interface
 - `StackTracer` interface
+- `ErrorCollection` interface
 
 
 ## [0.7.1] - 2018-04-27
