@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `ForEachCause` function to be able to loop through all errors in a chain
 - `Context` function to get the context from an error (and all parent errors)
 - `StackTrace` and `ExposeStackTrace` for working with stack trace
+- logrus hook
 
 ### Changed
 
