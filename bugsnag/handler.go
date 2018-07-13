@@ -42,7 +42,7 @@ func NewHandler(APIKey string) *Handler {
 	}
 }
 
-// Handle calls the underlying Airbrake notifier.
+// Handle calls the underlying Bugsnag notifier.
 func (h *Handler) Handle(err error) {
 	h.Notifier.Notify(err)
 }
