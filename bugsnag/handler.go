@@ -27,22 +27,21 @@ package bugsnag
 
 import bugsnag "github.com/bugsnag/bugsnag-go"
 
-// Handler is responsible for sending errors to Bugsnag.
-type Handler struct {
-	Notifier *bugsnag.Notifier
+// handler is responsible for sending errors to Bugsnag.
+type handler struct {
+	notifier *bugsnag.Notifier
 }
 
 // NewHandler creates a new Bugsnag handler.
-func NewHandler(APIKey string) *Handler {
-	return &Handler{
-		Notifier: bugsnag.New(bugsnag.Configuration{
-			APIKey:      APIKey,
-			Synchronous: true,
+func NewHandler(APIKey string) *handler {
+	return &handler{
+		bugsnag.New(bugsnag.Configuration{
+			APIKey: APIKey,
 		}),
 	}
 }
 
 // Handle calls the underlying Bugsnag notifier.
-func (h *Handler) Handle(err error) {
-	h.Notifier.Notify(err)
+func (h *handler) Handle(err error) {
+	h.notifier.Notify(err)
 }
