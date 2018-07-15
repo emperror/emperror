@@ -25,7 +25,7 @@ Bugsnag provides an extensive set of configuration options, so it might make sen
 */
 package bugsnag
 
-import bugsnag "github.com/bugsnag/bugsnag-go"
+import "github.com/bugsnag/bugsnag-go"
 
 // handler is responsible for sending errors to Bugsnag.
 type handler struct {
