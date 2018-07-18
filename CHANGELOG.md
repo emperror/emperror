@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- **bugsnag:** support stack trace
+
 ### Changed
 
 - **bugsnag:** notifier struct is not exported anymore

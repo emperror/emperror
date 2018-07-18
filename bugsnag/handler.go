@@ -43,5 +43,9 @@ func NewHandlerFromNotifier(notifier *bugsnag.Notifier) *handler {
 
 // Handle calls the underlying Bugsnag notifier.
 func (h *handler) Handle(err error) {
+	if e, ok := err.(stackTracer); ok {
+		err = NewErrorWithStackFrames(e)
+	}
+
 	h.notifier.Notify(err)
 }
