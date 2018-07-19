@@ -20,7 +20,14 @@ you can create a custom one and then create a handler using it:
 */
 package bugsnag
 
-import "github.com/bugsnag/bugsnag-go"
+import (
+	"reflect"
+
+	"github.com/bugsnag/bugsnag-go"
+	"github.com/goph/emperror"
+	"github.com/goph/emperror/internal/keyvals"
+	"github.com/pkg/errors"
+)
 
 // handler is responsible for sending errors to Bugsnag.
 type handler struct {
@@ -43,9 +50,26 @@ func NewHandlerFromNotifier(notifier *bugsnag.Notifier) *handler {
 
 // Handle calls the underlying Bugsnag notifier.
 func (h *handler) Handle(err error) {
+	err = emperror.ExposeStackTrace(err)
+
 	if e, ok := err.(stackTracer); ok {
 		err = NewErrorWithStackFrames(e)
 	}
 
-	h.notifier.Notify(err)
+	var rawData []interface{}
+
+	cause := errors.Cause(err)
+	if name := reflect.TypeOf(cause).String(); len(name) > 0 {
+		errorClass := bugsnag.ErrorClass{Name: name}
+
+		rawData = append(rawData, errorClass)
+	}
+
+	if ctx := emperror.Context(err); len(ctx) > 0 {
+		rawData = append(rawData, bugsnag.MetaData{
+			"Params": keyvals.ToMap(ctx),
+		})
+	}
+
+	h.notifier.Notify(err, rawData...)
 }
