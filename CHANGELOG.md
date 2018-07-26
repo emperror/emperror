@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- **bugsnag:** support stack trace
+- **bugsnag:** context and error name
+
+### Changed
+
+- **bugsnag:** notifier struct is not exported anymore
+- **bugsnag:** `NewNotifierFromHandler` constructor to create a handler from a custom notifier instance
+
 
 ## [0.8.0] - 2018-06-24
 
