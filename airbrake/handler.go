@@ -27,6 +27,7 @@ package airbrake
 import (
 	"github.com/airbrake/gobrake"
 	"github.com/goph/emperror"
+	"github.com/goph/emperror/httperr"
 	"github.com/goph/emperror/internal/keyvals"
 )
 
@@ -46,7 +47,7 @@ func NewHandler(projectID int64, projectKey string) *Handler {
 // Handle calls the underlying Airbrake notifier.
 func (h *Handler) Handle(err error) {
 	// Get HTTP request (if any)
-	req, _ := emperror.HTTPRequest(err)
+	req, _ := httperr.HTTPRequest(err)
 
 	// Expose the stackTracer interface on the outer error (if there is stack trace in the error)
 	err = emperror.ExposeStackTrace(err)
@@ -63,7 +64,6 @@ func (h *Handler) Handle(err error) {
 	} else {
 		h.Notifier.SendNoticeAsync(notice)
 	}
-
 }
 
 // Close closes the underlying Airbrake instance.

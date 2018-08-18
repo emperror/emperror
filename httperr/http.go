@@ -1,6 +1,10 @@
-package emperror
+package httperr
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/goph/emperror"
+)
 
 // WithHTTPRequest attaches an HTTP request to the error.
 func WithHTTPRequest(err error, r *http.Request) error {
@@ -20,7 +24,7 @@ func HTTPRequest(err error) (*http.Request, bool) {
 
 	var req *http.Request
 
-	ForEachCause(err, func(err error) bool {
+	emperror.ForEachCause(err, func(err error) bool {
 		if httpErr, ok := err.(httpError); ok {
 			req = httpErr.HTTPRequest()
 

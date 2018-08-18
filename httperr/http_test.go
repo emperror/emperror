@@ -1,4 +1,4 @@
-package emperror_test
+package httperr_test
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/goph/emperror"
+	. "github.com/goph/emperror/httperr"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -30,11 +30,11 @@ func TestWithHttpRequest(t *testing.T) {
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			nerr := emperror.WithHTTPRequest(test.err, test.request)
+			nerr := WithHTTPRequest(test.err, test.request)
 
 			assert.EqualError(t, nerr, test.err.Error())
 
-			req, ok := emperror.HTTPRequest(nerr)
+			req, ok := HTTPRequest(nerr)
 			assert.True(t, ok)
 			assert.Equal(t, test.request, req)
 		})
