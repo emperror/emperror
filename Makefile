@@ -15,7 +15,7 @@ bin/dep: ## Install dep
 	@curl https://raw.githubusercontent.com/golang/dep/master/install.sh | INSTALL_DIRECTORY=./bin DEP_RELEASE_TAG=v${DEP_VERSION} sh
 
 .PHONY: dep
-dep: ## Install dependencies
+dep: bin/dep ## Install dependencies
 	@dep ensure
 
 .PHONY: clean
