@@ -17,11 +17,6 @@ matrix:
     allow_failures:
         - go: tip
 
-before_install:
-    - mkdir -p $HOME/bin
-    - curl -sL https://get.binhq.io/binbrew | DEST=$HOME/bin NAME=bin bash
-    - bin get golang/dep@0.4.1 $HOME/bin
-
 install: make dep
 
-script: make check
+script: make test

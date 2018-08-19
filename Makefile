@@ -1,5 +1,8 @@
 # A Self-Documenting Makefile: http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 
+DEP_VERSION = 0.5.0
+GOLANGCI_VERSION = 1.9.3
+
 # Dev variables
 GO_SOURCE_FILES = $(shell find . -type f -name "*.go" -not -name "bindata.go" -not -path "./vendor/*" -not -path "./mocks/*")
 GO_PACKAGES = $(shell go list ./... | grep -v /vendor | grep -v /mocks)
@@ -7,13 +10,17 @@ GO_PACKAGES = $(shell go list ./... | grep -v /vendor | grep -v /mocks)
 .PHONY: setup
 setup:: dep ## Setup the project for development
 
+bin/dep: ## Install dep
+	@mkdir -p ./bin/
+	@curl https://raw.githubusercontent.com/golang/dep/master/install.sh | INSTALL_DIRECTORY=./bin DEP_RELEASE_TAG=v${DEP_VERSION} sh
+
 .PHONY: dep
 dep: ## Install dependencies
 	@dep ensure
 
 .PHONY: clean
 clean:: ## Clean the working area
-	rm -rf vendor/
+	rm -rf build/ vendor/
 
 .PHONY: check
 check:: test cs ## Run tests and linters
@@ -26,27 +33,13 @@ COLORIZE=sed ''/PASS/s//${PASS}/'' | sed ''/FAIL/s//${FAIL}/''
 test: ## Run unit tests
 	@go test -tags '${TAGS}' ${ARGS} ${GO_PACKAGES} | ${COLORIZE}
 
-.PHONY: watch-test
-watch-test: ## Watch for file changes and run tests
-	reflex -t 2s -d none -r '\.go$$' -- $(MAKE) ARGS="${ARGS}" test
+bin/golangci-lint: ## Install golangci linter
+	@mkdir -p ./bin/
+	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b ./bin/ v${GOLANGCI_VERSION}
 
-.PHONY: cs
-cs: ## Check that all source files follow the Go coding style
-	@gofmt -l ${GO_SOURCE_FILES} | read something && echo "Code differs from gofmt's style" 1>&2 && exit 1 || true
-
-.PHONY: csfix
-csfix: ## Fix Go coding style violations
-	@gofmt -l -w -s ${GO_SOURCE_FILES}
-
-.PHONY: envcheck
-envcheck:: ## Check environment for all the necessary requirements
-	$(call executable_check,Go,go)
-	$(call executable_check,Glide,glide)
-	$(call executable_check,Reflex,reflex)
-
-define executable_check
-    @printf "\033[36m%-30s\033[0m %s\n" "$(1)" `if which $(2) > /dev/null 2>&1; then echo "\033[0;32m✓\033[0m"; else echo "\033[0;31m✗\033[0m"; fi`
-endef
+.PHONY: lint
+lint: bin/golangci-lint ## Run linter
+	@bin/golangci-lint run
 
 .PHONY: help
 .DEFAULT_GOAL := help
