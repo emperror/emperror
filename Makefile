@@ -16,7 +16,7 @@ bin/dep: ## Install dep
 
 .PHONY: dep
 dep: bin/dep ## Install dependencies
-	@dep ensure
+	@bin/dep ensure
 
 .PHONY: clean
 clean:: ## Clean the working area
