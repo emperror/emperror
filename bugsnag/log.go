@@ -1,32 +1,33 @@
 package bugsnag
 
-import (
-	"fmt"
+import "fmt"
 
-	"github.com/go-kit/kit/log"
-)
-
-// KitLoggerOption configures a kit logger instance.
-type KitLoggerOption interface {
-	apply(*kitLogger)
+// logger is a simple logger interface.
+type logger interface {
+	Log(keyvals ...interface{}) error
 }
 
-// KitLoggerMessage configures the message field of the logger.
-type KitLoggerMessage string
+// LoggerOption configures a logger instance.
+type LoggerOption interface {
+	apply(*handlerLogger)
+}
 
-func (o KitLoggerMessage) apply(l *kitLogger) {
+// LogMessageField configures the message field of the logger.
+type LogMessageField string
+
+func (o LogMessageField) apply(l *handlerLogger) {
 	l.msg = string(o)
 }
 
-type kitLogger struct {
-	logger log.Logger
+type handlerLogger struct {
+	logger logger
 
 	msg string
 }
 
-// NewKitLogger returns a new kit logger instance.
-func NewKitLogger(logger log.Logger, opts ...KitLoggerOption) *kitLogger {
-	l := &kitLogger{logger: logger}
+// NewLogger returns a new logger instance.
+func NewLogger(logger logger, opts ...LoggerOption) *handlerLogger {
+	l := &handlerLogger{logger: logger}
 
 	for _, opt := range opts {
 		opt.apply(l)
@@ -41,6 +42,6 @@ func NewKitLogger(logger log.Logger, opts ...KitLoggerOption) *kitLogger {
 }
 
 // Printf implements a bugsnag logger.
-func (l *kitLogger) Printf(format string, v ...interface{}) {
+func (l *handlerLogger) Printf(format string, v ...interface{}) {
 	l.logger.Log(l.msg, fmt.Sprintf(format, v...))
 }
