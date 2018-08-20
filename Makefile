@@ -3,10 +3,6 @@
 DEP_VERSION = 0.5.0
 GOLANGCI_VERSION = 1.9.3
 
-# Dev variables
-GO_SOURCE_FILES = $(shell find . -type f -name "*.go" -not -name "bindata.go" -not -path "./vendor/*" -not -path "./mocks/*")
-GO_PACKAGES = $(shell go list ./... | grep -v /vendor | grep -v /mocks)
-
 .PHONY: setup
 setup:: dep ## Setup the project for development
 
@@ -23,7 +19,7 @@ clean:: ## Clean the working area
 	rm -rf build/ vendor/
 
 .PHONY: check
-check:: test cs ## Run tests and linters
+check:: test lint ## Run tests and linters
 
 PASS=$(shell printf "\033[32mPASS\033[0m")
 FAIL=$(shell printf "\033[31mFAIL\033[0m")
@@ -31,7 +27,7 @@ COLORIZE=sed ''/PASS/s//${PASS}/'' | sed ''/FAIL/s//${FAIL}/''
 
 .PHONY: test
 test: ## Run unit tests
-	@go test -tags '${TAGS}' ${ARGS} ${GO_PACKAGES} | ${COLORIZE}
+	@go test -tags '${TAGS}' ${ARGS} ./... | ${COLORIZE}
 
 bin/golangci-lint: ## Install golangci linter
 	@mkdir -p ./bin/
