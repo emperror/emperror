@@ -11,8 +11,14 @@ Although that works, makes writing software harder, so this package recommends c
 If you need more control over th underlying Notifier instance (eg. more advanced construction),
 you can create a custom one and then create a handler using it:
 
-	// Note: there is a conflict in package names which is resolved here with the "_" (underline) prefix.
-	handler := &_bugsnag.NewHandlerFromNotifier(bugsnag.New(bugsnag.Configuration{
+	import (
+		"github.com/bugsnag/bugsnag-go"
+		emperror_bugsnag "github.com/goph/emperror/bugsnag"
+	)
+
+	// ...
+
+	handler := &emperror_bugsnag.NewHandlerFromNotifier(bugsnag.New(bugsnag.Configuration{
 		APIKey:      APIKey,
 		AppVersion:  "1.0.0",
 		Synchronous: true,
