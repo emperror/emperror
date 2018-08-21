@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- **errorlogrus:** Add `AttachContext` option to the Hook so that the entry data is appended to the error
+
 ### Changed
 
 - **httperr:** Moved HTTP related code to separate package
