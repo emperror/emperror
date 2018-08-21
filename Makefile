@@ -16,7 +16,7 @@ dep: bin/dep ## Install dependencies
 
 .PHONY: clean
 clean:: ## Clean the working area
-	rm -rf build/ vendor/
+	rm -rf bin/ build/ vendor/
 
 .PHONY: check
 check:: test lint ## Run tests and linters
