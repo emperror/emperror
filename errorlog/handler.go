@@ -20,8 +20,6 @@ func (o MessageField) apply(l *handler) {
 }
 
 // handler accepts a logger instance and logs an error.
-//
-// Compatible with most level-based loggers.
 type handler struct {
 	logger logger
 

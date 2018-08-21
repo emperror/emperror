@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - **errorlogrus:** Add `AttachContext` option to the Hook so that the entry data is appended to the error
+- **errorlogrus:** Add an error handler logging with Logrus
 
 ### Changed
 
