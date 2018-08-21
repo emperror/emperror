@@ -2,7 +2,7 @@ package bugsnag
 
 import "fmt"
 
-// logger is a simple logger interface.
+// logger is a simple logger interface based on go-kit's logger.
 type logger interface {
 	Log(keyvals ...interface{}) error
 }

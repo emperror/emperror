@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - **httperr:** Moved HTTP related code to separate package
 - **bugsnag:** Improve logger
+- **errorlog:** Renamed log package
+- **errorlog:** Improved package
 
 
 ## [0.9.1] - 2018-07-27
