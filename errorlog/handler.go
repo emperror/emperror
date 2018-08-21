@@ -15,7 +15,7 @@ Start by creating a logger instance and inject it into the the handler:
 
 	logger := level.Error(log.NewLogfmtLogger(os.Stdout))
 	handler := errorlog.NewHandler(logger)
- */
+*/
 package errorlog
 
 import "github.com/goph/emperror"
