@@ -1,4 +1,4 @@
-package logrus
+package errorlogrus
 
 import (
 	"errors"
