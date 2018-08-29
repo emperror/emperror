@@ -13,13 +13,13 @@ go:
 branches:
     only:
         - master
-        - /^v\d+\.\d+\.\d+(-\S*)?$/
+        - /^v?\d+\.\d+\.\d+(-\S*)?$/
 
 matrix:
     fast_finish: true
     allow_failures:
         - go: tip
 
-install: make dep
+install: make vendor
 
 script: make test
