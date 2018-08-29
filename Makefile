@@ -12,7 +12,7 @@ bin/dep: ## Install dep
 
 .PHONY: vendor
 vendor: bin/dep ## Install dependencies
-	@bin/dep ensure -vendor-only
+	@bin/dep ensure
 
 .PHONY: clean
 clean: ## Clean the working area
