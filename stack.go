@@ -1,6 +1,11 @@
 package emperror
 
-import "github.com/pkg/errors"
+import (
+	"fmt"
+	"io"
+
+	"github.com/pkg/errors"
+)
 
 type stackTracer interface {
 	StackTrace() errors.StackTrace
@@ -8,11 +13,21 @@ type stackTracer interface {
 
 // StackTrace returns the stack trace from an error (if any).
 func StackTrace(err error) (errors.StackTrace, bool) {
-	var stack errors.StackTrace
+	st, ok := getStackTracer(err)
+	if ok {
+		return st.StackTrace(), true
+	}
+
+	return nil, false
+}
+
+// getStackTracer returns the stack trace from an error (if any).
+func getStackTracer(err error) (stackTracer, bool) {
+	var st stackTracer
 
 	ForEachCause(err, func(err error) bool {
-		if serr, ok := err.(stackTracer); ok {
-			stack = serr.StackTrace()
+		if s, ok := err.(stackTracer); ok {
+			st = s
 
 			return false
 		}
@@ -20,24 +35,42 @@ func StackTrace(err error) (errors.StackTrace, bool) {
 		return true
 	})
 
-	return stack, stack != nil
+	return st, st != nil
 }
 
 type withStack struct {
-	err   error
-	stack errors.StackTrace
+	err error
+	st  stackTracer
 }
 
-func (e *withStack) Error() string {
-	return e.err.Error()
+func (w *withStack) Error() string {
+	return w.err.Error()
 }
 
-func (e *withStack) Cause() error {
-	return e.err
+func (w *withStack) Cause() error {
+	return w.err
 }
 
-func (e *withStack) StackTrace() errors.StackTrace {
-	return e.stack
+func (w *withStack) StackTrace() errors.StackTrace {
+	return w.st.StackTrace()
+}
+
+// Format implements the fmt.Formatter interface.
+func (w *withStack) Format(s fmt.State, verb rune) {
+	switch verb {
+	case 'v':
+		if s.Flag('+') {
+			fmt.Fprintf(s, "%+v", w.Cause())
+			return
+		}
+		fallthrough
+
+	case 's':
+		io.WriteString(s, w.Error())
+
+	case 'q':
+		fmt.Fprintf(s, "%q", w.Error())
+	}
 }
 
 // ExposeStackTrace exposes the stack trace (if any) in the outer error.
@@ -46,13 +79,13 @@ func ExposeStackTrace(err error) error {
 		return err
 	}
 
-	stack, ok := StackTrace(err)
+	st, ok := getStackTracer(err)
 	if !ok {
 		return err
 	}
 
 	return &withStack{
-		err:   err,
-		stack: stack,
+		err: err,
+		st:  st,
 	}
 }

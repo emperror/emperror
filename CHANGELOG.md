@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - **httperr:** Fix wrapped HTTP error formatting
+- Fix stack expose wrapper error formatting
 
 
 ## [0.10.0] - 2018-08-21
