@@ -1,6 +1,8 @@
 package httperr
 
 import (
+	"fmt"
+	"io"
 	"net/http"
 
 	"github.com/goph/emperror"
@@ -8,7 +10,7 @@ import (
 
 // WithHTTPRequest attaches an HTTP request to the error.
 func WithHTTPRequest(err error, r *http.Request) error {
-	return &httpError{
+	return &withHTTPRequest{
 		req: r,
 		err: err,
 	}
@@ -37,22 +39,36 @@ func HTTPRequest(err error) (*http.Request, bool) {
 	return req, req != nil
 }
 
-type httpError struct {
+type withHTTPRequest struct {
 	req *http.Request
 	err error
 }
 
-// Error implements the error interface.
-func (e *httpError) Error() string {
-	return e.err.Error()
+func (w *withHTTPRequest) Error() string {
+	return w.err.Error()
 }
 
-// Cause implements the Causer interface.
-func (e *httpError) Cause() error {
-	return e.err
+func (w *withHTTPRequest) Cause() error {
+	return w.err
 }
 
-// HTTPRequest returns the current HTTP request.
-func (e *httpError) HTTPRequest() *http.Request {
-	return e.req
+func (w *withHTTPRequest) HTTPRequest() *http.Request {
+	return w.req
+}
+
+func (w *withHTTPRequest) Format(s fmt.State, verb rune) {
+	switch verb {
+	case 'v':
+		if s.Flag('+') {
+			fmt.Fprintf(s, "%+v", w.Cause())
+			return
+		}
+		fallthrough
+
+	case 's':
+		io.WriteString(s, w.Error())
+
+	case 'q':
+		fmt.Fprintf(s, "%q", w.Error())
+	}
 }
