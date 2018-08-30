@@ -9,7 +9,7 @@ import (
 )
 
 func TestHandlerContext(t *testing.T) {
-	mockHandler := new(Handler)
+	mockHandler := new(HandlerMock)
 	cerr := emperror.With(errors.New("error"), "a", 123)
 	mockHandler.On("Handle", cerr).Return()
 
@@ -22,7 +22,7 @@ func TestHandlerContext(t *testing.T) {
 }
 
 func TestHandlerContext_Multi(t *testing.T) {
-	mockHandler := new(Handler)
+	mockHandler := new(HandlerMock)
 	cerr := emperror.With(errors.New("error"), "a", 123, "b", 321)
 	mockHandler.On("Handle", cerr).Return()
 
@@ -34,7 +34,7 @@ func TestHandlerContext_Multi(t *testing.T) {
 }
 
 func TestHandlerContext_MultiPrefix(t *testing.T) {
-	mockHandler := new(Handler)
+	mockHandler := new(HandlerMock)
 	cerr := emperror.With(errors.New("error"), "b", 321, "a", 123)
 	mockHandler.On("Handle", cerr).Return()
 
@@ -46,7 +46,7 @@ func TestHandlerContext_MultiPrefix(t *testing.T) {
 }
 
 func TestHandlerContext_MissingValue(t *testing.T) {
-	mockHandler := new(Handler)
+	mockHandler := new(HandlerMock)
 	cerr := emperror.With(errors.New("error"), "k1", nil, "k0", nil)
 	mockHandler.On("Handle", cerr).Return()
 
