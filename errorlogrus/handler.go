@@ -1,3 +1,18 @@
+/*
+Package errorlogrus logs an error using Logrus.
+
+Start by creating a logger instance and inject it into the the handler:
+
+	import (
+		"github.com/emperror/errorlogrus"
+		"github.com/sirupsen/logrus"
+	)
+
+	// ...
+
+	logger := logrus.New()
+	handler := errorlogrus.NewHandler(logger)
+*/
 package errorlogrus
 
 import (
