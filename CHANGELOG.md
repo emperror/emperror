@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- `WrapWith` function to wrap an error with message, stack trace and context at the same time
+
 
 ## [0.11.0] - 2018-08-30
 
