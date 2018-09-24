@@ -61,8 +61,10 @@ func (w *withHTTPRequest) Format(s fmt.State, verb rune) {
 	case 'v':
 		if s.Flag('+') {
 			fmt.Fprintf(s, "%+v", w.Cause())
+
 			return
 		}
+
 		fallthrough
 
 	case 's':

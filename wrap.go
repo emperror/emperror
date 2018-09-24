@@ -45,15 +45,20 @@ func (e *wrappedError) Format(s fmt.State, verb rune) {
 	case 'v':
 		if s.Flag('+') {
 			fmt.Fprintf(s, "%+v", e.Cause())
+
 			for _, pc := range e.stack {
 				f := errors.Frame(pc)
 				fmt.Fprintf(s, "\n%+v", f)
 			}
+
 			return
 		}
+
 		fallthrough
+
 	case 's':
 		io.WriteString(s, e.Error())
+
 	case 'q':
 		fmt.Fprintf(s, "%q", e.Error())
 	}
