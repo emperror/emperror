@@ -39,6 +39,14 @@ bin/golangci-lint-${GOLANGCI_VERSION}:
 lint: bin/golangci-lint ## Run linter
 	@bin/golangci-lint run
 
+bin/mockery:
+	@mkdir -p bin
+	GOBIN=${PWD}/bin/ go get github.com/vektra/mockery/cmd/mockery
+
+.PHONY: generate-mocks
+generate-mocks: bin/mockery ## Generate test mocks
+	bin/mockery -name=Handler -output . -outpkg emperror_test -testonly -case underscore
+
 .PHONY: help
 .DEFAULT_GOAL := help
 help:
