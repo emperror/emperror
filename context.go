@@ -1,5 +1,10 @@
 package emperror
 
+import (
+	"fmt"
+	"io"
+)
+
 // The implementation bellow is heavily influenced by go-kit's log context.
 
 // With returns a new error with keyvals context appended to it.
@@ -75,4 +80,22 @@ func (e *contextualError) Context() []interface{} {
 // This method fulfills the causer interface described in github.com/pkg/errors.
 func (e *contextualError) Cause() error {
 	return e.error
+}
+
+func (e *contextualError) Format(s fmt.State, verb rune) {
+	switch verb {
+	case 'v':
+		if s.Flag('+') {
+			fmt.Fprintf(s, "%+v", e.Cause())
+			return
+		}
+
+		fallthrough
+
+	case 's':
+		io.WriteString(s, e.Error())
+
+	case 'q':
+		fmt.Fprintf(s, "%q", e.Error())
+	}
 }
