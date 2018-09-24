@@ -18,8 +18,8 @@ func With(err error, keyvals ...interface{}) error {
 	var kvs []interface{}
 
 	// extract context from previous error
-	if c, ok := err.(*contextualError); ok {
-		err = c.error
+	if c, ok := err.(*withContext); ok {
+		err = c.err
 
 		kvs = append(kvs, c.keyvals...)
 
@@ -37,8 +37,8 @@ func With(err error, keyvals ...interface{}) error {
 	// Limiting the capacity of the stored keyvals ensures that a new
 	// backing array is created if the slice must grow in With.
 	// Using the extra capacity without copying risks a data race.
-	return &contextualError{
-		error:   err,
+	return &withContext{
+		err:     err,
 		keyvals: kvs[:len(kvs):len(kvs)],
 	}
 }
@@ -62,40 +62,39 @@ func Context(err error) []interface{} {
 	return kvs
 }
 
-// contextualError is the ContextualError implementation returned by With.
-//
-// It wraps an error and a holds keyvals as the context.
-type contextualError struct {
-	error
+// withContext annotates an error with context.
+type withContext struct {
+	err     error
 	keyvals []interface{}
 }
 
+func (w *withContext) Error() string {
+	return w.err.Error()
+}
+
 // Context returns the appended keyvals.
-func (e *contextualError) Context() []interface{} {
-	return e.keyvals
+func (w *withContext) Context() []interface{} {
+	return w.keyvals
 }
 
-// Cause returns the underlying error.
-//
-// This method fulfills the causer interface described in github.com/pkg/errors.
-func (e *contextualError) Cause() error {
-	return e.error
+func (w *withContext) Cause() error {
+	return w.err
 }
 
-func (e *contextualError) Format(s fmt.State, verb rune) {
+func (w *withContext) Format(s fmt.State, verb rune) {
 	switch verb {
 	case 'v':
 		if s.Flag('+') {
-			fmt.Fprintf(s, "%+v", e.Cause())
+			fmt.Fprintf(s, "%+v", w.Cause())
 			return
 		}
 
 		fallthrough
 
 	case 's':
-		io.WriteString(s, e.Error())
+		io.WriteString(s, w.Error())
 
 	case 'q':
-		fmt.Fprintf(s, "%q", e.Error())
+		fmt.Fprintf(s, "%q", w.Error())
 	}
 }
