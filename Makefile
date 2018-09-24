@@ -1,5 +1,7 @@
 # A Self-Documenting Makefile: http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 
+PACKAGE = github.com/goph/emperror
+
 DEP_VERSION = 0.5.0
 GOLANGCI_VERSION = 1.10.2
 
@@ -46,6 +48,43 @@ bin/mockery:
 .PHONY: generate-mocks
 generate-mocks: bin/mockery ## Generate test mocks
 	bin/mockery -name=Handler -output . -outpkg emperror_test -testonly -case underscore
+
+release-%: ## Release a new version
+	@sed -e "s/^## \[Unreleased\]$$/## [Unreleased]\\"$$'\n'"\\"$$'\n'"\\"$$'\n'"## [$*] - $$(date +%Y-%m-%d)/g" CHANGELOG.md > CHANGELOG.md.new
+	@mv CHANGELOG.md.new CHANGELOG.md
+
+	@sed -e "s|^\[Unreleased\]: \(.*\)HEAD$$|[Unreleased]: https://${PACKAGE}/compare/v$*...HEAD\\"$$'\n'"[$*]: \1v$*|g" CHANGELOG.md > CHANGELOG.md.new
+	@mv CHANGELOG.md.new CHANGELOG.md
+
+ifeq ($(TAG), true)
+	git add CHANGELOG.md
+	git commit -s -S -m 'Prepare release v$*'
+	git tag -s -m 'Release v$*' v$*
+endif
+
+	@echo "Version updated to $*!"
+	@echo
+	@echo "Review the changes made by this script then execute the following:"
+ifneq ($(TAG), true)
+	@echo
+	@echo "git add CHANGELOG.md && git commit -S -m 'Prepare release v$*' && git tag -s -m 'Release v$*' v$*"
+	@echo
+	@echo "Finally, push the changes:"
+endif
+	@echo
+	@echo "git push; git push --tags"
+
+.PHONY: patch
+patch: ## Release a new patch version
+	@$(MAKE) release-$(shell git describe --abbrev=0 --tags | sed 's/^v//' | awk -F'[ .]' '{print $$1"."$$2"."$$3+1}')
+
+.PHONY: minor
+minor: ## Release a new minor version
+	@$(MAKE) release-$(shell git describe --abbrev=0 --tags | sed 's/^v//' | awk -F'[ .]' '{print $$1"."$$2+1".0"}')
+
+.PHONY: major
+major: ## Release a new major version
+	@$(MAKE) release-$(shell git describe --abbrev=0 --tags | sed 's/^v//' | awk -F'[ .]' '{print $$1+1".0.0"}')
 
 .PHONY: help
 .DEFAULT_GOAL := help
