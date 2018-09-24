@@ -5,3 +5,7 @@ linters:
         - lll
         - errcheck
         - maligned
+
+issues:
+    exclude:
+        - G104
