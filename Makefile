@@ -4,6 +4,10 @@ PACKAGE = github.com/goph/emperror
 
 # Build variables
 BUILD_DIR ?= build
+export CGO_ENABLED ?= 0
+ifeq (${VERBOSE}, 1)
+	GOARGS += -v
+endif
 
 DEP_VERSION = 0.5.0
 GOLANGCI_VERSION = 1.11.2
