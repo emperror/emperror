@@ -75,10 +75,10 @@ This is to provide flexibility in error handling implementations.
 
 ## Development
 
-The project requires [Dep](https://golang.github.io/dep/) to install dependencies.
+Install the dependencies:
 
-``` bash
-$ make dep
+```bash
+$ make vendor # or dep ensure
 ```
 
 When all coding and testing is done, please run the test suite:
