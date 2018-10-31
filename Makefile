@@ -18,7 +18,6 @@ bin/dep-${DEP_VERSION}:
 	curl https://raw.githubusercontent.com/golang/dep/master/install.sh | INSTALL_DIRECTORY=bin DEP_RELEASE_TAG=v${DEP_VERSION} sh
 	@mv bin/dep $@
 
-
 .PHONY: vendor
 vendor: bin/dep ## Install dependencies
 	bin/dep ensure -v
