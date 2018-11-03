@@ -78,3 +78,9 @@ func TestContext(t *testing.T) {
 
 	assert.Equal(t, expected, actual)
 }
+
+func TestWith_NilError(t *testing.T) {
+	err := emperror.With(nil)
+
+	assert.Nil(t, err)
+}

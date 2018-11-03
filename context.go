@@ -11,6 +11,10 @@ import (
 // If the wrapped error is already a contextual error created by With
 // keyvals is appended to the existing context, but a new error is returned.
 func With(err error, keyvals ...interface{}) error {
+	if err == nil {
+		return nil
+	}
+
 	if len(keyvals) == 0 {
 		return err
 	}
