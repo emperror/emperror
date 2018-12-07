@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [0.12.1] - 2018-12-07
+
 ### Added
 
 - Return nil from `With` when error is nil
@@ -214,7 +217,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [Bugsnag](https://bugsnag.com) handler
 
 
-[Unreleased]: https://github.com/goph/emperror/compare/v0.12.0...HEAD
+[Unreleased]: https://github.com/goph/emperror/compare/v0.12.1...HEAD
+[0.12.1]: https://github.com/goph/emperror/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/goph/emperror/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/goph/emperror/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/goph/emperror/compare/v0.9.1...v0.10.0
