@@ -7,66 +7,46 @@ Start by creating a logger instance and inject it into the the handler:
 		"os"
 
 		"github.com/emperror/errorlog"
-		"github.com/go-kit/kit/log"
-		"github.com/go-kit/kit/log/level"
+		"github.com/InVisionApp/go-logger"
 	)
 
 	// ...
 
-	logger := level.Error(log.NewLogfmtLogger(os.Stdout))
-	handler := errorlog.NewHandler(logger)
+	handler := errorlog.NewHandler(errorlog.NewInvisionLogger(log.NewSimple())
 */
 package errorlog
 
-import "github.com/goph/emperror"
+import (
+	"github.com/goph/emperror"
+	"github.com/goph/emperror/internal/keyvals"
+)
 
-// logger is a simple logger interface based on go-kit's logger.
-type logger interface {
-	Log(keyvals ...interface{}) error
-}
+// Logger is a simple logger interface based on go-kit's logger.
+type Logger interface {
+	// Error logs an error level event.
+	Error(msg ...interface{})
 
-// Option configures a handler instance.
-type Option interface {
-	apply(*handler)
-}
-
-// MessageField configures the message field of the logger.
-type MessageField string
-
-func (o MessageField) apply(l *handler) {
-	l.msg = string(o)
+	// WithFields returns a new logger with appended fields to the internal context.
+	WithFields(fields map[string]interface{}) Logger
 }
 
 // handler accepts a logger instance and logs an error.
 type handler struct {
-	logger logger
-
-	msg string
+	logger Logger
 }
 
 // NewHandler returns a new handler.
-func NewHandler(logger logger, opts ...Option) emperror.Handler {
-	h := &handler{logger: logger}
-
-	for _, o := range opts {
-		o.apply(h)
-	}
-
-	// Default message field
-	if h.msg == "" {
-		h.msg = "msg"
-	}
-
-	return h
+func NewHandler(logger Logger) emperror.Handler {
+	return &handler{logger: logger}
 }
 
 // Handle logs an error.
 func (h *handler) Handle(err error) {
-	var keyvals []interface{}
+	var kvs []interface{}
 
 	// Extract context from the error and attach it to the log
-	if kvs := emperror.Context(err); len(kvs) > 0 {
-		keyvals = append(keyvals, kvs...)
+	if kv := emperror.Context(err); len(kv) > 0 {
+		kvs = append(kvs, kv...)
 	}
 
 	type errorCollection interface {
@@ -75,13 +55,11 @@ func (h *handler) Handle(err error) {
 
 	if errs, ok := err.(errorCollection); ok {
 		for _, e := range errs.Errors() {
-			keyvals := append(keyvals, h.msg, e.Error(), "parent", err.Error())
+			kvs := append(kvs, "parent", err.Error())
 
-			h.logger.Log(keyvals...)
+			h.logger.WithFields(keyvals.ToMap(kvs)).Error(e.Error())
 		}
 	} else {
-		keyvals = append(keyvals, h.msg, err.Error())
-
-		h.logger.Log(keyvals...)
+		h.logger.WithFields(keyvals.ToMap(kvs)).Error(err.Error())
 	}
 }

@@ -1,13 +1,10 @@
 package errorlog_test
 
 import (
-	"io"
+	"errors"
 	"testing"
 
-	"bytes"
-	"errors"
-
-	"github.com/go-kit/kit/log"
+	"github.com/InVisionApp/go-logger/shims/testlog"
 	"github.com/goph/emperror"
 	. "github.com/goph/emperror/errorlog"
 	"github.com/goph/emperror/internal"
@@ -15,21 +12,20 @@ import (
 )
 
 func TestHandler_Handle(t *testing.T) {
-	buf := &bytes.Buffer{}
-	logger := log.NewLogfmtLogger(buf)
-	handler := NewHandler(logger)
+	logger := testlog.New()
+	handler := NewHandler(NewInvisionLogger(logger))
 
 	err := errors.New("internal error")
 
 	handler.Handle(err)
 
-	assert.Equal(t, "msg=\"internal error\"\n", buf.String())
+	assert.Equal(t, 1, logger.CallCount())
+	assert.Equal(t, "[ERROR] internal error \n", string(logger.Bytes()))
 }
 
 func TestHandler_Handle_Context(t *testing.T) {
-	buf := &bytes.Buffer{}
-	logger := log.NewLogfmtLogger(buf)
-	handler := NewHandler(logger)
+	logger := testlog.New()
+	handler := NewHandler(NewInvisionLogger(logger))
 
 	err := internal.ErrorWithContext{
 		Msg: "internal error",
@@ -41,49 +37,26 @@ func TestHandler_Handle_Context(t *testing.T) {
 
 	handler.Handle(err)
 
-	assert.Equal(t, "a=123 previous=\"previous error\" msg=\"internal error\"\n", buf.String())
+	assert.Equal(t, 1, logger.CallCount())
+
+	line := string(logger.Bytes())
+	assert.Contains(t, line, "[ERROR] internal error")
+	assert.Contains(t, line, "a=123")
+	assert.Contains(t, line, "previous=previous error")
 }
 
 func TestHandler_Handle_MultiError(t *testing.T) {
-	tests := map[string]struct {
-		logger   func(w io.Writer) log.Logger
-		expected string
-	}{
-		"logfmt": {
-			log.NewLogfmtLogger,
-			"msg=\"internal error\" parent=\"Multiple errors happened\"\nmsg=\"something else\" parent=\"Multiple errors happened\"\n",
-		},
-		"json": {
-			log.NewJSONLogger,
-			"{\"msg\":\"internal error\",\"parent\":\"Multiple errors happened\"}\n{\"msg\":\"something else\",\"parent\":\"Multiple errors happened\"}\n",
-		},
-	}
+	logger := testlog.New()
+	handler := NewHandler(NewInvisionLogger(logger))
 
-	for name, test := range tests {
-		t.Run(name, func(t *testing.T) {
-			buf := &bytes.Buffer{}
-			logger := test.logger(buf)
-			handler := NewHandler(logger)
+	err := emperror.NewMultiErrorBuilder()
+	err.Add(errors.New("internal error"))
+	err.Add(errors.New("something else"))
 
-			err := emperror.NewMultiErrorBuilder()
-			err.Add(errors.New("internal error"))
-			err.Add(errors.New("something else"))
+	handler.Handle(err.ErrOrNil())
 
-			handler.Handle(err.ErrOrNil())
-
-			assert.Equal(t, test.expected, buf.String())
-		})
-	}
-}
-
-func TestMessageField(t *testing.T) {
-	buf := &bytes.Buffer{}
-	logger := log.NewLogfmtLogger(buf)
-	handler := NewHandler(logger, MessageField("message"))
-
-	err := errors.New("internal error")
-
-	handler.Handle(err)
-
-	assert.Equal(t, "message=\"internal error\"\n", buf.String())
+	line := string(logger.Bytes())
+	assert.Contains(t, line, "[ERROR] internal error")
+	assert.Contains(t, line, "[ERROR] something else")
+	assert.Contains(t, line, "parent=Multiple errors happened")
 }
