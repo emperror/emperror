@@ -1,15 +1,23 @@
 # A Self-Documenting Makefile: http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 
+OS = $(shell uname)
+
+# Project variables
 PACKAGE = github.com/goph/emperror
 
 # Build variables
 BUILD_DIR ?= build
 export CGO_ENABLED ?= 0
+export GOOS = $(shell go env GOOS)
 ifeq (${VERBOSE}, 1)
+ifeq ($(filter -v,${GOARGS}),)
 	GOARGS += -v
+endif
+TEST_FORMAT = short-verbose
 endif
 
 DEP_VERSION = 0.5.0
+GOTESTSUM_VERSION = 0.3.2
 GOLANGCI_VERSION = 1.11.2
 
 .PHONY: setup
@@ -33,9 +41,26 @@ clean: ## Clean the working area and the project
 .PHONY: check
 check: test lint ## Run tests and linters
 
+bin/gotestsum: bin/gotestsum-${GOTESTSUM_VERSION}
+	@ln -sf gotestsum-${GOTESTSUM_VERSION} bin/gotestsum
+bin/gotestsum-${GOTESTSUM_VERSION}:
+	@mkdir -p bin
+ifeq (${OS}, Darwin)
+	curl -L https://github.com/gotestyourself/gotestsum/releases/download/v${GOTESTSUM_VERSION}/gotestsum_${GOTESTSUM_VERSION}_darwin_amd64.tar.gz | tar -zOxf - gotestsum > ./bin/gotestsum-${GOTESTSUM_VERSION} && chmod +x ./bin/gotestsum-${GOTESTSUM_VERSION}
+endif
+ifeq (${OS}, Linux)
+	curl -L https://github.com/gotestyourself/gotestsum/releases/download/v${GOTESTSUM_VERSION}/gotestsum_${GOTESTSUM_VERSION}_linux_amd64.tar.gz | tar -zOxf - gotestsum > ./bin/gotestsum-${GOTESTSUM_VERSION} && chmod +x ./bin/gotestsum-${GOTESTSUM_VERSION}
+endif
+
+TEST_PKGS ?= ./...
+TEST_REPORT_NAME ?= results.xml
 .PHONY: test
-test: ## Run all tests
-	go test ${GOARGS} ./...
+test: TEST_REPORT ?= main
+test: TEST_FORMAT ?= short
+test: SHELL = /bin/bash
+test: bin/gotestsum ## Run tests
+	@mkdir -p ${BUILD_DIR}/test_results/${TEST_REPORT}
+	bin/gotestsum --no-summary=skipped --junitfile ${BUILD_DIR}/test_results/${TEST_REPORT}/${TEST_REPORT_NAME} --format ${TEST_FORMAT} -- $(filter-out -v,${GOARGS}) $(if ${TEST_PKGS},${TEST_PKGS},./...)
 
 bin/golangci-lint: bin/golangci-lint-${GOLANGCI_VERSION}
 	@ln -sf golangci-lint-${GOLANGCI_VERSION} bin/golangci-lint
@@ -56,17 +81,18 @@ bin/mockery:
 generate-mocks: bin/mockery ## Generate test mocks
 	bin/mockery -name=Handler -output . -outpkg emperror_test -testonly -case underscore
 
-release-%: ## Release a new version
+release-%: TAG_PREFIX = v
+release-%:
 	@sed -e "s/^## \[Unreleased\]$$/## [Unreleased]\\"$$'\n'"\\"$$'\n'"\\"$$'\n'"## [$*] - $$(date +%Y-%m-%d)/g" CHANGELOG.md > CHANGELOG.md.new
 	@mv CHANGELOG.md.new CHANGELOG.md
 
-	@sed -e "s|^\[Unreleased\]: \(.*\)HEAD$$|[Unreleased]: https://${PACKAGE}/compare/v$*...HEAD\\"$$'\n'"[$*]: \1v$*|g" CHANGELOG.md > CHANGELOG.md.new
+	@sed -e "s|^\[Unreleased\]: \(.*\)HEAD$$|[Unreleased]: https://${PACKAGE}/compare/${TAG_PREFIX}$*...HEAD\\"$$'\n'"[$*]: \1${TAG_PREFIX}$*|g" CHANGELOG.md > CHANGELOG.md.new
 	@mv CHANGELOG.md.new CHANGELOG.md
 
 ifeq (${TAG}, 1)
 	git add CHANGELOG.md
-	git commit -s -S -m 'Prepare release v$*'
-	git tag -s -m 'Release v$*' v$*
+	git commit -m 'Prepare release $*'
+	git tag -m 'Release $*' ${TAG_PREFIX}$*
 endif
 
 	@echo "Version updated to $*!"
@@ -74,12 +100,12 @@ endif
 	@echo "Review the changes made by this script then execute the following:"
 ifneq (${TAG}, 1)
 	@echo
-	@echo "git add CHANGELOG.md && git commit -S -m 'Prepare release v$*' && git tag -s -m 'Release v$*' v$*"
+	@echo "git add CHANGELOG.md && git commit -m 'Prepare release $*' && git tag -m 'Release $*' ${TAG_PREFIX}$*"
 	@echo
 	@echo "Finally, push the changes:"
 endif
 	@echo
-	@echo "git push; git push --tags"
+	@echo "git push; git push origin ${TAG_PREFIX}$*"
 
 .PHONY: patch
 patch: ## Release a new patch version
