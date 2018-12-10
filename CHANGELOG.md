@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Removed
+
+- **errorlog:** implementation moved to [github.com/goph/logur](https://github.com/goph/logur)
+
 
 ## [0.13.0] - 2018-12-07
 

@@ -35,9 +35,12 @@ Read more about the topic here:
 ### Log errors
 
 Logging is one of the most common target to record error events.
-Emperror comes with a set of handlers backed by logging frameworks:
 
-- **errorlog:** log errors using the custom `errorlog.Logger` interface (comes with a default [logur](https://github.com/goph/logur) implementation)
+The reference implementation for logging with Emperror can be found in package [logur](https://github.com/goph/logur).
+Logur is an opinionated logging toolkit supporting multiple logging libraries (like [logrus](https://github.com/sirupsen/logrus)).
+
+Emperror comes with a set of handlers backed by logging frameworks too:
+
 - **errorlogrus:** [logrus](https://github.com/sirupsen/logrus) hook
 
 See [GoDoc](https://godoc.org/github.com/goph/emperror) for detailed usage examples.
