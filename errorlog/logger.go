@@ -1,25 +1,25 @@
 package errorlog
 
-import "github.com/InVisionApp/go-logger"
+import "github.com/goph/logur"
 
-// InvisionLogger wraps an invision logger and exposes it under a custom interface.
-type InvisionLogger struct {
-	logger log.Logger
+// LogurLogger wraps an invision logger and exposes it under a custom interface.
+type LogurLogger struct {
+	logger logur.Logger
 }
 
-// NewInvisionLogger returns a new InvisionLogger instance.
-func NewInvisionLogger(logger log.Logger) *InvisionLogger {
-	return &InvisionLogger{
+// NewLogger returns a new Logger instance based on github.com/goph/logur.
+func NewLogger(logger logur.Logger) *LogurLogger {
+	return &LogurLogger{
 		logger: logger,
 	}
 }
 
 // Error logs an error event.
-func (l *InvisionLogger) Error(msg ...interface{}) {
+func (l *LogurLogger) Error(msg ...interface{}) {
 	l.logger.Error(msg...)
 }
 
 // WithFields annotates a logger with some context.
-func (l *InvisionLogger) WithFields(fields map[string]interface{}) Logger {
-	return &InvisionLogger{logger: l.logger.WithFields(fields)}
+func (l *LogurLogger) WithFields(fields map[string]interface{}) Logger {
+	return &LogurLogger{logger: l.logger.WithFields(fields)}
 }

@@ -7,8 +7,8 @@
   version = "1.1.1"
 
 [[constraint]]
-  name = "github.com/InVisionApp/go-logger"
-  version = "1.0.1"
+  name = "github.com/goph/logur"
+  version = "0.2.0"
 
 [[constraint]]
   name = "github.com/pkg/errors"
