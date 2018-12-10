@@ -21,9 +21,9 @@ import (
 	"github.com/goph/emperror/internal/keyvals"
 )
 
-// Logger is a simple logger interface based on go-kit's logger.
+// Logger is a simple logger interface for recording errors as log events.
 type Logger interface {
-	// Error logs an error level event.
+	// Error logs an Error event.
 	Error(msg ...interface{})
 
 	// WithFields returns a new logger with appended fields to the internal context.

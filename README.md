@@ -37,8 +37,8 @@ Read more about the topic here:
 Logging is one of the most common target to record error events.
 Emperror comes with a set of handlers backed by logging frameworks:
 
-- **errorlog:** [go-kit logger](https://github.com/go-kit/kit/tree/master/log) handler
-- **errorlogrus:** [logrus](https://github.com/sirupsen/logrus) handler
+- **errorlog:** log errors using the custom `errorlog.Logger` interface (comes with a default [logur](https://github.com/goph/logur) implementation)
+- **errorlogrus:** [logrus](https://github.com/sirupsen/logrus) hook
 
 See [GoDoc](https://godoc.org/github.com/goph/emperror) for detailed usage examples.
 
