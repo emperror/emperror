@@ -1,6 +1,6 @@
 language: go
 
-sudo: false
+dist: xenial
 
 go:
     - 1.10.x
@@ -16,6 +16,10 @@ matrix:
     fast_finish: true
     allow_failures:
         - go: tip
+
+cache:
+    directories:
+        - bin
 
 install: make vendor
 
