@@ -25,7 +25,7 @@ func TestRecover_ErrorPanic(t *testing.T) {
 
 	f := createRecoverFunc(err)
 
-	require.NotPanics(t, func() { f() })
+	require.NotPanics(t, func() { _ = f() })
 
 	v := f()
 
@@ -37,7 +37,7 @@ func TestRecover_ErrorPanic(t *testing.T) {
 func TestRecover_StringPanic(t *testing.T) {
 	f := createRecoverFunc("internal error")
 
-	require.NotPanics(t, func() { f() })
+	require.NotPanics(t, func() { _ = f() })
 
 	v := f()
 
@@ -48,7 +48,7 @@ func TestRecover_StringPanic(t *testing.T) {
 func TestRecover_AnyPanic(t *testing.T) {
 	f := createRecoverFunc(123)
 
-	require.NotPanics(t, func() { f() })
+	require.NotPanics(t, func() { _ = f() })
 
 	v := f()
 

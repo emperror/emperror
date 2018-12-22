@@ -96,7 +96,7 @@ func (h *handler) Handle(err error) {
 	}
 
 	if h.sendSynchronously {
-		h.notifier.SendNotice(notice)
+		_, _ = h.notifier.SendNotice(notice)
 	} else {
 		h.notifier.SendNoticeAsync(notice)
 	}

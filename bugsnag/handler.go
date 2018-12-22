@@ -77,5 +77,5 @@ func (h *handler) Handle(err error) {
 		})
 	}
 
-	h.notifier.Notify(err, rawData...)
+	_ = h.notifier.Notify(err, rawData...)
 }

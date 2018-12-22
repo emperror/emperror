@@ -3,9 +3,4 @@ linters:
     disable:
         - golint
         - lll
-        - errcheck
         - maligned
-
-issues:
-    exclude:
-        - G104

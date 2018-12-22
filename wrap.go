@@ -44,11 +44,11 @@ func (e *wrappedError) Format(s fmt.State, verb rune) {
 	switch verb {
 	case 'v':
 		if s.Flag('+') {
-			fmt.Fprintf(s, "%+v", e.Cause())
+			_, _ = fmt.Fprintf(s, "%+v", e.Cause())
 
 			for _, pc := range e.stack {
 				f := errors.Frame(pc)
-				fmt.Fprintf(s, "\n%+v", f)
+				_, _ = fmt.Fprintf(s, "\n%+v", f)
 			}
 
 			return
@@ -57,10 +57,10 @@ func (e *wrappedError) Format(s fmt.State, verb rune) {
 		fallthrough
 
 	case 's':
-		io.WriteString(s, e.Error())
+		_, _ = io.WriteString(s, e.Error())
 
 	case 'q':
-		fmt.Fprintf(s, "%q", e.Error())
+		_, _ = fmt.Fprintf(s, "%q", e.Error())
 	}
 }
 

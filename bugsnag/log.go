@@ -43,5 +43,5 @@ func NewLogger(logger logger, opts ...LoggerOption) *handlerLogger {
 
 // Printf implements a bugsnag logger.
 func (l *handlerLogger) Printf(format string, v ...interface{}) {
-	l.logger.Log(l.msg, fmt.Sprintf(format, v...))
+	_ = l.logger.Log(l.msg, fmt.Sprintf(format, v...))
 }
