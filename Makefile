@@ -18,7 +18,7 @@ endif
 
 DEP_VERSION = 0.5.0
 GOTESTSUM_VERSION = 0.3.2
-GOLANGCI_VERSION = 1.11.2
+GOLANGCI_VERSION = 1.12.2
 
 # Add the ability to override some variables
 # Use with care
