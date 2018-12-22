@@ -16,7 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - TestHandler is now concurrent safe
-- Completely rewritten bugsnag logger
+- **bugsnag:** Completely rewritten bugsnag logger
+- **bugsnag:** Unexport `NewErrorWithStackFrames`
 
 ### Removed
 

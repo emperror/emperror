@@ -59,7 +59,7 @@ func (h *handler) Handle(err error) {
 	err = emperror.ExposeStackTrace(err)
 
 	if e, ok := err.(stackTracer); ok {
-		err = NewErrorWithStackFrames(e)
+		err = newErrorWithStackFrames(e)
 	}
 
 	var rawData []interface{}

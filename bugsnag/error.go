@@ -14,9 +14,9 @@ type errorWithStackFrames struct {
 	err stackTracer
 }
 
-// NewErrorWithStackFrames returns a new error implementing the
+// newErrorWithStackFrames returns a new error implementing the
 // github.com/bugsnag/bugsnag-go/errors.ErrorWithStackFrames interface.
-func NewErrorWithStackFrames(err stackTracer) *errorWithStackFrames {
+func newErrorWithStackFrames(err stackTracer) *errorWithStackFrames {
 	return &errorWithStackFrames{err}
 }
 
