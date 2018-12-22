@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- `Panic` function to only panic if an error is not nil
+
 
 ## [0.14.0] - 2018-12-11
 
