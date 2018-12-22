@@ -37,26 +37,26 @@ import (
 
 // Option configures a logger instance.
 type Option interface {
-	apply(*handler)
+	apply(*Handler)
 }
 
 // SendSynchronously configures the handler to send notices synchronously.
 type SendSynchronously bool
 
-func (o SendSynchronously) apply(l *handler) {
+func (o SendSynchronously) apply(l *Handler) {
 	l.sendSynchronously = bool(o)
 }
 
-// handler is responsible for sending errors to Airbrake/Errbit.
-type handler struct {
+// Handler is responsible for sending errors to Airbrake/Errbit.
+type Handler struct {
 	notifier *gobrake.Notifier
 
 	sendSynchronously bool
 }
 
 // NewHandler creates a new Airbrake handler.
-func NewHandler(projectID int64, projectKey string, opts ...Option) *handler {
-	h := &handler{
+func NewHandler(projectID int64, projectKey string, opts ...Option) *Handler {
+	h := &Handler{
 		notifier: gobrake.NewNotifier(projectID, projectKey),
 	}
 
@@ -68,8 +68,8 @@ func NewHandler(projectID int64, projectKey string, opts ...Option) *handler {
 }
 
 // NewHandlerFromNotifier creates a new Airbrake handler from a notifier instance.
-func NewHandlerFromNotifier(notifier *gobrake.Notifier, opts ...Option) *handler {
-	h := &handler{
+func NewHandlerFromNotifier(notifier *gobrake.Notifier, opts ...Option) *Handler {
+	h := &Handler{
 		notifier: notifier,
 	}
 
@@ -81,7 +81,7 @@ func NewHandlerFromNotifier(notifier *gobrake.Notifier, opts ...Option) *handler
 }
 
 // Handle calls the underlying Airbrake notifier.
-func (h *handler) Handle(err error) {
+func (h *Handler) Handle(err error) {
 	// Get HTTP request (if any)
 	req, _ := httperr.HTTPRequest(err)
 
@@ -103,6 +103,6 @@ func (h *handler) Handle(err error) {
 }
 
 // Close closes the underlying Airbrake instance.
-func (h *handler) Close() error {
+func (h *Handler) Close() error {
 	return h.notifier.Close()
 }

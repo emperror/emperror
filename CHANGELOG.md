@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - **bugsnag:** Completely rewritten bugsnag logger
 - **bugsnag:** Unexport `NewErrorWithStackFrames`
 - **bugsnag:** Export `handler`
+- **airbrake:** Export `handler`
 
 ### Removed
 
