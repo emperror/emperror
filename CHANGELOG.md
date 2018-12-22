@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 
 - Handler mock
+- Logrus handler (use logur instead)
 
 
 ## [0.14.0] - 2018-12-11
