@@ -21,17 +21,20 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-type handler struct {
+// Handler handles an error by passing it to a logrus logger.
+type Handler struct {
 	logger logrus.FieldLogger
 }
 
 // NewHandler returns a handler which logs errors using logrus.
-func NewHandler(logger logrus.FieldLogger) *handler {
-	return &handler{logger: logger}
+func NewHandler(logger logrus.FieldLogger) *Handler {
+	return &Handler{
+		logger: logger,
+	}
 }
 
 // Handle logs an error.
-func (h *handler) Handle(err error) {
+func (h *Handler) Handle(err error) {
 	var ctx map[string]interface{}
 
 	// Extract context from the error and attach it to the log
