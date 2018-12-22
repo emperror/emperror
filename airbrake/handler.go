@@ -8,7 +8,8 @@ Create a new handler as you would create a gobrake.Notifier:
 
 	handler := airbrake.NewHandler(projectID, projectKey)
 
-If you need access to the underlying Notifier instance (or need more advanced construction), you can create the handler from a notifier directly:
+If you need access to the underlying Notifier instance (or need more advanced construction),
+you can create the handler from a notifier directly:
 
 	projectID  := int64(1)
 	projectKey := "key"
@@ -22,7 +23,8 @@ By default Gobrake sends errors asynchronously and expects to be closed before t
 		defer handler.Close()
 	}
 
-If you want to Flush notices you can do it as you would with Gobrake's notifier or you can configure the handler to send notices synchronously:
+If you want to Flush notices you can do it as you would with Gobrake's notifier
+or you can configure the handler to send notices synchronously:
 
 	handler := airbrake.NewHandlerFromNotifier(notifier, airbrake.SendSynchronously(true))
 */

@@ -1,5 +1,2 @@
 linters:
     enable-all: true
-    disable:
-        - lll
-        - maligned
