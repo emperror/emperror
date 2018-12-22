@@ -1,26 +1,23 @@
 package emperror_test
 
 import (
+	"errors"
 	"testing"
 
-	"errors"
-
 	"github.com/goph/emperror"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCompositeHandler(t *testing.T) {
-	handler1 := new(HandlerMock)
-	handler2 := new(HandlerMock)
+	handler1 := emperror.NewTestHandler()
+	handler2 := emperror.NewTestHandler()
 
 	handler := emperror.NewCompositeHandler(handler1, handler2)
 
 	err := errors.New("error")
 
-	handler1.On("Handle", err).Once().Return()
-	handler2.On("Handle", err).Once().Return()
-
 	handler.Handle(err)
 
-	handler1.AssertExpectations(t)
-	handler2.AssertExpectations(t)
+	assert.Equal(t, err, handler1.Last())
+	assert.Equal(t, err, handler2.Last())
 }
