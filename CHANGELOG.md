@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `Panic` function to only panic if an error is not nil
 
+### Changed
+
+- TestHandler is no concurrent safe
+
 
 ## [0.14.0] - 2018-12-11
 
