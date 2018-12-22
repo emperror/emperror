@@ -35,27 +35,27 @@ import (
 	"github.com/pkg/errors"
 )
 
-// handler is responsible for sending errors to Bugsnag.
-type handler struct {
+// Handler is responsible for sending errors to Bugsnag.
+type Handler struct {
 	notifier *bugsnag.Notifier
 }
 
-// NewHandler creates a new Bugsnag handler.
-func NewHandler(APIKey string) *handler {
-	return &handler{
+// NewHandler creates a new Handler.
+func NewHandler(APIKey string) *Handler {
+	return &Handler{
 		bugsnag.New(bugsnag.Configuration{
 			APIKey: APIKey,
 		}),
 	}
 }
 
-// NewHandlerFromNotifier creates a new Bugsnag handler from a notifier instance.
-func NewHandlerFromNotifier(notifier *bugsnag.Notifier) *handler {
-	return &handler{notifier}
+// NewHandlerFromNotifier creates a new Handler from an existing bugsnag notifier.
+func NewHandlerFromNotifier(notifier *bugsnag.Notifier) *Handler {
+	return &Handler{notifier}
 }
 
-// Handle calls the underlying Bugsnag notifier.
-func (h *handler) Handle(err error) {
+// Handle passes the error to the underlying Bugsnag notifier.
+func (h *Handler) Handle(err error) {
 	err = emperror.ExposeStackTrace(err)
 
 	if e, ok := err.(stackTracer); ok {
