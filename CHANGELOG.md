@@ -15,7 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- TestHandler is no concurrent safe
+- TestHandler is now concurrent safe
+- Completely rewritten bugsnag logger
 
 ### Removed
 
