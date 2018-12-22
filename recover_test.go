@@ -1,11 +1,10 @@
 package emperror_test
 
 import (
+	"fmt"
 	"testing"
 
-	"fmt"
-
-	"github.com/goph/emperror"
+	. "github.com/goph/emperror"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -14,7 +13,7 @@ import (
 func createRecoverFunc(p interface{}) func() error {
 	return func() (err error) {
 		defer func() {
-			err = emperror.Recover(recover())
+			err = Recover(recover())
 		}()
 
 		panic(p)

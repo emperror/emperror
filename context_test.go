@@ -3,7 +3,7 @@ package emperror_test
 import (
 	"testing"
 
-	"github.com/goph/emperror"
+	. "github.com/goph/emperror"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -13,10 +13,10 @@ func TestWith(t *testing.T) {
 	err := errors.New("error")
 
 	kvs := []interface{}{"a", 123}
-	err = emperror.With(err, kvs...)
+	err = With(err, kvs...)
 	kvs[1] = 0 // With should copy its key values
 
-	ctx := emperror.Context(err)
+	ctx := Context(err)
 
 	assert.Equal(t, "a", ctx[0])
 	assert.Equal(t, 123, ctx[1])
@@ -26,9 +26,9 @@ func TestWith(t *testing.T) {
 func TestWith_Multiple(t *testing.T) {
 	err := errors.New("")
 
-	err = emperror.With(emperror.With(err, "a", 123), "b", 321)
+	err = With(With(err, "a", 123), "b", 321)
 
-	ctx := emperror.Context(err)
+	ctx := Context(err)
 
 	assert.Equal(t, "a", ctx[0])
 	assert.Equal(t, 123, ctx[1])
@@ -39,9 +39,9 @@ func TestWith_Multiple(t *testing.T) {
 func TestContextor_MissingValue(t *testing.T) {
 	err := errors.New("")
 
-	err = emperror.With(emperror.With(err, "k0"), "k1")
+	err = With(With(err, "k0"), "k1")
 
-	ctx := emperror.Context(err)
+	ctx := Context(err)
 
 	require.Len(t, ctx, 4)
 
@@ -51,11 +51,11 @@ func TestContextor_MissingValue(t *testing.T) {
 }
 
 func TestContext(t *testing.T) {
-	err := emperror.With(
+	err := With(
 		errors.WithMessage(
-			emperror.With(
+			With(
 				errors.Wrap(
-					emperror.With(
+					With(
 						errors.New("error"),
 						"key", "value",
 					),
@@ -74,13 +74,13 @@ func TestContext(t *testing.T) {
 		"key3", "value3",
 	}
 
-	actual := emperror.Context(err)
+	actual := Context(err)
 
 	assert.Equal(t, expected, actual)
 }
 
 func TestWith_NilError(t *testing.T) {
-	err := emperror.With(nil)
+	err := With(nil)
 
 	assert.Nil(t, err)
 }

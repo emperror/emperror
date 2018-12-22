@@ -3,7 +3,7 @@ package emperror_test
 import (
 	"testing"
 
-	"github.com/goph/emperror"
+	. "github.com/goph/emperror"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 )
@@ -18,7 +18,7 @@ func TestForEachCause(t *testing.T) {
 		return true
 	}
 
-	emperror.ForEachCause(err, fn)
+	ForEachCause(err, fn)
 
 	assert.Equal(t, 4, i)
 }
@@ -33,7 +33,7 @@ func TestForEachCause_BreakTheLoop(t *testing.T) {
 		return !(i > 2)
 	}
 
-	emperror.ForEachCause(err, fn)
+	ForEachCause(err, fn)
 
 	assert.Equal(t, 3, i)
 }
@@ -46,7 +46,7 @@ func TestForEachCause_NilError(t *testing.T) {
 		return !(i > 2)
 	}
 
-	emperror.ForEachCause(nil, fn)
+	ForEachCause(nil, fn)
 
 	assert.Equal(t, 0, i)
 }

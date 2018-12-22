@@ -4,15 +4,15 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/goph/emperror"
+	. "github.com/goph/emperror"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestCompositeHandler(t *testing.T) {
-	handler1 := emperror.NewTestHandler()
-	handler2 := emperror.NewTestHandler()
+	handler1 := NewTestHandler()
+	handler2 := NewTestHandler()
 
-	handler := emperror.NewCompositeHandler(handler1, handler2)
+	handler := NewCompositeHandler(handler1, handler2)
 
 	err := errors.New("error")
 

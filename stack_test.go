@@ -1,11 +1,10 @@
 package emperror_test
 
 import (
+	stderrors "errors"
 	"testing"
 
-	stderrors "errors"
-
-	"github.com/goph/emperror"
+	. "github.com/goph/emperror"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 )
@@ -17,7 +16,7 @@ type stackTracer interface {
 func TestStackTrace(t *testing.T) {
 	err := errors.WithMessage(errors.New("error"), "wrapper")
 
-	stack, ok := emperror.StackTrace(err)
+	stack, ok := StackTrace(err)
 
 	assert.True(t, ok)
 	assert.NotNil(t, stack)
@@ -26,7 +25,7 @@ func TestStackTrace(t *testing.T) {
 func TestExposeStackTrace(t *testing.T) {
 	err := errors.WithMessage(errors.New("error"), "wrapper")
 
-	err = emperror.ExposeStackTrace(err)
+	err = ExposeStackTrace(err)
 
 	stack := err.(stackTracer).StackTrace()
 
@@ -36,7 +35,7 @@ func TestExposeStackTrace(t *testing.T) {
 func TestExposeStackTrace_NoStackTrace(t *testing.T) {
 	err := stderrors.New("error")
 
-	serr := emperror.ExposeStackTrace(err)
+	serr := ExposeStackTrace(err)
 
 	assert.Equal(t, err, serr)
 }

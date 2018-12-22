@@ -1,11 +1,10 @@
 package httperr_test
 
 import (
-	"testing"
-
 	"errors"
 	"net/http"
 	"net/url"
+	"testing"
 
 	. "github.com/goph/emperror/httperr"
 	"github.com/stretchr/testify/assert"
