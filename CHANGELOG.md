@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - TestHandler is no concurrent safe
 
+### Removed
+
+- Handler mock
+
 
 ## [0.14.0] - 2018-12-11
 

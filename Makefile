@@ -74,14 +74,6 @@ bin/golangci-lint-${GOLANGCI_VERSION}:
 lint: bin/golangci-lint ## Run linter
 	bin/golangci-lint run
 
-bin/mockery:
-	@mkdir -p bin
-	GOBIN=${PWD}/bin/ go get github.com/vektra/mockery/cmd/mockery
-
-.PHONY: generate-mocks
-generate-mocks: bin/mockery ## Generate test mocks
-	bin/mockery -name=Handler -output . -outpkg emperror_test -testonly -case underscore
-
 release-%: TAG_PREFIX = v
 release-%:
 	@sed -e "s/^## \[Unreleased\]$$/## [Unreleased]\\"$$'\n'"\\"$$'\n'"\\"$$'\n'"## [$*] - $$(date +%Y-%m-%d)/g" CHANGELOG.md > CHANGELOG.md.new
