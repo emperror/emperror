@@ -20,8 +20,9 @@ DEP_VERSION = 0.5.0
 GOTESTSUM_VERSION = 0.3.2
 GOLANGCI_VERSION = 1.11.2
 
-.PHONY: setup
-setup: vendor ## Setup the project for development
+# Add the ability to override some variables
+# Use with care
+-include override.mk
 
 bin/dep: bin/dep-${DEP_VERSION}
 	@ln -sf dep-${DEP_VERSION} bin/dep
@@ -34,9 +35,9 @@ bin/dep-${DEP_VERSION}:
 vendor: bin/dep ## Install dependencies
 	bin/dep ensure -v
 
-.PHONY: clean
-clean: ## Clean the working area and the project
-	rm -rf bin/ ${BUILD_DIR}/ vendor/
+.PHONY: clear
+clear: ## Clear the working area and the project
+	rm -rf bin/ vendor/
 
 .PHONY: check
 check: test lint ## Run tests and linters
