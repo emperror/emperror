@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [0.15.0] - 2018-12-22
+
 ### Added
 
 - `Panic` function to only panic if an error is not nil
@@ -247,7 +250,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [Bugsnag](https://bugsnag.com) handler
 
 
-[Unreleased]: https://github.com/goph/emperror/compare/v0.14.0...HEAD
+[Unreleased]: https://github.com/goph/emperror/compare/v0.15.0...HEAD
+[0.15.0]: https://github.com/goph/emperror/compare/v0.14.0...v0.15.0
 [0.14.0]: https://github.com/goph/emperror/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/goph/emperror/compare/v0.12.1...v0.13.0
 [0.12.1]: https://github.com/goph/emperror/compare/v0.12.0...v0.12.1
