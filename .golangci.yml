@@ -1,6 +1,5 @@
 linters:
     enable-all: true
     disable:
-        - golint
         - lll
         - maligned
