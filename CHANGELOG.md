@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Refactored and renamed nopHandler to noopHandler
 - Refactored the test handler
 
+### Removed
+
+- **bugsnag:** Logger (use [github.com/goph/logur](https://github.com/goph/logur) instead)
+
 
 ## [0.15.0] - 2018-12-22
 
