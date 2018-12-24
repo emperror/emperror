@@ -6,7 +6,7 @@ Create a new handler as you would create a gobrake.Notifier:
 	projectID  := int64(1)
 	projectKey := "key"
 
-	handler := airbrakehandler.NewHandler(projectID, projectKey)
+	handler := airbrakehandler.New(projectID, projectKey)
 
 If you need access to the underlying Notifier instance (or need more advanced construction),
 you can create the handler from a notifier directly:
@@ -15,7 +15,7 @@ you can create the handler from a notifier directly:
 	projectKey := "key"
 
 	notifier := gobrake.NewNotifier(projectID, projectKey)
-	handler := airbrakehandler.NewHandlerFromNotifier(notifier)
+	handler := airbrakehandler.NewFromNotifier(notifier)
 
 By default Gobrake sends errors asynchronously and expects to be closed before the program finishes:
 
@@ -26,7 +26,7 @@ By default Gobrake sends errors asynchronously and expects to be closed before t
 If you want to Flush notices you can do it as you would with Gobrake's notifier
 or you can configure the handler to send notices synchronously:
 
-	handler := airbrakehandler.NewHandlerFromNotifier(notifier, airbrakehandler.SendSynchronously(true))
+	handler := airbrakehandler.NewFromNotifier(notifier, airbrakehandler.SendSynchronously(true))
 */
 package airbrakehandler
 
@@ -56,8 +56,8 @@ type Handler struct {
 	sendSynchronously bool
 }
 
-// NewHandler creates a new Airbrake handler.
-func NewHandler(projectID int64, projectKey string, opts ...Option) *Handler {
+// New creates a new Airbrake handler.
+func New(projectID int64, projectKey string, opts ...Option) *Handler {
 	h := &Handler{
 		notifier: gobrake.NewNotifier(projectID, projectKey),
 	}
@@ -69,8 +69,8 @@ func NewHandler(projectID int64, projectKey string, opts ...Option) *Handler {
 	return h
 }
 
-// NewHandlerFromNotifier creates a new Airbrake handler from a notifier instance.
-func NewHandlerFromNotifier(notifier *gobrake.Notifier, opts ...Option) *Handler {
+// NewFromNotifier creates a new Airbrake handler from a notifier instance.
+func NewFromNotifier(notifier *gobrake.Notifier, opts ...Option) *Handler {
 	h := &Handler{
 		notifier: notifier,
 	}
