@@ -46,25 +46,26 @@ type Option interface {
 type SendSynchronously bool
 
 func (o SendSynchronously) apply(l *Handler) {
-	l.sendSynchronously = bool(o)
+	l.sendAsynchronously = bool(o)
 }
 
 // Handler is responsible for sending errors to Airbrake/Errbit.
 type Handler struct {
 	notifier *gobrake.Notifier
 
-	sendSynchronously bool
+	sendAsynchronously bool
 }
 
 // New creates a new Airbrake handler.
 func New(projectID int64, projectKey string, opts ...Option) *Handler {
-	h := &Handler{
-		notifier: gobrake.NewNotifier(projectID, projectKey),
-	}
+	return NewFromNotifier(gobrake.NewNotifier(projectID, projectKey), opts...)
+}
 
-	for _, o := range opts {
-		o.apply(h)
-	}
+// NewAsync creates a new Airbrake handler that sends errors asynchronously.
+func NewAsync(projectID int64, projectKey string, opts ...Option) *Handler {
+	h := New(projectID, projectKey, opts...)
+
+	h.sendAsynchronously = true
 
 	return h
 }
@@ -78,6 +79,15 @@ func NewFromNotifier(notifier *gobrake.Notifier, opts ...Option) *Handler {
 	for _, o := range opts {
 		o.apply(h)
 	}
+
+	return h
+}
+
+// NewAsyncFromNotifier creates a new Airbrake handler from a notifier instance that sends errors asynchronously.
+func NewAsyncFromNotifier(notifier *gobrake.Notifier, opts ...Option) *Handler {
+	h := NewFromNotifier(notifier, opts...)
+
+	h.sendAsynchronously = true
 
 	return h
 }
@@ -97,10 +107,10 @@ func (h *Handler) Handle(err error) {
 		notice.Params = keyvals.ToMap(kvs)
 	}
 
-	if h.sendSynchronously {
-		_, _ = h.notifier.SendNotice(notice)
-	} else {
+	if h.sendAsynchronously {
 		h.notifier.SendNoticeAsync(notice)
+	} else {
+		_, _ = h.notifier.SendNotice(notice)
 	}
 }
 
