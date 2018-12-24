@@ -18,7 +18,7 @@ func TestHandlerContext(t *testing.T) {
 
 	cerr := With(errors.New("error"), "a", 123)
 
-	assert.Equal(t, cerr, testHandler.Last())
+	assert.Equal(t, cerr, testHandler.LastError())
 }
 
 func TestHandlerContext_Multi(t *testing.T) {
@@ -30,7 +30,7 @@ func TestHandlerContext_Multi(t *testing.T) {
 
 	cerr := With(errors.New("error"), "a", 123, "b", 321)
 
-	assert.Equal(t, cerr, testHandler.Last())
+	assert.Equal(t, cerr, testHandler.LastError())
 }
 
 func TestHandlerContext_MultiPrefix(t *testing.T) {
@@ -42,7 +42,7 @@ func TestHandlerContext_MultiPrefix(t *testing.T) {
 
 	cerr := With(errors.New("error"), "b", 321, "a", 123)
 
-	assert.Equal(t, cerr, testHandler.Last())
+	assert.Equal(t, cerr, testHandler.LastError())
 }
 
 func TestHandlerContext_MissingValue(t *testing.T) {
@@ -54,5 +54,5 @@ func TestHandlerContext_MissingValue(t *testing.T) {
 
 	cerr := With(errors.New("error"), "k1", nil, "k0", nil)
 
-	assert.Equal(t, cerr, testHandler.Last())
+	assert.Equal(t, cerr, testHandler.LastError())
 }

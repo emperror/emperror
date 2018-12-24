@@ -13,7 +13,7 @@ func TestHandleRecovery(t *testing.T) {
 	err := errors.New("error")
 
 	defer func() {
-		assert.EqualError(t, handler.Last(), "error")
+		assert.EqualError(t, handler.LastError(), "error")
 	}()
 	defer HandleRecover(handler)
 
@@ -38,7 +38,7 @@ func TestHandleIfErr(t *testing.T) {
 
 	HandleIfErr(handler, err)
 
-	assert.Equal(t, err, handler.Last())
+	assert.Equal(t, err, handler.LastError())
 }
 
 func TestHandleIfErr_Nil(t *testing.T) {
@@ -46,5 +46,5 @@ func TestHandleIfErr_Nil(t *testing.T) {
 
 	HandleIfErr(handler, nil)
 
-	assert.NoError(t, handler.Last())
+	assert.NoError(t, handler.LastError())
 }

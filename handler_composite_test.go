@@ -18,6 +18,6 @@ func TestCompositeHandler(t *testing.T) {
 
 	handler.Handle(err)
 
-	assert.Equal(t, err, handler1.Last())
-	assert.Equal(t, err, handler2.Last())
+	assert.Equal(t, err, handler1.LastError())
+	assert.Equal(t, err, handler2.LastError())
 }

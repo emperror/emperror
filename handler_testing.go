@@ -16,24 +16,16 @@ func NewTestHandler() *TestHandler {
 	return &TestHandler{}
 }
 
-// Handle saves the error in a list.
-func (h *TestHandler) Handle(err error) {
-	h.mu.Lock()
-	defer h.mu.Unlock()
-
-	h.errors = append(h.errors, err)
-}
-
-// Errors returns all the handled errors.
-func (h *TestHandler) Errors() []error {
+// Count returns the number of events recorded in the logger.
+func (h *TestHandler) Count() int {
 	h.mu.RLock()
 	defer h.mu.RUnlock()
 
-	return h.errors
+	return len(h.errors)
 }
 
-// Last returns the last handled error.
-func (h *TestHandler) Last() error {
+// LastError returns the last handled error (if any).
+func (h *TestHandler) LastError() error {
 	h.mu.RLock()
 	defer h.mu.RUnlock()
 
@@ -42,4 +34,20 @@ func (h *TestHandler) Last() error {
 	}
 
 	return h.errors[len(h.errors)-1]
+}
+
+// Errors returns all handled errors.
+func (h *TestHandler) Errors() []error {
+	h.mu.RLock()
+	defer h.mu.RUnlock()
+
+	return h.errors
+}
+
+// Handle records the error.
+func (h *TestHandler) Handle(err error) {
+	h.mu.Lock()
+	defer h.mu.Unlock()
+
+	h.errors = append(h.errors, err)
 }
