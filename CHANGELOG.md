@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Refactored and renamed nopHandler to noopHandler
+
 
 ## [0.15.0] - 2018-12-22
 
