@@ -8,18 +8,6 @@ import (
 	"github.com/goph/emperror/internal/keyvals"
 )
 
-// Option configures a logger instance.
-type Option interface {
-	apply(*Handler)
-}
-
-// SendSynchronously configures the handler to send notices synchronously.
-type SendSynchronously bool
-
-func (o SendSynchronously) apply(l *Handler) {
-	l.sendAsynchronously = bool(o)
-}
-
 // Handler is responsible for sending errors to Airbrake/Errbit.
 type Handler struct {
 	notifier *gobrake.Notifier
@@ -28,13 +16,13 @@ type Handler struct {
 }
 
 // New creates a new Airbrake handler.
-func New(projectID int64, projectKey string, opts ...Option) *Handler {
-	return NewFromNotifier(gobrake.NewNotifier(projectID, projectKey), opts...)
+func New(projectID int64, projectKey string) *Handler {
+	return NewFromNotifier(gobrake.NewNotifier(projectID, projectKey))
 }
 
 // NewAsync creates a new Airbrake handler that sends errors asynchronously.
-func NewAsync(projectID int64, projectKey string, opts ...Option) *Handler {
-	h := New(projectID, projectKey, opts...)
+func NewAsync(projectID int64, projectKey string) *Handler {
+	h := New(projectID, projectKey)
 
 	h.sendAsynchronously = true
 
@@ -42,21 +30,17 @@ func NewAsync(projectID int64, projectKey string, opts ...Option) *Handler {
 }
 
 // NewFromNotifier creates a new Airbrake handler from a notifier instance.
-func NewFromNotifier(notifier *gobrake.Notifier, opts ...Option) *Handler {
+func NewFromNotifier(notifier *gobrake.Notifier) *Handler {
 	h := &Handler{
 		notifier: notifier,
-	}
-
-	for _, o := range opts {
-		o.apply(h)
 	}
 
 	return h
 }
 
 // NewAsyncFromNotifier creates a new Airbrake handler from a notifier instance that sends errors asynchronously.
-func NewAsyncFromNotifier(notifier *gobrake.Notifier, opts ...Option) *Handler {
-	h := NewFromNotifier(notifier, opts...)
+func NewAsyncFromNotifier(notifier *gobrake.Notifier) *Handler {
+	h := NewFromNotifier(notifier)
 
 	h.sendAsynchronously = true
 
