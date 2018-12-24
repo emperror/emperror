@@ -1,33 +1,4 @@
-/*
-Package airbrakehandler provides Airbrake/Errbit integration.
-
-Create a new handler as you would create a gobrake.Notifier:
-
-	projectID  := int64(1)
-	projectKey := "key"
-
-	handler := airbrakehandler.New(projectID, projectKey)
-
-If you need access to the underlying Notifier instance (or need more advanced construction),
-you can create the handler from a notifier directly:
-
-	projectID  := int64(1)
-	projectKey := "key"
-
-	notifier := gobrake.NewNotifier(projectID, projectKey)
-	handler := airbrakehandler.NewFromNotifier(notifier)
-
-By default Gobrake sends errors asynchronously and expects to be closed before the program finishes:
-
-	func main() {
-		defer handler.Close()
-	}
-
-If you want to Flush notices you can do it as you would with Gobrake's notifier
-or you can configure the handler to send notices synchronously:
-
-	handler := airbrakehandler.NewFromNotifier(notifier, airbrakehandler.SendSynchronously(true))
-*/
+// Package airbrakehandler provides Airbrake/Errbit integration.
 package airbrakehandler
 
 import (
