@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Refactored and relocated the airbrake handler
 - Refactored and relocated the bugsnag handler
 - Refactored and relocated the logrus handler
+- Rename `HandleIfErr` to `Handle`
 
 ### Removed
 
