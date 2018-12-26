@@ -15,12 +15,12 @@ type Handler struct {
 	sendAsynchronously bool
 }
 
-// New creates a new Airbrake handler.
+// New creates a new handler.
 func New(projectID int64, projectKey string) *Handler {
 	return NewFromNotifier(gobrake.NewNotifier(projectID, projectKey))
 }
 
-// NewAsync creates a new Airbrake handler that sends errors asynchronously.
+// NewAsync creates a new handler that sends errors asynchronously.
 func NewAsync(projectID int64, projectKey string) *Handler {
 	h := New(projectID, projectKey)
 
@@ -29,7 +29,7 @@ func NewAsync(projectID int64, projectKey string) *Handler {
 	return h
 }
 
-// NewFromNotifier creates a new Airbrake handler from a notifier instance.
+// NewFromNotifier creates a new handler from a notifier instance.
 func NewFromNotifier(notifier *gobrake.Notifier) *Handler {
 	h := &Handler{
 		notifier: notifier,
@@ -38,7 +38,7 @@ func NewFromNotifier(notifier *gobrake.Notifier) *Handler {
 	return h
 }
 
-// NewAsyncFromNotifier creates a new Airbrake handler from a notifier instance that sends errors asynchronously.
+// NewAsyncFromNotifier creates a new handler from a notifier instance that sends errors asynchronously.
 func NewAsyncFromNotifier(notifier *gobrake.Notifier) *Handler {
 	h := NewFromNotifier(notifier)
 
@@ -47,7 +47,7 @@ func NewAsyncFromNotifier(notifier *gobrake.Notifier) *Handler {
 	return h
 }
 
-// Handle calls the underlying Airbrake notifier.
+// Handle sends the error to Airbrake/Errbit.
 func (h *Handler) Handle(err error) {
 	// Get HTTP request (if any)
 	req, _ := httperr.HTTPRequest(err)

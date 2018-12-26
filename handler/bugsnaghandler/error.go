@@ -1,4 +1,4 @@
-package bugsnag
+package bugsnaghandler
 
 import (
 	berrors "github.com/bugsnag/bugsnag-go/errors"
