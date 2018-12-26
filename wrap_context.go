@@ -6,6 +6,8 @@ import "github.com/pkg/errors"
 // at the point Wrap is called (if there is none attached to the error yet), the supplied message,
 // and the supplied context.
 // If err is nil, Wrap returns nil.
+//
+// Note: do not use this method when passing errors between goroutines.
 func WrapWith(err error, message string, keyvals ...interface{}) error {
 	if err == nil {
 		return nil
