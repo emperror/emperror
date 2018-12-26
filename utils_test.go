@@ -36,7 +36,7 @@ func TestHandleIfErr(t *testing.T) {
 	handler := NewTestHandler()
 	err := errors.New("error")
 
-	HandleIfErr(handler, err)
+	Handle(handler, err)
 
 	assert.Equal(t, err, handler.LastError())
 }
@@ -44,7 +44,7 @@ func TestHandleIfErr(t *testing.T) {
 func TestHandleIfErr_Nil(t *testing.T) {
 	handler := NewTestHandler()
 
-	HandleIfErr(handler, nil)
+	Handle(handler, nil)
 
 	assert.NoError(t, handler.LastError())
 }

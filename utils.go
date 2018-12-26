@@ -19,8 +19,8 @@ func Panic(err error) {
 	}
 }
 
-// HandleIfErr handles an error whenever it occurs.
-func HandleIfErr(handler Handler, err error) {
+// Handle handles an error whenever it occurs.
+func Handle(handler Handler, err error) {
 	if err != nil {
 		handler.Handle(err)
 	}
