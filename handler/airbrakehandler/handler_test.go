@@ -1,3 +1,4 @@
+// nolint: goconst
 package airbrakehandler
 
 import "github.com/airbrake/gobrake"
