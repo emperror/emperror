@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - **bugsnag:** Logger (use [github.com/goph/logur](https://github.com/goph/logur) instead)
 - Logrus hook
+- Handler log func (unused)
 
 
 ## [0.15.0] - 2018-12-22
