@@ -1,19 +1,5 @@
-/*
-Package errorlogrus logs an error using Logrus.
-
-Start by creating a logger instance and inject it into the the handler:
-
-	import (
-		"github.com/emperror/errorlogrus"
-		"github.com/sirupsen/logrus"
-	)
-
-	// ...
-
-	logger := logrus.New()
-	handler := errorlogrus.NewHandler(logger)
-*/
-package errorlogrus
+// Package logrushandler provides Logrus integration.
+package logrushandler
 
 import (
 	"github.com/goph/emperror"
@@ -21,13 +7,13 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Handler handles an error by passing it to a logrus logger.
+// Handler logs errors using Logrus.
 type Handler struct {
 	logger logrus.FieldLogger
 }
 
-// NewHandler returns a handler which logs errors using logrus.
-func NewHandler(logger logrus.FieldLogger) *Handler {
+// New creates a new handler.
+func New(logger logrus.FieldLogger) *Handler {
 	return &Handler{
 		logger: logger,
 	}
