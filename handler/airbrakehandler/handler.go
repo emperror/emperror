@@ -52,15 +52,10 @@ func (h *Handler) Handle(err error) {
 	// Get HTTP request (if any)
 	req, _ := httperr.HTTPRequest(err)
 
-	// Expose the stackTracer interface on the outer error (if there is stack trace in the error)
-	err = emperror.ExposeStackTrace(err)
-
-	notice := h.notifier.Notice(err, req, 1)
+	notice := h.notifier.Notice(emperror.ExposeStackTrace(err), req, 1)
 
 	// Extract context from the error and attach it to the notice
-	if kvs := emperror.Context(err); len(kvs) > 0 {
-		notice.Params = keyvals.ToMap(kvs)
-	}
+	notice.Params = keyvals.ToMap(emperror.Context(err))
 
 	if h.sendSynchronously {
 		_, _ = h.notifier.SendNotice(notice)
