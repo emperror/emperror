@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
     errbit:
-        image: errbit/errbit:v0.7.0
+        build: etc/errbit
         depends_on:
             - mongo
         environment:
@@ -11,18 +11,6 @@ services:
             ERRBIT_ADMIN_PASSWORD: errbit
             ERRBIT_USER_HAS_USERNAME: "true"
             ERRBIT_EMAIL_AT_NOTICES: 0
-
-    errbit-seed:
-        build: etc/errbit
-        command: rake db:seed
-        depends_on:
-            - mongo
-        environment:
-            RACK_ENV: production
-            MONGO_URL: mongodb://mongo:27017/errbit
-            ERRBIT_ADMIN_PASSWORD: errbit
-            ERRBIT_USER_HAS_USERNAME: "true"
-            ERRBIT_TEST_APP_KEY: test
 
     mongo:
         image: mongo:4.1

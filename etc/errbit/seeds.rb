@@ -44,6 +44,7 @@ user.save!
 test_app_name = ENV['ERRBIT_TEST_APP_NAME'] || "Test"
 test_app_key = ENV['ERRBIT_TEST_APP_KEY'] || "test"
 
+puts ""
 puts "Creating an initial test app:"
 puts "-- name: #{test_app_name}"
 puts "-- key:  #{test_app_key}"
