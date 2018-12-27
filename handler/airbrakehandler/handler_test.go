@@ -26,7 +26,7 @@ func ExampleNewAsync() {
 	projectID := int64(1)
 	projectKey := "key"
 
-	handler := NewAsync(projectID, projectKey)
+	handler := NewSync(projectID, projectKey)
 	defer handler.Close() // Make sure to close the handler to flush all error reporting in progress
 
 	// Output:
@@ -37,7 +37,7 @@ func ExampleNewAsyncFromNotifier() {
 	projectKey := "key"
 
 	notifier := gobrake.NewNotifier(projectID, projectKey)
-	handler := NewAsyncFromNotifier(notifier)
+	handler := NewSyncFromNotifier(notifier)
 	defer handler.Close() // Make sure to close the handler to flush all error reporting in progress
 
 	// Output:

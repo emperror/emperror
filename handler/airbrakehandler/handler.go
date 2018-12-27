@@ -12,7 +12,7 @@ import (
 type Handler struct {
 	notifier *gobrake.Notifier
 
-	sendAsynchronously bool
+	sendSynchronously bool
 }
 
 // New creates a new handler.
@@ -20,11 +20,11 @@ func New(projectID int64, projectKey string) *Handler {
 	return NewFromNotifier(gobrake.NewNotifier(projectID, projectKey))
 }
 
-// NewAsync creates a new handler that sends errors asynchronously.
-func NewAsync(projectID int64, projectKey string) *Handler {
+// NewSync creates a new handler that sends errors synchronously.
+func NewSync(projectID int64, projectKey string) *Handler {
 	h := New(projectID, projectKey)
 
-	h.sendAsynchronously = true
+	h.sendSynchronously = true
 
 	return h
 }
@@ -38,11 +38,11 @@ func NewFromNotifier(notifier *gobrake.Notifier) *Handler {
 	return h
 }
 
-// NewAsyncFromNotifier creates a new handler from a notifier instance that sends errors asynchronously.
-func NewAsyncFromNotifier(notifier *gobrake.Notifier) *Handler {
+// NewSyncFromNotifier creates a new handler from a notifier instance that sends errors synchronously.
+func NewSyncFromNotifier(notifier *gobrake.Notifier) *Handler {
 	h := NewFromNotifier(notifier)
 
-	h.sendAsynchronously = true
+	h.sendSynchronously = true
 
 	return h
 }
@@ -62,14 +62,14 @@ func (h *Handler) Handle(err error) {
 		notice.Params = keyvals.ToMap(kvs)
 	}
 
-	if h.sendAsynchronously {
-		h.notifier.SendNoticeAsync(notice)
-	} else {
+	if h.sendSynchronously {
 		_, _ = h.notifier.SendNotice(notice)
+	} else {
+		h.notifier.SendNoticeAsync(notice)
 	}
 }
 
-// Close closes the underlying Airbrake instance.
+// Close closes the underlying notifier and waits for asynchronous reports to finish.
 func (h *Handler) Close() error {
 	return h.notifier.Close()
 }

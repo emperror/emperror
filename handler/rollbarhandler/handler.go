@@ -1,3 +1,4 @@
+// Package rollbarhandler provides Rollbar integration.
 package rollbarhandler
 
 import (
@@ -7,20 +8,24 @@ import (
 	"github.com/rollbar/rollbar-go"
 )
 
+// Handler is responsible for sending errors to Rollbar.
 type Handler struct {
 	client *rollbar.Client
 }
 
+// New creates a new handler.
 func New(token, environment, codeVersion, serverHost, serverRoot string) *Handler {
 	return NewFromClient(rollbar.New(token, environment, codeVersion, serverHost, serverRoot))
 }
 
+// NewFromClient creates a new handler from a client instance.
 func NewFromClient(client *rollbar.Client) *Handler {
 	return &Handler{
 		client: client,
 	}
 }
 
+// Handle sends the error to Rollbar.
 func (h *Handler) Handle(err error) {
 	// Get HTTP request (if any)
 	req, httpok := httperr.HTTPRequest(err)
@@ -44,6 +49,7 @@ func (h *Handler) Handle(err error) {
 	h.client.ErrorWithStackSkipWithExtras(rollbar.ERR, err, 3, ctx)
 }
 
+// Close closes the underlying notifier and waits for asynchronous reports to finish.
 func (h *Handler) Close() error {
 	return h.client.Close()
 }
