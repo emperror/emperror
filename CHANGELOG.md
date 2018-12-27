@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - [Rollbar](https://rollbar.com) handler
+- [Sentry](https://sentry.io) handler
 
 ### Changed
 
