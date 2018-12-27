@@ -22,29 +22,29 @@ func New(projectID int64, projectKey string) *Handler {
 
 // NewSync creates a new handler that sends errors synchronously.
 func NewSync(projectID int64, projectKey string) *Handler {
-	h := New(projectID, projectKey)
+	handler := New(projectID, projectKey)
 
-	h.sendSynchronously = true
+	handler.sendSynchronously = true
 
-	return h
+	return handler
 }
 
 // NewFromNotifier creates a new handler from a notifier instance.
 func NewFromNotifier(notifier *gobrake.Notifier) *Handler {
-	h := &Handler{
+	handler := &Handler{
 		notifier: notifier,
 	}
 
-	return h
+	return handler
 }
 
 // NewSyncFromNotifier creates a new handler from a notifier instance that sends errors synchronously.
 func NewSyncFromNotifier(notifier *gobrake.Notifier) *Handler {
-	h := NewFromNotifier(notifier)
+	handler := NewFromNotifier(notifier)
 
-	h.sendSynchronously = true
+	handler.sendSynchronously = true
 
-	return h
+	return handler
 }
 
 // Handle sends the error to Airbrake/Errbit.
