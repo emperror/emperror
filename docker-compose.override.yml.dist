@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+    errbit:
+        image: errbit/errbit:v0.7.0
+        ports:
+            - 32621:32621
+        environment:
+            PORT: 32621
+
+    mongo:
+        ports:
+            - 32631:27017
