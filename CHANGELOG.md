@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- [Rollbar](https://rollbar.com) handler
+
 ### Changed
 
 - Refactored and renamed nopHandler to noopHandler
