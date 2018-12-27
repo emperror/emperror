@@ -21,14 +21,12 @@ func New(logger logrus.FieldLogger) *Handler {
 
 // Handle logs an error.
 func (h *Handler) Handle(err error) {
-	var ctx map[string]interface{}
+	logger := h.logger
 
 	// Extract context from the error and attach it to the log
 	if kvs := emperror.Context(err); len(kvs) > 0 {
-		ctx = keyvals.ToMap(kvs)
+		logger = h.logger.WithFields(logrus.Fields(keyvals.ToMap(kvs)))
 	}
-
-	logger := h.logger.WithFields(logrus.Fields(ctx))
 
 	type errorCollection interface {
 		Errors() []error
@@ -36,9 +34,7 @@ func (h *Handler) Handle(err error) {
 
 	if errs, ok := err.(errorCollection); ok {
 		for _, e := range errs.Errors() {
-			logger := logger.WithField("parent", err.Error())
-
-			logger.Error(e.Error())
+			logger.WithField("parent", err.Error()).Error(e.Error())
 		}
 	} else {
 		logger.Error(err.Error())
