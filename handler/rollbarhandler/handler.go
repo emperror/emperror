@@ -27,20 +27,16 @@ func NewFromClient(client *rollbar.Client) *Handler {
 
 // Handle sends the error to Rollbar.
 func (h *Handler) Handle(err error) {
-	// Get HTTP request (if any)
-	req, httpok := httperr.HTTPRequest(err)
-
+	// Get the context from the error
 	ctx := keyvals.ToMap(emperror.Context(err))
 
 	// Expose the stackTracer interface on the outer error (if there is stack trace in the error)
-	err = emperror.ExposeStackTrace(err)
-
 	// Convert error with stack trace to an internal error type
-	if e, ok := err.(stackTracer); ok {
+	if e, ok := emperror.ExposeStackTrace(err).(stackTracer); ok {
 		err = newCauseStacker(e)
 	}
 
-	if httpok {
+	if req, ok := httperr.HTTPRequest(err); ok {
 		h.client.RequestErrorWithStackSkipWithExtras(rollbar.ERR, req, err, 3, ctx)
 
 		return
