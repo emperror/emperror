@@ -31,8 +31,10 @@ func NewFromNotifier(notifier *bugsnag.Notifier) *Handler {
 
 // Handle sends the error to Bugsnag.
 func (h *Handler) Handle(err error) {
+	// Expose the stackTracer interface on the outer error (if there is stack trace in the error)
 	err = emperror.ExposeStackTrace(err)
 
+	// Convert error with stack trace to an internal error type
 	if e, ok := err.(stackTracer); ok {
 		err = newErrorWithStackFrames(e)
 	}
