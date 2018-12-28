@@ -5,11 +5,19 @@
     "tasks": [
         {
             "taskName": "test",
-            "command": "make test -v",
+            "command": "make test",
             "type": "shell",
             "group": {
                 "kind": "test",
                 "isDefault": true
+            }
+        },
+        {
+            "taskName": "check",
+            "command": "make check",
+            "type": "shell",
+            "group": {
+                "kind": "test"
             }
         }
     ]
