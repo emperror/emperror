@@ -11,3 +11,7 @@ services:
     mongo:
         ports:
             - 32631:27017
+
+    sentry:
+        ports:
+            - 32622:9000
