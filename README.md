@@ -46,7 +46,7 @@ Logur is an opinionated logging toolkit supporting multiple logging libraries (l
 
 Emperror comes with a set of handlers backed by logging frameworks too:
 
-- **errorlogrus:** [logrus](https://github.com/sirupsen/logrus) hook
+- **handler/logrushandler:** [logrus](https://github.com/sirupsen/logrus) handler implementation
 
 See [GoDoc](https://godoc.org/github.com/goph/emperror) for detailed usage examples.
 
