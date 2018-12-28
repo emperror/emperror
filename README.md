@@ -28,6 +28,11 @@ Read more about the topic here:
 - Various error handling strategies (eg. logging, third-party error services) using a simple interface
 - Error annotation with context (key-value pairs, HTTP request, etc)
 - Various helpers related to error handling (recovery from panics, etc)
+- Integrations with well-known error catchers and libraries:
+    - [Sentry](https://sentry.io) [SDK](https://godoc.org/github.com/getsentry/raven-go) (both hosted and on-premise)
+    - [Bugsnag](https://bugsnag.com) [SDK](https://godoc.org/github.com/bugsnag/bugsnag-go)
+    - [Airbrake](https://airbrake.com) [SDK](https://godoc.org/github.com/airbrake/gobrake) / [Errbit](https://errbit.com/)
+    - [Rollbar](https://rollbar.com) [SDK](https://godoc.org/github.com/rollbar/rollbar-go)
 
 
 ## Usage
