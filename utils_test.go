@@ -20,18 +20,6 @@ func TestHandleRecovery(t *testing.T) {
 	panic(err)
 }
 
-func TestPanic(t *testing.T) {
-	assert.Panics(t, func() {
-		Panic(errors.New("error"))
-	})
-}
-
-func TestPanic_NoError(t *testing.T) {
-	assert.NotPanics(t, func() {
-		Panic(nil)
-	})
-}
-
 func TestHandleIfErr(t *testing.T) {
 	handler := NewTestHandler()
 	err := errors.New("error")
