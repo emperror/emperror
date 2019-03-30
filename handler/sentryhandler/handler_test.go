@@ -1,14 +1,16 @@
 // nolint: goconst
-package sentryhandler
+package sentryhandler_test
 
 import (
 	"github.com/getsentry/raven-go"
+
+	"github.com/goph/emperror/handler/sentryhandler"
 )
 
 func ExampleNew() {
 	dsn := "https://user:password@sentry.io/1234"
 
-	handler, err := New(dsn)
+	handler, err := sentryhandler.New(dsn)
 	if err != nil {
 		panic(err)
 	}
@@ -25,7 +27,7 @@ func ExampleNewFromClient() {
 		panic(err)
 	}
 
-	handler := NewFromClient(client)
+	handler := sentryhandler.NewFromClient(client)
 	defer handler.Close() // Make sure to close the handler to flush all error reporting in progress
 
 	// Output:
@@ -34,7 +36,7 @@ func ExampleNewFromClient() {
 func ExampleNewSync() {
 	dsn := "https://user:password@sentry.io/1234"
 
-	handler, err := NewSync(dsn)
+	handler, err := sentryhandler.NewSync(dsn)
 	if err != nil {
 		panic(err)
 	}
@@ -51,7 +53,7 @@ func ExampleNewSyncFromClient() {
 		panic(err)
 	}
 
-	handler := NewSyncFromClient(client)
+	handler := sentryhandler.NewSyncFromClient(client)
 	defer handler.Close()
 
 	// Output:

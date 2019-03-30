@@ -1,13 +1,15 @@
-package rollbarhandler
+package rollbarhandler_test
 
 import (
 	"github.com/rollbar/rollbar-go"
+
+	"github.com/goph/emperror/handler/rollbarhandler"
 )
 
 func ExampleNew() {
 	token := "token"
 
-	_ = New(token, "env", "version", "host", "serverRoot")
+	_ = rollbarhandler.New(token, "env", "version", "host", "serverRoot")
 
 	// Output:
 }
@@ -15,7 +17,13 @@ func ExampleNew() {
 func ExampleNewFromClient() {
 	token := "token"
 
-	_ = NewFromClient(rollbar.New(token, "env", "version", "host", "serverRoot"))
+	_ = rollbarhandler.NewFromClient(rollbar.New(
+		token,
+		"env",
+		"version",
+		"host",
+		"serverRoot",
+	))
 
 	// Output:
 }

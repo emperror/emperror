@@ -1,12 +1,16 @@
 // nolint: goconst
-package bugsnaghandler
+package bugsnaghandler_test
 
-import "github.com/bugsnag/bugsnag-go"
+import (
+	"github.com/bugsnag/bugsnag-go"
+
+	"github.com/goph/emperror/handler/bugsnaghandler"
+)
 
 func ExampleNew() {
 	apiKey := "key"
 
-	_ = New(apiKey)
+	_ = bugsnaghandler.New(apiKey)
 
 	// Output:
 }
@@ -14,7 +18,9 @@ func ExampleNew() {
 func ExampleNewFromNotifier() {
 	apiKey := "key"
 
-	_ = NewFromNotifier(bugsnag.New(bugsnag.Configuration{
+	_ = bugsnaghandler.NewFromNotifier(bugsnag.New(bugsnag.Configuration{
 		APIKey: apiKey,
 	}))
+
+	// Output:
 }

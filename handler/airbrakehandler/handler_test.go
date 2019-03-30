@@ -1,13 +1,17 @@
 // nolint: goconst
-package airbrakehandler
+package airbrakehandler_test
 
-import "github.com/airbrake/gobrake"
+import (
+	"github.com/airbrake/gobrake"
+
+	"github.com/goph/emperror/handler/airbrakehandler"
+)
 
 func ExampleNew() {
 	projectID := int64(1)
 	projectKey := "key"
 
-	handler := New(projectID, projectKey)
+	handler := airbrakehandler.New(projectID, projectKey)
 	defer handler.Close() // Make sure to close the handler to flush all error reporting in progress
 
 	// Output:
@@ -18,7 +22,7 @@ func ExampleNewFromNotifier() {
 	projectKey := "key"
 
 	notifier := gobrake.NewNotifier(projectID, projectKey)
-	handler := NewFromNotifier(notifier)
+	handler := airbrakehandler.NewFromNotifier(notifier)
 	defer handler.Close() // Make sure to close the handler to flush all error reporting in progress
 
 	// Output:
@@ -28,7 +32,7 @@ func ExampleNewSync() {
 	projectID := int64(1)
 	projectKey := "key"
 
-	handler := NewSync(projectID, projectKey)
+	handler := airbrakehandler.NewSync(projectID, projectKey)
 	defer handler.Close()
 
 	// Output:
@@ -39,7 +43,7 @@ func ExampleNewSyncFromNotifier() {
 	projectKey := "key"
 
 	notifier := gobrake.NewNotifier(projectID, projectKey)
-	handler := NewSyncFromNotifier(notifier)
+	handler := airbrakehandler.NewSyncFromNotifier(notifier)
 	defer handler.Close()
 
 	// Output:
