@@ -13,7 +13,6 @@ endif
 TEST_FORMAT = short-verbose
 endif
 
-DEP_VERSION = 0.5.0
 GOTESTSUM_VERSION = 0.3.3
 GOLANGCI_VERSION = 1.15.0
 
@@ -21,20 +20,9 @@ GOLANGCI_VERSION = 1.15.0
 # Use with care
 -include override.mk
 
-bin/dep: bin/dep-${DEP_VERSION}
-	@ln -sf dep-${DEP_VERSION} bin/dep
-bin/dep-${DEP_VERSION}:
-	@mkdir -p bin
-	curl https://raw.githubusercontent.com/golang/dep/master/install.sh | INSTALL_DIRECTORY=bin DEP_RELEASE_TAG=v${DEP_VERSION} sh
-	@mv bin/dep $@
-
-.PHONY: vendor
-vendor: bin/dep ## Install dependencies
-	bin/dep ensure -v
-
 .PHONY: clear
 clear: ## Clear the working area and the project
-	rm -rf bin/ vendor/
+	rm -rf bin/
 
 .PHONY: check
 check: test lint ## Run tests and linters

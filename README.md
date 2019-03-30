@@ -83,12 +83,6 @@ This is to provide flexibility in error handling implementations.
 
 ## Development
 
-Install the dependencies:
-
-```bash
-$ make vendor # or dep ensure
-```
-
 When all coding and testing is done, please run the test suite:
 
 ``` bash
