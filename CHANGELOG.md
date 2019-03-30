@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Changed
 
 - Attach stack trace to panicked and recovered errors and skip unnecessary frames
+- Switch to Go modules
+- Replace testify assertions with manual checks, drop testify dependency
 
 
 ## [0.16.0] - 2018-12-29
