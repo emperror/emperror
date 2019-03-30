@@ -5,22 +5,22 @@ import (
 	"reflect"
 )
 
-// ToMap creates a map of key-value pairs.
+// ToMap creates a map of key-value pairs from a variadic key-value pair slice.
 //
 // The implementation bellow is from go-kit's JSON logger.
-func ToMap(keyvals []interface{}) map[string]interface{} {
+func ToMap(kvs []interface{}) map[string]interface{} {
 	m := map[string]interface{}{}
 
-	if len(keyvals) == 0 {
+	if len(kvs) == 0 {
 		return m
 	}
 
-	if len(keyvals)%2 == 1 {
-		keyvals = append(keyvals, nil)
+	if len(kvs)%2 == 1 {
+		kvs = append(kvs, nil)
 	}
 
-	for i := 0; i < len(keyvals); i += 2 {
-		merge(m, keyvals[i], keyvals[i+1])
+	for i := 0; i < len(kvs); i += 2 {
+		merge(m, kvs[i], kvs[i+1])
 	}
 
 	return m
@@ -38,13 +38,6 @@ func merge(dst map[string]interface{}, k, v interface{}) {
 		key = fmt.Sprint(x)
 	}
 
-	switch x := v.(type) {
-	case error:
-		v = safeError(x)
-	case fmt.Stringer:
-		v = safeString(x)
-	}
-
 	dst[key] = v
 }
 
@@ -60,22 +53,6 @@ func safeString(str fmt.Stringer) (s string) {
 	}()
 
 	s = str.String()
-
-	return
-}
-
-func safeError(err error) (s interface{}) {
-	defer func() {
-		if panicVal := recover(); panicVal != nil {
-			if v := reflect.ValueOf(err); v.Kind() == reflect.Ptr && v.IsNil() {
-				s = nil
-			} else {
-				panic(panicVal)
-			}
-		}
-	}()
-
-	s = err.Error()
 
 	return
 }
