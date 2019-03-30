@@ -1,4 +1,4 @@
-package httperr_test
+package httperr
 
 import (
 	"errors"
@@ -6,7 +6,6 @@ import (
 	"net/url"
 	"testing"
 
-	. "github.com/goph/emperror/httperr"
 	"github.com/stretchr/testify/assert"
 )
 

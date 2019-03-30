@@ -1,4 +1,4 @@
-package emperror_test
+package emperror
 
 import (
 	"fmt"

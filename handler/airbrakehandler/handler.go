@@ -3,6 +3,7 @@ package airbrakehandler
 
 import (
 	"github.com/airbrake/gobrake"
+
 	"github.com/goph/emperror"
 	"github.com/goph/emperror/httperr"
 	"github.com/goph/emperror/internal/keyvals"

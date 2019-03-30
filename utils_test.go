@@ -4,8 +4,9 @@ import (
 	"errors"
 	"testing"
 
-	. "github.com/goph/emperror"
 	"github.com/stretchr/testify/assert"
+
+	. "github.com/goph/emperror"
 )
 
 func TestHandleRecovery(t *testing.T) {
@@ -18,18 +19,6 @@ func TestHandleRecovery(t *testing.T) {
 	defer HandleRecover(handler)
 
 	panic(err)
-}
-
-func TestPanic(t *testing.T) {
-	assert.Panics(t, func() {
-		Panic(errors.New("error"))
-	})
-}
-
-func TestPanic_NoError(t *testing.T) {
-	assert.NotPanics(t, func() {
-		Panic(nil)
-	})
 }
 
 func TestHandleIfErr(t *testing.T) {

@@ -2,9 +2,10 @@
 package logrushandler
 
 import (
+	"github.com/sirupsen/logrus"
+
 	"github.com/goph/emperror"
 	"github.com/goph/emperror/internal/keyvals"
-	"github.com/sirupsen/logrus"
 )
 
 // Handler logs errors using Logrus.

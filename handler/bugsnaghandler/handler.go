@@ -5,9 +5,10 @@ import (
 	"reflect"
 
 	"github.com/bugsnag/bugsnag-go"
+	"github.com/pkg/errors"
+
 	"github.com/goph/emperror"
 	"github.com/goph/emperror/internal/keyvals"
-	"github.com/pkg/errors"
 )
 
 // Handler is responsible for sending errors to Bugsnag.

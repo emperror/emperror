@@ -6,9 +6,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/pkg/errors"
+
 	"github.com/goph/emperror"
 	"github.com/goph/emperror/httperr"
-	"github.com/pkg/errors"
 )
 
 func newHandler(t *testing.T) *Handler {
