@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## Changed
+
+- Attach stack trace to panicked and recovered errors and skip unnecessary frames
+
 
 ## [0.16.0] - 2018-12-29
 
