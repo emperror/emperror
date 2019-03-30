@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/pkg/errors"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestForEachCause(t *testing.T) {
@@ -28,7 +27,9 @@ func TestForEachCause(t *testing.T) {
 
 	ForEachCause(err, fn)
 
-	assert.Equal(t, 4, i)
+	if got, want := i, 4; got != want {
+		t.Errorf("error chain length does not match the expected one\nactual:   %d\nexpected: %d", got, want)
+	}
 }
 
 func TestForEachCause_BreakTheLoop(t *testing.T) {
@@ -52,7 +53,9 @@ func TestForEachCause_BreakTheLoop(t *testing.T) {
 
 	ForEachCause(err, fn)
 
-	assert.Equal(t, 3, i)
+	if got, want := i, 3; got != want {
+		t.Errorf("error chain length does not match the expected one\nactual:   %d\nexpected: %d", got, want)
+	}
 }
 
 func TestForEachCause_NilError(t *testing.T) {
@@ -65,5 +68,7 @@ func TestForEachCause_NilError(t *testing.T) {
 
 	ForEachCause(nil, fn)
 
-	assert.Equal(t, 0, i)
+	if got, want := i, 0; got != want {
+		t.Errorf("error chain length does not match the expected one\nactual:   %d\nexpected: %d", got, want)
+	}
 }

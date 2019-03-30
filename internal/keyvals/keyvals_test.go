@@ -1,23 +1,26 @@
-package keyvals_test
+package keyvals
 
 import (
 	"testing"
 
 	"github.com/pkg/errors"
-	"github.com/stretchr/testify/assert"
-
-	"github.com/goph/emperror/internal/keyvals"
 )
 
 func TestToKeyvals(t *testing.T) {
-	m := keyvals.ToMap([]interface{}{"key", "value", "error", errors.New("error")})
+	m := ToMap([]interface{}{"key", "value", "error", errors.New("error")})
 
-	assert.Equal(
-		t,
-		map[string]interface{}{
-			"key":   "value",
-			"error": "error",
-		},
-		m,
-	)
+	expected := map[string]interface{}{
+		"key":   "value",
+		"error": "error",
+	}
+
+	if len(expected) != len(m) {
+		t.Fatalf("expected log fields to be equal\ngot:  %v\nwant: %v", m, expected)
+	}
+
+	for key, value := range expected {
+		if m[key] != value {
+			t.Fatalf("expected log fields to be equal\ngot:  %v\nwant: %v", m, expected)
+		}
+	}
 }

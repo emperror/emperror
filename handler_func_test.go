@@ -3,8 +3,6 @@ package emperror
 import (
 	"errors"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestHandlerFunc(t *testing.T) {
@@ -19,5 +17,7 @@ func TestHandlerFunc(t *testing.T) {
 
 	fn.Handle(expected)
 
-	assert.Equal(t, expected, actual)
+	if got, want := actual, expected; got != want {
+		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
 }

@@ -1,10 +1,8 @@
-package emperror_test
+package emperror
 
 import (
 	"fmt"
 	"testing"
-
-	. "github.com/goph/emperror"
 )
 
 func createRecoverFunc(p interface{}) func() error {
@@ -33,7 +31,7 @@ func assertRecoveredError(t *testing.T, err error, msg string) {
 		t.Errorf("file name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 	}
 
-	if got, want := fmt.Sprintf("%d", st[0]), "16"; got != want { // nolint: govet
+	if got, want := fmt.Sprintf("%d", st[0]), "14"; got != want { // nolint: govet
 		t.Errorf("line number does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 	}
 

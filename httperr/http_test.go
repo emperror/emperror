@@ -4,9 +4,8 @@ import (
 	"errors"
 	"net/http"
 	"net/url"
+	"reflect"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestWithHttpRequest(t *testing.T) {
@@ -32,11 +31,18 @@ func TestWithHttpRequest(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			err := WithHTTPRequest(test.err, test.request)
 
-			assert.EqualError(t, err, test.err.Error())
+			if got, want := err.Error(), test.err.Error(); got != want {
+				t.Errorf("error does not match the expected one\nactual:   %v\nexpected: %v", got, want)
+			}
 
 			req, ok := HTTPRequest(err)
-			assert.True(t, ok)
-			assert.Equal(t, test.request, req)
+			if !ok {
+				t.Error("error is expected to contain an HTTP request")
+			}
+
+			if got, want := req, test.request; !reflect.DeepEqual(got, want) {
+				t.Errorf("request does not match the expected one\nactual:   %v\nexpected: %v", got, want)
+			}
 		})
 	}
 }

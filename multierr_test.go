@@ -3,8 +3,6 @@ package emperror
 import (
 	"fmt"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 type errorCollection interface {
@@ -20,13 +18,17 @@ func TestMultiErrorBuilder_ErrOrNil(t *testing.T) {
 
 	merr := builder.ErrOrNil()
 
-	assert.Equal(t, err, merr.(errorCollection).Errors()[0])
+	if got, want := merr.(errorCollection).Errors()[0], err; got != want {
+		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
 }
 
 func TestMultiErrorBuilder_ErrOrNil_NilWhenEmpty(t *testing.T) {
 	builder := NewMultiErrorBuilder()
 
-	assert.NoError(t, builder.ErrOrNil())
+	if got := builder.ErrOrNil(); got != nil {
+		t.Errorf("unexpected error, received: %s", got)
+	}
 }
 
 func TestMultiErrorBuilder_ErrOrNil_Single(t *testing.T) {
@@ -38,7 +40,9 @@ func TestMultiErrorBuilder_ErrOrNil_Single(t *testing.T) {
 
 	builder.Add(err)
 
-	assert.Equal(t, err, builder.ErrOrNil())
+	if got, want := builder.ErrOrNil(), err; got != want {
+		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
 }
 
 func TestMultiErrorBuilder_Message(t *testing.T) {
@@ -52,5 +56,7 @@ func TestMultiErrorBuilder_Message(t *testing.T) {
 
 	builder.Add(err)
 
-	assert.Equal(t, want, builder.ErrOrNil().Error())
+	if got, want := builder.ErrOrNil().Error(), want; got != want {
+		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
 }

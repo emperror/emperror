@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/pkg/errors"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestWrapWith_Format(t *testing.T) {
@@ -29,7 +28,7 @@ func TestWrapWith_Format(t *testing.T) {
 		"%+v",
 		"error\n" +
 			"github.com/goph/emperror.TestWrapWith_Format\n" +
-			"\t.+/wrap_context_test.go:28",
+			"\t.+/wrap_context_test.go:27",
 	}, {
 		WrapWith(io.EOF, "error", "key", "value"),
 		"%s",
@@ -44,14 +43,14 @@ func TestWrapWith_Format(t *testing.T) {
 		"EOF\n" +
 			"error\n" +
 			"github.com/goph/emperror.TestWrapWith_Format\n" +
-			"\t.+/wrap_context_test.go:42",
+			"\t.+/wrap_context_test.go:41",
 	}, {
 		WrapWith(WrapWith(io.EOF, "error1"), "error2", "key", "value"),
 		"%+v",
 		"EOF\n" +
 			"error1\n" +
 			"github.com/goph/emperror.TestWrapWith_Format\n" +
-			"\t.+/wrap_context_test.go:49\n",
+			"\t.+/wrap_context_test.go:48\n",
 	}, {
 		WrapWith(fmt.Errorf("error with space"), "context", "key", "value"),
 		"%q",
@@ -62,7 +61,7 @@ func TestWrapWith_Format(t *testing.T) {
 		"EOF\n" +
 			"error1\n" +
 			"github.com/goph/emperror.TestWrapWith_Format\n" +
-			"\t.+/wrap_context_test.go:13\n",
+			"\t.+/wrap_context_test.go:12\n",
 	}}
 
 	for i, tt := range tests {
@@ -79,7 +78,15 @@ func TestWrapWith_Context(t *testing.T) {
 
 	ctx := Context(err)
 
-	assert.Equal(t, "a", ctx[0])
-	assert.Equal(t, 123, ctx[1])
-	assert.EqualError(t, err, "error2: error")
+	if got, want := ctx[0], "a"; got != want {
+		t.Errorf("context value does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
+
+	if got, want := ctx[1], 123; got != want {
+		t.Errorf("context value does not match the expected one\nactual:   %s\nexpected: %d", got, want)
+	}
+
+	if got, want := err.Error(), "error2: error"; got != want {
+		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
 }

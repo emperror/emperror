@@ -3,8 +3,6 @@ package emperror
 import (
 	"errors"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestCompositeHandler(t *testing.T) {
@@ -17,6 +15,11 @@ func TestCompositeHandler(t *testing.T) {
 
 	handler.Handle(err)
 
-	assert.Equal(t, err, handler1.LastError())
-	assert.Equal(t, err, handler2.LastError())
+	if got, want := handler1.LastError(), err; got != want {
+		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
+
+	if got, want := handler1.LastError(), err; got != want {
+		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
 }

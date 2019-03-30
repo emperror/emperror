@@ -2,9 +2,8 @@ package emperror
 
 import (
 	"errors"
+	"reflect"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestHandlerContext(t *testing.T) {
@@ -17,7 +16,9 @@ func TestHandlerContext(t *testing.T) {
 
 	cerr := With(errors.New("error"), "a", 123)
 
-	assert.Equal(t, cerr, testHandler.LastError())
+	if got, want := testHandler.LastError(), cerr; !reflect.DeepEqual(got, want) {
+		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
 }
 
 func TestHandlerContext_Multi(t *testing.T) {
@@ -29,7 +30,9 @@ func TestHandlerContext_Multi(t *testing.T) {
 
 	cerr := With(errors.New("error"), "a", 123, "b", 321)
 
-	assert.Equal(t, cerr, testHandler.LastError())
+	if got, want := testHandler.LastError(), cerr; !reflect.DeepEqual(got, want) {
+		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
 }
 
 func TestHandlerContext_MultiPrefix(t *testing.T) {
@@ -41,7 +44,9 @@ func TestHandlerContext_MultiPrefix(t *testing.T) {
 
 	cerr := With(errors.New("error"), "b", 321, "a", 123)
 
-	assert.Equal(t, cerr, testHandler.LastError())
+	if got, want := testHandler.LastError(), cerr; !reflect.DeepEqual(got, want) {
+		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
 }
 
 func TestHandlerContext_MissingValue(t *testing.T) {
@@ -53,5 +58,7 @@ func TestHandlerContext_MissingValue(t *testing.T) {
 
 	cerr := With(errors.New("error"), "k1", nil, "k0", nil)
 
-	assert.Equal(t, cerr, testHandler.LastError())
+	if got, want := testHandler.LastError(), cerr; !reflect.DeepEqual(got, want) {
+		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
 }

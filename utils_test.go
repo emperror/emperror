@@ -1,39 +1,39 @@
-package emperror_test
+package emperror
 
 import (
 	"errors"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
-
-	. "github.com/goph/emperror"
 )
 
 func TestHandleRecovery(t *testing.T) {
-	handler := NewTestHandler()
 	err := errors.New("error")
 
-	defer func() {
-		assert.EqualError(t, handler.LastError(), "error")
-	}()
-	defer HandleRecover(handler)
+	defer HandleRecover(HandlerFunc(func(err error) {
+		if got, want := err.Error(), "error"; got != want {
+			t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+		}
+	}))
 
 	panic(err)
 }
 
-func TestHandleIfErr(t *testing.T) {
+func TestHandle(t *testing.T) {
 	handler := NewTestHandler()
 	err := errors.New("error")
 
 	Handle(handler, err)
 
-	assert.Equal(t, err, handler.LastError())
+	if got, want := handler.LastError(), err; got != want {
+		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
 }
 
-func TestHandleIfErr_Nil(t *testing.T) {
+func TestHandle_Nil(t *testing.T) {
 	handler := NewTestHandler()
 
 	Handle(handler, nil)
 
-	assert.NoError(t, handler.LastError())
+	if got := handler.LastError(); got != nil {
+		t.Errorf("unexpected error, received: %s", got)
+	}
 }

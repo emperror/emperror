@@ -18,5 +18,4 @@ require (
 	github.com/pkg/errors v0.8.0
 	github.com/rollbar/rollbar-go v1.0.2
 	github.com/sirupsen/logrus v1.2.0
-	github.com/stretchr/testify v1.2.2
 )

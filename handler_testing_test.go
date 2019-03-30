@@ -3,8 +3,6 @@ package emperror
 import (
 	"errors"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestTestHandler_Count(t *testing.T) {
@@ -16,7 +14,9 @@ func TestTestHandler_Count(t *testing.T) {
 	handler.Handle(err1)
 	handler.Handle(err2)
 
-	assert.Equal(t, 2, handler.Count())
+	if got, want := handler.Count(), 2; got != want {
+		t.Errorf("error count not match the expected one\nactual:   %d\nexpected: %d", got, want)
+	}
 }
 
 func TestTestHandler_LastError(t *testing.T) {
@@ -28,7 +28,9 @@ func TestTestHandler_LastError(t *testing.T) {
 	handler.Handle(err1)
 	handler.Handle(err2)
 
-	assert.Equal(t, err2, handler.LastError())
+	if got, want := handler.LastError(), err2; got != want {
+		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
 }
 
 func TestTestHandler_Errors(t *testing.T) {
@@ -42,6 +44,11 @@ func TestTestHandler_Errors(t *testing.T) {
 
 	errs := handler.Errors()
 
-	assert.Equal(t, err1, errs[0])
-	assert.Equal(t, err2, errs[1])
+	if got, want := errs[0], err1; got != want {
+		t.Errorf("error 1 does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
+
+	if got, want := errs[1], err2; got != want {
+		t.Errorf("error 2 does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
 }

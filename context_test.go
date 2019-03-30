@@ -1,11 +1,10 @@
 package emperror
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/pkg/errors"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 func TestWith(t *testing.T) {
@@ -17,9 +16,17 @@ func TestWith(t *testing.T) {
 
 	ctx := Context(err)
 
-	assert.Equal(t, "a", ctx[0])
-	assert.Equal(t, 123, ctx[1])
-	assert.EqualError(t, err, "error")
+	if got, want := ctx[0], "a"; got != want {
+		t.Errorf("context value does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
+
+	if got, want := ctx[1], 123; got != want {
+		t.Errorf("context value does not match the expected one\nactual:   %s\nexpected: %d", got, want)
+	}
+
+	if got, want := err.Error(), "error"; got != want {
+		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
 }
 
 func TestWith_Multiple(t *testing.T) {
@@ -29,10 +36,21 @@ func TestWith_Multiple(t *testing.T) {
 
 	ctx := Context(err)
 
-	assert.Equal(t, "a", ctx[0])
-	assert.Equal(t, 123, ctx[1])
-	assert.Equal(t, "b", ctx[2])
-	assert.Equal(t, 321, ctx[3])
+	if got, want := ctx[0], "a"; got != want {
+		t.Errorf("context value does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
+
+	if got, want := ctx[1], 123; got != want {
+		t.Errorf("context value does not match the expected one\nactual:   %s\nexpected: %d", got, want)
+	}
+
+	if got, want := ctx[2], "b"; got != want {
+		t.Errorf("context value does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
+
+	if got, want := ctx[3], 321; got != want {
+		t.Errorf("context value does not match the expected one\nactual:   %s\nexpected: %d", got, want)
+	}
 }
 
 func TestContextor_MissingValue(t *testing.T) {
@@ -42,10 +60,14 @@ func TestContextor_MissingValue(t *testing.T) {
 
 	ctx := Context(err)
 
-	require.Len(t, ctx, 4)
+	if got, want := len(ctx), 4; got != want {
+		t.Fatalf("context does not have the required length\nactual:   %d\nexpected: %d", got, want)
+	}
 
 	for i := 1; i < 4; i += 2 {
-		assert.Nil(t, ctx[i])
+		if ctx[i] != nil {
+			t.Errorf("context value %d is expected to be nil\nactual: %v", i, ctx[i])
+		}
 	}
 }
 
@@ -75,11 +97,15 @@ func TestContext(t *testing.T) {
 
 	actual := Context(err)
 
-	assert.Equal(t, expected, actual)
+	if got, want := actual, expected; !reflect.DeepEqual(got, want) {
+		t.Errorf("context does not match the expected one\nactual:   %v\nexpected: %v", got, want)
+	}
 }
 
 func TestWith_NilError(t *testing.T) {
 	err := With(nil)
 
-	assert.Nil(t, err)
+	if err != nil {
+		t.Errorf("error is expected to be nil\nactual: %v", err)
+	}
 }
