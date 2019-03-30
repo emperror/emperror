@@ -2,10 +2,11 @@
 package rollbarhandler
 
 import (
+	"github.com/rollbar/rollbar-go"
+
 	"github.com/goph/emperror"
 	"github.com/goph/emperror/httperr"
 	"github.com/goph/emperror/internal/keyvals"
-	"github.com/rollbar/rollbar-go"
 )
 
 // Handler is responsible for sending errors to Rollbar.

@@ -1,10 +1,9 @@
-package emperror_test
+package emperror
 
 import (
 	"fmt"
 	"testing"
 
-	. "github.com/goph/emperror"
 	"github.com/stretchr/testify/assert"
 )
 

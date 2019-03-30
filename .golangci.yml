@@ -1,2 +1,8 @@
 linters:
     enable-all: true
+
+linters-settings:
+    golint:
+        min-confidence: 0.1
+    goimports:
+        local-prefixes: github.com/sagikazarmark/modern-go-application

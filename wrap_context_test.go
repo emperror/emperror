@@ -1,11 +1,10 @@
-package emperror_test
+package emperror
 
 import (
 	"fmt"
 	"io"
 	"testing"
 
-	. "github.com/goph/emperror"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 )
@@ -29,8 +28,8 @@ func TestWrapWith_Format(t *testing.T) {
 		WrapWith(errors.New("error"), "error2", "key", "value"),
 		"%+v",
 		"error\n" +
-			"github.com/goph/emperror_test.TestWrapWith_Format\n" +
-			"\t.+/github.com/goph/emperror/wrap_context_test.go:29",
+			"github.com/goph/emperror.TestWrapWith_Format\n" +
+			"\t.+/github.com/goph/emperror/wrap_context_test.go:28",
 	}, {
 		WrapWith(io.EOF, "error", "key", "value"),
 		"%s",
@@ -44,15 +43,15 @@ func TestWrapWith_Format(t *testing.T) {
 		"%+v",
 		"EOF\n" +
 			"error\n" +
-			"github.com/goph/emperror_test.TestWrapWith_Format\n" +
-			"\t.+/github.com/goph/emperror/wrap_context_test.go:43",
+			"github.com/goph/emperror.TestWrapWith_Format\n" +
+			"\t.+/github.com/goph/emperror/wrap_context_test.go:42",
 	}, {
 		WrapWith(WrapWith(io.EOF, "error1"), "error2", "key", "value"),
 		"%+v",
 		"EOF\n" +
 			"error1\n" +
-			"github.com/goph/emperror_test.TestWrapWith_Format\n" +
-			"\t.+/github.com/goph/emperror/wrap_context_test.go:50\n",
+			"github.com/goph/emperror.TestWrapWith_Format\n" +
+			"\t.+/github.com/goph/emperror/wrap_context_test.go:49\n",
 	}, {
 		WrapWith(fmt.Errorf("error with space"), "context", "key", "value"),
 		"%q",
@@ -62,8 +61,8 @@ func TestWrapWith_Format(t *testing.T) {
 		"%+v",
 		"EOF\n" +
 			"error1\n" +
-			"github.com/goph/emperror_test.TestWrapWith_Format\n" +
-			"\t.+/github.com/goph/emperror/wrap_context_test.go:14\n",
+			"github.com/goph/emperror.TestWrapWith_Format\n" +
+			"\t.+/github.com/goph/emperror/wrap_context_test.go:13\n",
 	}}
 
 	for i, tt := range tests {

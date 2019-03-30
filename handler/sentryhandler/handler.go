@@ -2,10 +2,11 @@ package sentryhandler
 
 import (
 	"github.com/getsentry/raven-go"
+	"github.com/pkg/errors"
+
 	"github.com/goph/emperror"
 	"github.com/goph/emperror/httperr"
 	"github.com/goph/emperror/internal/keyvals"
-	"github.com/pkg/errors"
 )
 
 // Handler is responsible for sending errors to Sentry.

@@ -1,9 +1,8 @@
-package emperror_test
+package emperror
 
 import (
 	"testing"
 
-	. "github.com/goph/emperror"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

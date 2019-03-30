@@ -1,10 +1,9 @@
-package emperror_test
+package emperror
 
 import (
 	"io"
 	"testing"
 
-	. "github.com/goph/emperror"
 	"github.com/pkg/errors"
 )
 
@@ -28,8 +27,8 @@ func TestWrapf_Format(t *testing.T) {
 		"%+v",
 		"EOF\n" +
 			"error2\n" +
-			"github.com/goph/emperror_test.TestWrapf_Format\n" +
-			"\t.+/github.com/goph/emperror/wrapf_test.go:27",
+			"github.com/goph/emperror.TestWrapf_Format\n" +
+			"\t.+/github.com/goph/emperror/wrapf_test.go:26",
 	}, {
 		Wrapf(errors.New("error"), "error%d", 2),
 		"%s",
@@ -42,14 +41,14 @@ func TestWrapf_Format(t *testing.T) {
 		Wrapf(errors.New("error"), "error%d", 2),
 		"%+v",
 		"error\n" +
-			"github.com/goph/emperror_test.TestWrapf_Format\n" +
-			"\t.+/github.com/goph/emperror/wrapf_test.go:42",
+			"github.com/goph/emperror.TestWrapf_Format\n" +
+			"\t.+/github.com/goph/emperror/wrapf_test.go:41",
 	}, {
 		Wrapf(testError, "error%d", 2),
 		"%+v",
 		"error\n" +
-			"github.com/goph/emperror_test.TestWrapf_Format\n" +
-			"\t.+/github.com/goph/emperror/wrapf_test.go:12",
+			"github.com/goph/emperror.TestWrapf_Format\n" +
+			"\t.+/github.com/goph/emperror/wrapf_test.go:11",
 	}}
 
 	for i, tt := range tests {

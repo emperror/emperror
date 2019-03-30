@@ -4,9 +4,10 @@ import (
 	stderrors "errors"
 	"testing"
 
-	. "github.com/goph/emperror"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
+
+	. "github.com/goph/emperror"
 )
 
 type stackTracer interface {

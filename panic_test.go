@@ -27,15 +27,15 @@ func TestPanic(t *testing.T) {
 			t.Fatal("error is expected to carry a stack trace")
 		}
 
-		if got, want := fmt.Sprintf("%n", st[0]), "TestPanic"; got != want {
+		if got, want := fmt.Sprintf("%n", st[0]), "TestPanic"; got != want { // nolint: govet
 			t.Errorf("function name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 		}
 
-		if got, want := fmt.Sprintf("%s", st[0]), "panic_test.go"; got != want {
+		if got, want := fmt.Sprintf("%s", st[0]), "panic_test.go"; got != want { // nolint: govet
 			t.Errorf("file name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 		}
 
-		if got, want := fmt.Sprintf("%d", st[0]), "43"; got != want {
+		if got, want := fmt.Sprintf("%d", st[0]), "43"; got != want { // nolint: govet
 			t.Errorf("line number does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 		}
 	}()

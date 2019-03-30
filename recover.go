@@ -14,7 +14,7 @@ func Recover(r interface{}) (err error) {
 		case error:
 			err = x
 		default:
-			err = errors.New(fmt.Sprintf("unknown panic, received: %v", r))
+			err = fmt.Errorf("unknown panic, received: %v", r)
 		}
 	}
 

@@ -25,15 +25,15 @@ func assertRecoveredError(t *testing.T, err error, msg string) {
 		t.Fatal("error is expected to carry a stack trace")
 	}
 
-	if got, want := fmt.Sprintf("%n", st[0]), "createRecoverFunc.func1"; got != want {
+	if got, want := fmt.Sprintf("%n", st[0]), "createRecoverFunc.func1"; got != want { // nolint: govet
 		t.Errorf("function name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 	}
 
-	if got, want := fmt.Sprintf("%s", st[0]), "recover_test.go"; got != want {
+	if got, want := fmt.Sprintf("%s", st[0]), "recover_test.go"; got != want { // nolint: govet
 		t.Errorf("file name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 	}
 
-	if got, want := fmt.Sprintf("%d", st[0]), "16"; got != want {
+	if got, want := fmt.Sprintf("%d", st[0]), "16"; got != want { // nolint: govet
 		t.Errorf("line number does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 	}
 

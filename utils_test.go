@@ -4,8 +4,9 @@ import (
 	"errors"
 	"testing"
 
-	. "github.com/goph/emperror"
 	"github.com/stretchr/testify/assert"
+
+	. "github.com/goph/emperror"
 )
 
 func TestHandleRecovery(t *testing.T) {
