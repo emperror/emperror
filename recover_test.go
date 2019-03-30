@@ -5,9 +5,6 @@ import (
 	"testing"
 
 	. "github.com/goph/emperror"
-	"github.com/pkg/errors"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 func createRecoverFunc(p interface{}) func() error {
@@ -20,38 +17,53 @@ func createRecoverFunc(p interface{}) func() error {
 	}
 }
 
+func assertRecoveredError(t *testing.T, err error, msg string) {
+	t.Helper()
+
+	st, ok := StackTrace(err)
+	if !ok {
+		t.Fatal("error is expected to carry a stack trace")
+	}
+
+	if got, want := fmt.Sprintf("%n", st[0]), "createRecoverFunc.func1"; got != want {
+		t.Errorf("function name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
+
+	if got, want := fmt.Sprintf("%s", st[0]), "recover_test.go"; got != want {
+		t.Errorf("file name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
+
+	if got, want := fmt.Sprintf("%d", st[0]), "16"; got != want {
+		t.Errorf("line number does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
+
+	if got, want := err.Error(), msg; got != want {
+		t.Errorf("error message does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
+}
+
 func TestRecover_ErrorPanic(t *testing.T) {
 	err := fmt.Errorf("internal error")
 
 	f := createRecoverFunc(err)
 
-	require.NotPanics(t, func() { _ = f() })
-
 	v := f()
 
-	assert.EqualError(t, v, "internal error")
-	assert.Equal(t, err, errors.Cause(v))
-	assert.Implements(t, (*stackTracer)(nil), v)
+	assertRecoveredError(t, v, "internal error")
 }
 
 func TestRecover_StringPanic(t *testing.T) {
 	f := createRecoverFunc("internal error")
 
-	require.NotPanics(t, func() { _ = f() })
-
 	v := f()
 
-	assert.EqualError(t, v, "internal error")
-	assert.Implements(t, (*stackTracer)(nil), v)
+	assertRecoveredError(t, v, "internal error")
 }
 
 func TestRecover_AnyPanic(t *testing.T) {
 	f := createRecoverFunc(123)
 
-	require.NotPanics(t, func() { _ = f() })
-
 	v := f()
 
-	assert.EqualError(t, v, "unknown panic, received: 123")
-	assert.Implements(t, (*stackTracer)(nil), v)
+	assertRecoveredError(t, v, "unknown panic, received: 123")
 }
