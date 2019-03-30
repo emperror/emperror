@@ -29,7 +29,7 @@ func TestWrapWith_Format(t *testing.T) {
 		"%+v",
 		"error\n" +
 			"github.com/goph/emperror.TestWrapWith_Format\n" +
-			"\t.+/github.com/goph/emperror/wrap_context_test.go:28",
+			"\t.+/wrap_context_test.go:28",
 	}, {
 		WrapWith(io.EOF, "error", "key", "value"),
 		"%s",
@@ -44,14 +44,14 @@ func TestWrapWith_Format(t *testing.T) {
 		"EOF\n" +
 			"error\n" +
 			"github.com/goph/emperror.TestWrapWith_Format\n" +
-			"\t.+/github.com/goph/emperror/wrap_context_test.go:42",
+			"\t.+/wrap_context_test.go:42",
 	}, {
 		WrapWith(WrapWith(io.EOF, "error1"), "error2", "key", "value"),
 		"%+v",
 		"EOF\n" +
 			"error1\n" +
 			"github.com/goph/emperror.TestWrapWith_Format\n" +
-			"\t.+/github.com/goph/emperror/wrap_context_test.go:49\n",
+			"\t.+/wrap_context_test.go:49\n",
 	}, {
 		WrapWith(fmt.Errorf("error with space"), "context", "key", "value"),
 		"%q",
@@ -62,7 +62,7 @@ func TestWrapWith_Format(t *testing.T) {
 		"EOF\n" +
 			"error1\n" +
 			"github.com/goph/emperror.TestWrapWith_Format\n" +
-			"\t.+/github.com/goph/emperror/wrap_context_test.go:13\n",
+			"\t.+/wrap_context_test.go:13\n",
 	}}
 
 	for i, tt := range tests {

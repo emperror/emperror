@@ -28,7 +28,7 @@ func TestWrapf_Format(t *testing.T) {
 		"EOF\n" +
 			"error2\n" +
 			"github.com/goph/emperror.TestWrapf_Format\n" +
-			"\t.+/github.com/goph/emperror/wrapf_test.go:26",
+			"\t.+/wrapf_test.go:26",
 	}, {
 		Wrapf(errors.New("error"), "error%d", 2),
 		"%s",
@@ -42,13 +42,13 @@ func TestWrapf_Format(t *testing.T) {
 		"%+v",
 		"error\n" +
 			"github.com/goph/emperror.TestWrapf_Format\n" +
-			"\t.+/github.com/goph/emperror/wrapf_test.go:41",
+			"\t.+/wrapf_test.go:41",
 	}, {
 		Wrapf(testError, "error%d", 2),
 		"%+v",
 		"error\n" +
 			"github.com/goph/emperror.TestWrapf_Format\n" +
-			"\t.+/github.com/goph/emperror/wrapf_test.go:11",
+			"\t.+/wrapf_test.go:11",
 	}}
 
 	for i, tt := range tests {
