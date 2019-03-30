@@ -2,16 +2,11 @@ package emperror
 
 import (
 	"errors"
+	"fmt"
 	"testing"
 )
 
-func panicErrorFunc() error {
-	return errors.New("error")
-}
-
 func TestPanic(t *testing.T) {
-	err := panicErrorFunc()
-
 	defer func() {
 		r := recover()
 		if r == nil {
@@ -26,16 +21,33 @@ func TestPanic(t *testing.T) {
 		if err == nil {
 			t.Fatal("expected to the recovered error to be an error, received nil")
 		}
+
+		st, ok := StackTrace(err)
+		if !ok {
+			t.Fatal("error is expected to carry a stack trace")
+		}
+
+		if got, want := fmt.Sprintf("%n", st[0]), "TestPanic"; got != want {
+			t.Errorf("function name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+		}
+
+		if got, want := fmt.Sprintf("%s", st[0]), "panic_test.go"; got != want {
+			t.Errorf("file name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+		}
+
+		if got, want := fmt.Sprintf("%d", st[0]), "43"; got != want {
+			t.Errorf("line number does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+		}
 	}()
 
-	Panic(err)
+	Panic(errors.New("error"))
 }
 
 func TestPanic_NoError(t *testing.T) {
 	defer func() {
 		r := recover()
 		if r != nil {
-			t.Fatal("unexpected panic")
+			t.Fatalf("unexpected panic, received: %v", r)
 		}
 	}()
 
