@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- Nil pointer in `Recover`
+
 
 ## [0.17.0] - 2019-03-30
 
