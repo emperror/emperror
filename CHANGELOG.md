@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [0.17.1] - 2019-04-01
+
 ### Fixed
 
 - Nil pointer in `Recover`
@@ -288,7 +291,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [Bugsnag](https://bugsnag.com) handler
 
 
-[Unreleased]: https://github.com/goph/emperror/compare/v0.17.0...HEAD
+[Unreleased]: https://github.com/goph/emperror/compare/v0.17.1...HEAD
+[0.17.1]: https://github.com/goph/emperror/compare/v0.17.0...v0.17.1
 [0.17.0]: https://github.com/goph/emperror/compare/v0.16.0...v0.17.0
 [0.16.0]: https://github.com/goph/emperror/compare/v0.15.0...v0.16.0
 [0.15.0]: https://github.com/goph/emperror/compare/v0.14.0...v0.15.0
