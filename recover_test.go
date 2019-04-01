@@ -65,3 +65,13 @@ func TestRecover_AnyPanic(t *testing.T) {
 
 	assertRecoveredError(t, v, "unknown panic, received: 123")
 }
+
+func TestRecover_Nil(t *testing.T) {
+	f := createRecoverFunc(nil)
+
+	v := f()
+
+	if got, want := v, error(nil); got != want { // nolint: govet
+		t.Errorf("the recovered value is expected to be nil\nactual: %v", got)
+	}
+}
