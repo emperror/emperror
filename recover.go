@@ -16,12 +16,12 @@ func Recover(r interface{}) (err error) {
 		default:
 			err = fmt.Errorf("unknown panic, received: %v", r)
 		}
-	}
 
-	if _, ok := StackTrace(err); !ok {
-		err = &wrappedError{
-			err:   err,
-			stack: callers()[2:], // TODO: improve callers?
+		if _, ok := StackTrace(err); !ok {
+			err = &wrappedError{
+				err:   err,
+				stack: callers()[2:], // TODO: improve callers?
+			}
 		}
 	}
 
