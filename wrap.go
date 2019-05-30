@@ -90,7 +90,7 @@ func Wrap(err error, message string) error {
 }
 
 // Wrapf returns an error annotating err with a stack trace
-// at the point Wrapf is call (if there is none attached to the error yet), and the format specifier.
+// at the point Wrapf is called (if there is none attached to the error yet), and the format specifier.
 // If err is nil, Wrapf returns nil.
 //
 // Note: do not use this method when passing errors between goroutines.
