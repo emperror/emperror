@@ -2,12 +2,13 @@ package emperror
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
 )
 
-type errorCollection interface {
-	Errors() []error
-}
+// guarantee multiError implements Errors and error
+var _ Errors = new(multiError)
+var _ error = new(multiError)
 
 func TestMultiErrorBuilder_ErrOrNil(t *testing.T) {
 	builder := NewMultiErrorBuilder()
@@ -18,7 +19,7 @@ func TestMultiErrorBuilder_ErrOrNil(t *testing.T) {
 
 	merr := builder.ErrOrNil()
 
-	if got, want := merr.(errorCollection).Errors()[0], err; got != want {
+	if got, want := merr.(Errors).Errors()[0], err; got != want {
 		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 	}
 }
@@ -57,6 +58,23 @@ func TestMultiErrorBuilder_Message(t *testing.T) {
 	builder.Add(err)
 
 	if got, want := builder.ErrOrNil().Error(), want; got != want {
+		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
+	}
+}
+
+func TestMultiErrorBuilder_MultipleErrors(t *testing.T) {
+	want := []error{
+		fmt.Errorf("first"),
+		fmt.Errorf("second"),
+	}
+
+	builder := NewMultiErrorBuilder()
+
+	for _, e := range want {
+		builder.Add(e)
+	}
+
+	if got := builder.ErrOrNil().(Errors).Errors(); !reflect.DeepEqual(got, want) {
 		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 	}
 }

@@ -1,9 +1,13 @@
 package emperror
 
-// multiError aggregates multiple errors into a single value.
-//
-// While ErrorCollection is only an interface for listing errors,
-// multiError actually implements the error interface so it can be returned as an error.
+// Errors is responsible for listing multiple errors.
+type Errors interface {
+	// Errors returns the list of wrapped errors.
+	Errors() []error
+}
+
+// multiError implements Errors and aggregates multiple errors into a single value.
+// Also implements the error interface so it can be returned as an error.
 type multiError struct {
 	errors []error
 	msg    string
@@ -28,7 +32,7 @@ type SingleWrapMode int
 
 // These constants cause MultiErrorBuilder to behave as described if there is only one error in the list.
 const (
-	AlwaysWrap   SingleWrapMode = iota // Always return a MultiError.
+	AlwaysWrap   SingleWrapMode = iota // Always return a multiError.
 	ReturnSingle                       // Return the single error.
 )
 
@@ -59,7 +63,7 @@ func (b *MultiErrorBuilder) Add(err error) {
 	b.errors = append(b.errors, err)
 }
 
-// ErrOrNil returns a MultiError the builder aggregates a list of errors,
+// ErrOrNil returns a multiError the builder aggregates a list of errors,
 // or returns nil if the list of errors is empty.
 //
 // It is useful to avoid checking if there are any errors added to the list.
