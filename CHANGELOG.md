@@ -10,6 +10,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 
+## [0.18.1] - 2019-07-03
+
+### Changed
+
+- Expose `keyvals` package
+
+
+## [0.18.0] - 2019-07-03
+
+### Changed
+
+- New vanity import URL: emperror.dev/emperror
+
+
+## [0.17.2] - 2019-07-03
+
+### Added
+
+- `Errors` interface
+
+
 ## [0.17.1] - 2019-04-01
 
 ### Fixed
@@ -291,7 +312,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [Bugsnag](https://bugsnag.com) handler
 
 
-[Unreleased]: https://emperror.dev/emperror/compare/v0.17.1...HEAD
+[Unreleased]: https://emperror.dev/emperror/compare/v0.18.1...HEAD
+[0.18.1]: https://emperror.dev/emperror/compare/v0.18.0...v0.18.1
+[0.18.0]: https://emperror.dev/emperror/compare/v0.17.2...v0.18.0
+[0.17.2]: https://emperror.dev/emperror/compare/v0.17.1...v0.17.2
 [0.17.1]: https://emperror.dev/emperror/compare/v0.17.0...v0.17.1
 [0.17.0]: https://emperror.dev/emperror/compare/v0.16.0...v0.17.0
 [0.16.0]: https://emperror.dev/emperror/compare/v0.15.0...v0.16.0
