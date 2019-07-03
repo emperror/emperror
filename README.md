@@ -35,6 +35,13 @@ Read more about the topic here:
     - [Rollbar](https://rollbar.com) [SDK](https://godoc.org/github.com/rollbar/rollbar-go)
 
 
+## Installation
+
+```bash
+go get emperror.dev/emperror
+```
+
+
 ## Usage
 
 ### Log errors
