@@ -1,20 +1,6 @@
 version: "3.7"
 
 services:
-    errbit:
-        build: etc/errbit
-        depends_on:
-            - mongo
-        environment:
-            RACK_ENV: production
-            MONGO_URL: mongodb://mongo:27017/errbit
-            ERRBIT_ADMIN_PASSWORD: errbit
-            ERRBIT_USER_HAS_USERNAME: "true"
-            ERRBIT_EMAIL_AT_NOTICES: 0
-
-    mongo:
-        image: mongo:4.1
-
     sentry:
         build: ./etc/sentry
         command: run web
