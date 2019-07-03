@@ -4,8 +4,8 @@ package logrushandler
 import (
 	"github.com/sirupsen/logrus"
 
-	"github.com/goph/emperror"
-	"github.com/goph/emperror/internal/keyvals"
+	"emperror.dev/emperror"
+	"emperror.dev/emperror/internal/keyvals"
 )
 
 // Handler logs errors using Logrus.

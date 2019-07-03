@@ -5,7 +5,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/goph/emperror"
+	"emperror.dev/emperror"
 )
 
 // WithHTTPRequest attaches an HTTP request to the error.

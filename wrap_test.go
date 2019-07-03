@@ -27,7 +27,7 @@ func TestWrap_Format(t *testing.T) {
 		Wrap(errors.New("error"), "error2"),
 		"%+v",
 		"error\n" +
-			"github.com/goph/emperror.TestWrap_Format\n" +
+			"emperror.dev/emperror.TestWrap_Format\n" +
 			"\t.+/wrap_test.go:27",
 	}, {
 		Wrap(io.EOF, "error"),
@@ -42,14 +42,14 @@ func TestWrap_Format(t *testing.T) {
 		"%+v",
 		"EOF\n" +
 			"error\n" +
-			"github.com/goph/emperror.TestWrap_Format\n" +
+			"emperror.dev/emperror.TestWrap_Format\n" +
 			"\t.+/wrap_test.go:41",
 	}, {
 		Wrap(Wrap(io.EOF, "error1"), "error2"),
 		"%+v",
 		"EOF\n" +
 			"error1\n" +
-			"github.com/goph/emperror.TestWrap_Format\n" +
+			"emperror.dev/emperror.TestWrap_Format\n" +
 			"\t.+/wrap_test.go:48\n",
 	}, {
 		Wrap(fmt.Errorf("error with space"), "context"),
@@ -60,7 +60,7 @@ func TestWrap_Format(t *testing.T) {
 		"%+v",
 		"EOF\n" +
 			"error1\n" +
-			"github.com/goph/emperror.TestWrap_Format\n" +
+			"emperror.dev/emperror.TestWrap_Format\n" +
 			"\t.+/wrap_test.go:12\n",
 	}}
 

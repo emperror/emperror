@@ -10,8 +10,8 @@ import (
 	"github.com/airbrake/gobrake"
 	"github.com/pkg/errors"
 
-	"github.com/goph/emperror"
-	"github.com/goph/emperror/httperr"
+	"emperror.dev/emperror"
+	"emperror.dev/emperror/httperr"
 )
 
 func newHandler(t *testing.T) *Handler {

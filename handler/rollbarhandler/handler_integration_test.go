@@ -8,8 +8,8 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/goph/emperror"
-	"github.com/goph/emperror/httperr"
+	"emperror.dev/emperror"
+	"emperror.dev/emperror/httperr"
 )
 
 func newHandler(t *testing.T) *Handler {
@@ -19,7 +19,7 @@ func newHandler(t *testing.T) *Handler {
 		t.Skip("missing rollbar credentials")
 	}
 
-	return New(token, "test", "latest", "localhost", "github.com/goph/emperror")
+	return New(token, "test", "latest", "localhost", "emperror.dev/emperror")
 }
 
 func TestIntegration_Handler(t *testing.T) {

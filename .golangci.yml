@@ -5,4 +5,4 @@ linters-settings:
     golint:
         min-confidence: 0.1
     goimports:
-        local-prefixes: github.com/goph/emperror
+        local-prefixes: emperror.dev/emperror

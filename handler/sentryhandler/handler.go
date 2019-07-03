@@ -4,9 +4,9 @@ import (
 	"github.com/getsentry/raven-go"
 	"github.com/pkg/errors"
 
-	"github.com/goph/emperror"
-	"github.com/goph/emperror/httperr"
-	"github.com/goph/emperror/internal/keyvals"
+	"emperror.dev/emperror"
+	"emperror.dev/emperror/httperr"
+	"emperror.dev/emperror/internal/keyvals"
 )
 
 // Handler is responsible for sending errors to Sentry.

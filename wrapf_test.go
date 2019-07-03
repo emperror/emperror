@@ -27,7 +27,7 @@ func TestWrapf_Format(t *testing.T) {
 		"%+v",
 		"EOF\n" +
 			"error2\n" +
-			"github.com/goph/emperror.TestWrapf_Format\n" +
+			"emperror.dev/emperror.TestWrapf_Format\n" +
 			"\t.+/wrapf_test.go:26",
 	}, {
 		Wrapf(errors.New("error"), "error%d", 2),
@@ -41,13 +41,13 @@ func TestWrapf_Format(t *testing.T) {
 		Wrapf(errors.New("error"), "error%d", 2),
 		"%+v",
 		"error\n" +
-			"github.com/goph/emperror.TestWrapf_Format\n" +
+			"emperror.dev/emperror.TestWrapf_Format\n" +
 			"\t.+/wrapf_test.go:41",
 	}, {
 		Wrapf(testError, "error%d", 2),
 		"%+v",
 		"error\n" +
-			"github.com/goph/emperror.TestWrapf_Format\n" +
+			"emperror.dev/emperror.TestWrapf_Format\n" +
 			"\t.+/wrapf_test.go:11",
 	}}
 

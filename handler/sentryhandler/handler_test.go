@@ -4,7 +4,7 @@ package sentryhandler_test
 import (
 	"github.com/getsentry/raven-go"
 
-	"github.com/goph/emperror/handler/sentryhandler"
+	"emperror.dev/emperror/handler/sentryhandler"
 )
 
 func ExampleNew() {

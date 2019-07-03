@@ -4,7 +4,7 @@ package airbrakehandler_test
 import (
 	"github.com/airbrake/gobrake"
 
-	"github.com/goph/emperror/handler/airbrakehandler"
+	"emperror.dev/emperror/handler/airbrakehandler"
 )
 
 func ExampleNew() {

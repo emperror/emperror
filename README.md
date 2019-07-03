@@ -1,9 +1,9 @@
 ![Emperror](/.github/logo.png?raw=true)
 
-[![CircleCI](https://circleci.com/gh/goph/emperror.svg?style=svg)](https://circleci.com/gh/goph/emperror)
-[![Go Report Card](https://goreportcard.com/badge/github.com/goph/emperror?style=flat-square)](https://goreportcard.com/report/github.com/goph/emperror)
-[![GolangCI](https://golangci.com/badges/github.com/goph/emperror.svg)](https://golangci.com/r/github.com/goph/emperror)
-[![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/github.com/goph/emperror)
+[![CircleCI](https://circleci.com/gh/emperror/emperror.svg?style=svg)](https://circleci.com/gh/emperror/emperror)
+[![Go Report Card](https://goreportcard.com/badge/emperror.dev/emperror?style=flat-square)](https://goreportcard.com/report/emperror.dev/emperror)
+[![GolangCI](https://golangci.com/badges/emperror.dev/emperror.svg)](https://golangci.com/r/emperror.dev/emperror)
+[![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/emperror.dev/emperror)
 
 **The Emperor takes care of all errors personally.**
 
@@ -48,7 +48,7 @@ Emperror comes with a set of handlers backed by logging frameworks too:
 
 - **handler/logrushandler:** [logrus](https://github.com/sirupsen/logrus) handler implementation
 
-See [GoDoc](https://godoc.org/github.com/goph/emperror) for detailed usage examples.
+See [GoDoc](https://godoc.org/emperror.dev/emperror) for detailed usage examples.
 
 
 ### Attach context to an error
@@ -60,7 +60,7 @@ Emperror gives you tools to attach context (eg. key-value pairs) to an error:
 package main
 
 import (
-	"github.com/goph/emperror"
+	"emperror.dev/emperror"
 	"github.com/pkg/errors"
 )
 
@@ -71,7 +71,7 @@ func bar() error {
 	if err != nil {
 	    return emperror.With(err, "key", "value")
 	}
-	
+
 	return nil
 }
 ```
