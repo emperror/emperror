@@ -26,7 +26,7 @@ Read more about the topic here:
 ## Features
 
 - Various error handling strategies (eg. logging, third-party error services) using a simple interface
-- Error annotation with context (key-value pairs, HTTP request, etc)
+- Annotate errors with context (key-value pairs, HTTP request, etc)
 - Various helpers related to error handling (recovery from panics, etc)
 - Integrations with well-known error catchers and libraries:
     - [Sentry](https://sentry.io) [SDK](https://godoc.org/github.com/getsentry/raven-go) (both hosted and on-premise)
@@ -50,12 +50,6 @@ Logging is one of the most common target to record error events.
 
 The reference implementation for logging with Emperror can be found in package [logur](https://github.com/goph/logur).
 Logur is an opinionated logging toolkit supporting multiple logging libraries (like [logrus](https://github.com/sirupsen/logrus)).
-
-Emperror comes with a set of handlers backed by logging frameworks too:
-
-- **handler/logrushandler:** [logrus](https://github.com/sirupsen/logrus) handler implementation
-
-See [GoDoc](https://godoc.org/emperror.dev/emperror) for detailed usage examples.
 
 
 ### Attach context to an error
