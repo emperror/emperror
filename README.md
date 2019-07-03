@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/emperror/emperror.svg?style=svg)](https://circleci.com/gh/emperror/emperror)
 [![Go Report Card](https://goreportcard.com/badge/emperror.dev/emperror?style=flat-square)](https://goreportcard.com/report/emperror.dev/emperror)
-[![GolangCI](https://golangci.com/badges/emperror.dev/emperror.svg)](https://golangci.com/r/emperror.dev/emperror)
+[![GolangCI](https://golangci.com/badges/github.com/emperror/emperror.svg)](https://golangci.com/r/github.com/emperror/emperror)
 [![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/emperror.dev/emperror)
 
 **The Emperor takes care of all errors personally.**
