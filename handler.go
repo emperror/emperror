@@ -3,6 +3,7 @@ package emperror
 // Handler is a generic error handler. It allows applications (and libraries) to handle errors
 // without worrying about the actual error handling strategy (logging, error tracking service, etc).
 type Handler interface {
+	// Handle handles an error.
 	Handle(err error)
 }
 
