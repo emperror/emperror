@@ -9,10 +9,3 @@ func HandleRecover(handler Handler) {
 		handler.Handle(err)
 	}
 }
-
-// Handle handles an error whenever it occurs.
-func Handle(handler Handler, err error) {
-	if err != nil {
-		handler.Handle(err)
-	}
-}

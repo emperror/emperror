@@ -16,24 +16,3 @@ func TestHandleRecovery(t *testing.T) {
 
 	panic(err)
 }
-
-func TestHandle(t *testing.T) {
-	handler := NewTestHandler()
-	err := errors.New("error")
-
-	Handle(handler, err)
-
-	if got, want := handler.LastError(), err; got != want {
-		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
-	}
-}
-
-func TestHandle_Nil(t *testing.T) {
-	handler := NewTestHandler()
-
-	Handle(handler, nil)
-
-	if got := handler.LastError(); got != nil {
-		t.Errorf("unexpected error, received: %s", got)
-	}
-}

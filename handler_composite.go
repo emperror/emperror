@@ -6,6 +6,7 @@ type compositeHandler struct {
 }
 
 // NewCompositeHandler returns a new compositeHandler.
+// Deprecated: use Handlers instead.
 func NewCompositeHandler(handlers ...Handler) Handler {
 	return &compositeHandler{handlers}
 }
