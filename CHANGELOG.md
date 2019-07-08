@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [0.20.0] - 2019-07-09
+
 ### Added
 
 - Unwrap functions
@@ -332,7 +335,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [Bugsnag](https://bugsnag.com) handler
 
 
-[Unreleased]: https://github.com/emperror/emperror/compare/v0.19.0...HEAD
+[Unreleased]: https://github.com/emperror/emperror/compare/v0.20.0...HEAD
+[0.20.0]: https://github.com/emperror/emperror/compare/v0.19.0...v0.20.0
 [0.19.0]: https://github.com/emperror/emperror/compare/v0.18.1...v0.19.0
 [0.18.1]: https://github.com/emperror/emperror/compare/v0.18.0...v0.18.1
 [0.18.0]: https://github.com/emperror/emperror/compare/v0.17.2...v0.18.0
