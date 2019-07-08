@@ -1,11 +1,11 @@
 package emperror
 
-// UnwrapNext returns the next error in an error chain (if any).
+// Unwrap returns the next error in an error chain (if any).
 // Otherwise it returns nil.
 //
 // It supports both Go 1.13 errors.Wrapper and github.com/pkg/errors.Causer interfaces
 // (the former takes precedence).
-func UnwrapNext(err error) error {
+func Unwrap(err error) error {
 	switch e := err.(type) {
 	case interface{ Unwrap() error }:
 		return e.Unwrap()
@@ -17,14 +17,14 @@ func UnwrapNext(err error) error {
 	return nil
 }
 
-// Unwrap returns the last error (root cause) in an error chain.
+// UnwrapAll returns the last error (root cause) in an error chain.
 // If the error has no cause, it is returned directly.
 //
 // It supports both Go 1.13 errors.Wrapper and github.com/pkg/errors.Causer interfaces
 // (the former takes precedence).
-func Unwrap(err error) error {
+func UnwrapAll(err error) error {
 	for {
-		cause := UnwrapNext(err)
+		cause := Unwrap(err)
 		if cause == nil {
 			break
 		}
@@ -48,7 +48,7 @@ func UnwrapEach(err error, fn func(err error) bool) {
 			break
 		}
 
-		err = UnwrapNext(err)
+		err = Unwrap(err)
 	}
 }
 

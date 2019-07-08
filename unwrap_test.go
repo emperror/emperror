@@ -13,7 +13,7 @@ func TestUnwrapNext(t *testing.T) {
 		"level 1",
 	)
 
-	actualNextErr := UnwrapNext(err)
+	actualNextErr := Unwrap(err)
 
 	if got, want := actualNextErr, nextErr; got != want {
 		t.Errorf("next error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
@@ -27,14 +27,14 @@ func TestUnwrapNext_Cause(t *testing.T) {
 		"level 1",
 	)
 
-	actualNextErr := UnwrapNext(err)
+	actualNextErr := Unwrap(err)
 
 	if got, want := actualNextErr, nextErr; got != want {
 		t.Errorf("next error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 	}
 }
 
-func TestUnwrap(t *testing.T) {
+func TestUnwrapAll(t *testing.T) {
 	lastErr := errors.New("level 0")
 	err := Wrap(
 		errors.WithMessage(
@@ -47,18 +47,18 @@ func TestUnwrap(t *testing.T) {
 		"level 3",
 	)
 
-	actualLastErr := Unwrap(err)
+	actualLastErr := UnwrapAll(err)
 
 	if got, want := actualLastErr, lastErr; got != want {
 		t.Errorf("last error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 	}
 }
 
-func TestUnwrap_NoChain(t *testing.T) {
+func TestUnwrapAll_NoChain(t *testing.T) {
 	lastErr := errors.New("level 0")
 	err := lastErr
 
-	actualLastErr := Unwrap(err)
+	actualLastErr := UnwrapAll(err)
 
 	if got, want := actualLastErr, lastErr; got != want {
 		t.Errorf("last error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
