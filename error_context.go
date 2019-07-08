@@ -81,9 +81,8 @@ func (w *withContext) Context() []interface{} {
 	return w.keyvals
 }
 
-func (w *withContext) Cause() error {
-	return w.err
-}
+func (w *withContext) Cause() error  { return w.err }
+func (w *withContext) Unwrap() error { return w.err }
 
 func (w *withContext) Format(s fmt.State, verb rune) {
 	switch verb {

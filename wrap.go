@@ -26,9 +26,8 @@ func (e *wrappedError) Error() string {
 	return e.err.Error()
 }
 
-func (e *wrappedError) Cause() error {
-	return e.err
-}
+func (e *wrappedError) Cause() error  { return e.err }
+func (e *wrappedError) Unwrap() error { return e.err }
 
 func (e *wrappedError) StackTrace() errors.StackTrace {
 	f := make([]errors.Frame, len(e.stack))

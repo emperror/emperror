@@ -48,9 +48,8 @@ func (w *withHTTPRequest) Error() string {
 	return w.err.Error()
 }
 
-func (w *withHTTPRequest) Cause() error {
-	return w.err
-}
+func (w *withHTTPRequest) Cause() error  { return w.err }
+func (w *withHTTPRequest) Unwrap() error { return w.err }
 
 func (w *withHTTPRequest) HTTPRequest() *http.Request {
 	return w.req
