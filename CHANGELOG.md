@@ -9,12 +9,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- Unwrap functions
+
+### Changed
+
+- File structure
+
+### Deprecated
+
+- `ForEachCause` function. Use `UnwrapEach` instead.
+- `NewCompositeHandler` function. Use `Handlers` instead.
+
 
 ## [0.19.0] - 2019-07-04
 
 ### Removed
 
-- Handle implementations (moved to separate packages)
+- Handler implementations (moved to separate packages)
 
 
 ## [0.18.1] - 2019-07-03
