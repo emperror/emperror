@@ -25,7 +25,7 @@ func StackTrace(err error) (errors.StackTrace, bool) {
 func getStackTracer(err error) (stackTracer, bool) {
 	var st stackTracer
 
-	ForEachCause(err, func(err error) bool {
+	UnwrapEach(err, func(err error) bool {
 		if s, ok := err.(stackTracer); ok {
 			st = s
 
@@ -47,9 +47,8 @@ func (w *withStack) Error() string {
 	return w.err.Error()
 }
 
-func (w *withStack) Cause() error {
-	return w.err
-}
+func (w *withStack) Cause() error  { return w.err }
+func (w *withStack) Unwrap() error { return w.err }
 
 func (w *withStack) StackTrace() errors.StackTrace {
 	return w.st.StackTrace()

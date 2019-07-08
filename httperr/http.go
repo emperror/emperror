@@ -26,7 +26,7 @@ func HTTPRequest(err error) (*http.Request, bool) {
 
 	var req *http.Request
 
-	emperror.ForEachCause(err, func(err error) bool {
+	emperror.UnwrapEach(err, func(err error) bool {
 		if httpErr, ok := err.(httpError); ok {
 			req = httpErr.HTTPRequest()
 
@@ -48,9 +48,8 @@ func (w *withHTTPRequest) Error() string {
 	return w.err.Error()
 }
 
-func (w *withHTTPRequest) Cause() error {
-	return w.err
-}
+func (w *withHTTPRequest) Cause() error  { return w.err }
+func (w *withHTTPRequest) Unwrap() error { return w.err }
 
 func (w *withHTTPRequest) HTTPRequest() *http.Request {
 	return w.req

@@ -55,7 +55,7 @@ func Context(err error) []interface{} {
 
 	var kvs []interface{}
 
-	ForEachCause(err, func(err error) bool {
+	UnwrapEach(err, func(err error) bool {
 		if cerr, ok := err.(contextor); ok {
 			kvs = append(cerr.Context(), kvs...)
 		}
@@ -81,9 +81,8 @@ func (w *withContext) Context() []interface{} {
 	return w.keyvals
 }
 
-func (w *withContext) Cause() error {
-	return w.err
-}
+func (w *withContext) Cause() error  { return w.err }
+func (w *withContext) Unwrap() error { return w.err }
 
 func (w *withContext) Format(s fmt.State, verb rune) {
 	switch verb {
