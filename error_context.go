@@ -55,7 +55,7 @@ func Context(err error) []interface{} {
 
 	var kvs []interface{}
 
-	ForEachCause(err, func(err error) bool {
+	UnwrapEach(err, func(err error) bool {
 		if cerr, ok := err.(contextor); ok {
 			kvs = append(cerr.Context(), kvs...)
 		}

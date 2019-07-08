@@ -26,7 +26,7 @@ func HTTPRequest(err error) (*http.Request, bool) {
 
 	var req *http.Request
 
-	emperror.ForEachCause(err, func(err error) bool {
+	emperror.UnwrapEach(err, func(err error) bool {
 		if httpErr, ok := err.(httpError); ok {
 			req = httpErr.HTTPRequest()
 
