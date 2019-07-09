@@ -21,7 +21,7 @@ func WrapWith(err error, message string, keyvals ...interface{}) error {
 	if !ok {
 		err = &wrappedError{
 			err:   err,
-			stack: callers(),
+			stack: callers(1),
 		}
 	}
 

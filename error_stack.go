@@ -7,10 +7,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-type stackTracer interface {
-	StackTrace() errors.StackTrace
-}
-
 // GetStackTrace returns the stack trace from an error (if any).
 func GetStackTrace(err error) (errors.StackTrace, bool) {
 	st, ok := getStackTracer(err)

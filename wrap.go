@@ -3,23 +3,13 @@ package emperror
 import (
 	"fmt"
 	"io"
-	"runtime"
 
 	"github.com/pkg/errors"
 )
 
-func callers() []uintptr {
-	const depth = 32
-	var pcs [depth]uintptr
-
-	n := runtime.Callers(3, pcs[:])
-
-	return pcs[0:n]
-}
-
 type wrappedError struct {
 	err   error
-	stack []uintptr
+	stack *stack
 }
 
 func (e *wrappedError) Error() string {
@@ -30,13 +20,7 @@ func (e *wrappedError) Cause() error  { return e.err }
 func (e *wrappedError) Unwrap() error { return e.err }
 
 func (e *wrappedError) StackTrace() errors.StackTrace {
-	f := make([]errors.Frame, len(e.stack))
-
-	for i := 0; i < len(f); i++ {
-		f[i] = errors.Frame((e.stack)[i])
-	}
-
-	return f
+	return e.stack.StackTrace()
 }
 
 func (e *wrappedError) Format(s fmt.State, verb rune) {
@@ -44,11 +28,7 @@ func (e *wrappedError) Format(s fmt.State, verb rune) {
 	case 'v':
 		if s.Flag('+') {
 			_, _ = fmt.Fprintf(s, "%+v", e.Cause())
-
-			for _, pc := range e.stack {
-				f := errors.Frame(pc)
-				_, _ = fmt.Fprintf(s, "\n%+v", f)
-			}
+			e.stack.Format(s, verb)
 
 			return
 		}
@@ -81,7 +61,7 @@ func Wrap(err error, message string) error {
 	if !ok {
 		err = &wrappedError{
 			err:   err,
-			stack: callers(),
+			stack: callers(1),
 		}
 	}
 
@@ -106,7 +86,7 @@ func Wrapf(err error, format string, args ...interface{}) error {
 	if !ok {
 		err = &wrappedError{
 			err:   err,
-			stack: callers(),
+			stack: callers(1),
 		}
 	}
 

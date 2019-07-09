@@ -15,7 +15,7 @@ func Panic(err error) {
 		if _, ok := GetStackTrace(err); !ok {
 			err = &wrappedError{
 				err:   err,
-				stack: callers(),
+				stack: callers(1),
 			}
 		}
 
@@ -38,7 +38,7 @@ func Recover(r interface{}) (err error) {
 		if _, ok := GetStackTrace(err); !ok {
 			err = &wrappedError{
 				err:   err,
-				stack: callers()[2:], // TODO: improve callers?
+				stack: callers(3),
 			}
 		}
 	}

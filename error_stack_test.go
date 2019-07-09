@@ -7,7 +7,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func TestStackTrace(t *testing.T) {
+func TestGetStackTrace(t *testing.T) {
 	err := errors.WithMessage(errors.New("error"), "wrapper")
 
 	stack, ok := GetStackTrace(err)
