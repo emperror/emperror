@@ -34,24 +34,24 @@ func getStackTracer(err error) (stackTracer, bool) {
 	return st, st != nil
 }
 
-type withStack struct {
+type withExposedStack struct {
 	err error
 	st  stackTracer
 }
 
-func (w *withStack) Error() string {
+func (w *withExposedStack) Error() string {
 	return w.err.Error()
 }
 
-func (w *withStack) Cause() error  { return w.err }
-func (w *withStack) Unwrap() error { return w.err }
+func (w *withExposedStack) Cause() error  { return w.err }
+func (w *withExposedStack) Unwrap() error { return w.err }
 
-func (w *withStack) StackTrace() errors.StackTrace {
+func (w *withExposedStack) StackTrace() errors.StackTrace {
 	return w.st.StackTrace()
 }
 
 // Format implements the fmt.Formatter interface.
-func (w *withStack) Format(s fmt.State, verb rune) {
+func (w *withExposedStack) Format(s fmt.State, verb rune) {
 	switch verb {
 	case 'v':
 		if s.Flag('+') {
@@ -79,7 +79,7 @@ func ExposeStackTrace(err error) error {
 		return err
 	}
 
-	return &withStack{
+	return &withExposedStack{
 		err: err,
 		st:  st,
 	}
