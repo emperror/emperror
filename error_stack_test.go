@@ -10,7 +10,7 @@ import (
 func TestStackTrace(t *testing.T) {
 	err := errors.WithMessage(errors.New("error"), "wrapper")
 
-	stack, ok := StackTrace(err)
+	stack, ok := GetStackTrace(err)
 	if !ok {
 		t.Fatal("stack trace is missing")
 	}

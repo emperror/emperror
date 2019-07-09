@@ -22,7 +22,7 @@ func TestPanic(t *testing.T) {
 			t.Fatal("expected to the recovered error to be an error, received nil")
 		}
 
-		st, ok := StackTrace(err)
+		st, ok := GetStackTrace(err)
 		if !ok {
 			t.Fatal("error is expected to carry a stack trace")
 		}
@@ -67,7 +67,7 @@ func createRecoverFunc(p interface{}) func() error {
 func assertRecoveredError(t *testing.T, err error, msg string) {
 	t.Helper()
 
-	st, ok := StackTrace(err)
+	st, ok := GetStackTrace(err)
 	if !ok {
 		t.Fatal("error is expected to carry a stack trace")
 	}

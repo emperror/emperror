@@ -12,7 +12,7 @@ import (
 // This function is useful with HandleRecover when panic is used as a flow control tool to stop the application.
 func Panic(err error) {
 	if err != nil {
-		if _, ok := StackTrace(err); !ok {
+		if _, ok := GetStackTrace(err); !ok {
 			err = &wrappedError{
 				err:   err,
 				stack: callers(),
@@ -35,7 +35,7 @@ func Recover(r interface{}) (err error) {
 			err = fmt.Errorf("unknown panic, received: %v", r)
 		}
 
-		if _, ok := StackTrace(err); !ok {
+		if _, ok := GetStackTrace(err); !ok {
 			err = &wrappedError{
 				err:   err,
 				stack: callers()[2:], // TODO: improve callers?

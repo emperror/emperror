@@ -11,8 +11,8 @@ type stackTracer interface {
 	StackTrace() errors.StackTrace
 }
 
-// StackTrace returns the stack trace from an error (if any).
-func StackTrace(err error) (errors.StackTrace, bool) {
+// GetStackTrace returns the stack trace from an error (if any).
+func GetStackTrace(err error) (errors.StackTrace, bool) {
 	st, ok := getStackTracer(err)
 	if ok {
 		return st.StackTrace(), true
