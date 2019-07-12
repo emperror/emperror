@@ -1,9 +1,10 @@
 package emperror
 
 import (
-	"errors"
 	"fmt"
 	"testing"
+
+	"emperror.dev/errors"
 )
 
 func TestPanic(t *testing.T) {
@@ -22,10 +23,12 @@ func TestPanic(t *testing.T) {
 			t.Fatal("expected to the recovered error to be an error, received nil")
 		}
 
-		st, ok := GetStackTrace(err)
-		if !ok {
+		var stt stackTracer
+		if !errors.As(err, &stt) {
 			t.Fatal("error is expected to carry a stack trace")
 		}
+
+		st := stt.StackTrace()
 
 		if got, want := fmt.Sprintf("%n", st[0]), "TestPanic"; got != want { // nolint: govet
 			t.Errorf("function name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
@@ -35,7 +38,7 @@ func TestPanic(t *testing.T) {
 			t.Errorf("file name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 		}
 
-		if got, want := fmt.Sprintf("%d", st[0]), "43"; got != want { // nolint: govet
+		if got, want := fmt.Sprintf("%d", st[0]), "46"; got != want { // nolint: govet
 			t.Errorf("line number does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 		}
 	}()
@@ -67,10 +70,12 @@ func createRecoverFunc(p interface{}) func() error {
 func assertRecoveredError(t *testing.T, err error, msg string) {
 	t.Helper()
 
-	st, ok := GetStackTrace(err)
-	if !ok {
+	var stt stackTracer
+	if !errors.As(err, &stt) {
 		t.Fatal("error is expected to carry a stack trace")
 	}
+
+	st := stt.StackTrace()
 
 	if got, want := fmt.Sprintf("%n", st[0]), "createRecoverFunc.func1"; got != want { // nolint: govet
 		t.Errorf("function name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
@@ -80,7 +85,7 @@ func assertRecoveredError(t *testing.T, err error, msg string) {
 		t.Errorf("file name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 	}
 
-	if got, want := fmt.Sprintf("%d", st[0]), "63"; got != want { // nolint: govet
+	if got, want := fmt.Sprintf("%d", st[0]), "66"; got != want { // nolint: govet
 		t.Errorf("line number does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 	}
 

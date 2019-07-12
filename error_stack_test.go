@@ -7,19 +7,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-func TestGetStackTrace(t *testing.T) {
-	err := errors.WithMessage(errors.New("error"), "wrapper")
-
-	stack, ok := GetStackTrace(err)
-	if !ok {
-		t.Fatal("stack trace is missing")
-	}
-
-	if stack == nil {
-		t.Error("empty stack trace")
-	}
-}
-
 func TestExposeStackTrace(t *testing.T) {
 	err := errors.WithMessage(errors.New("error"), "wrapper")
 

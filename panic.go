@@ -1,8 +1,9 @@
 package emperror
 
 import (
-	"errors"
 	"fmt"
+
+	"emperror.dev/errors"
 )
 
 // Panic panics if the passed error is not nil.
@@ -12,11 +13,9 @@ import (
 // This function is useful with HandleRecover when panic is used as a flow control tool to stop the application.
 func Panic(err error) {
 	if err != nil {
-		if _, ok := GetStackTrace(err); !ok {
-			err = &wrappedError{
-				err:   err,
-				stack: callers(1),
-			}
+		var st stackTracer
+		if !errors.As(err, &st) {
+			err = errors.WithStackDepth(err, 1)
 		}
 
 		panic(err)
@@ -28,18 +27,16 @@ func Recover(r interface{}) (err error) {
 	if r != nil {
 		switch x := r.(type) {
 		case string:
-			err = errors.New(x)
+			err = errors.NewPlain(x)
 		case error:
 			err = x
 		default:
 			err = fmt.Errorf("unknown panic, received: %v", r)
 		}
 
-		if _, ok := GetStackTrace(err); !ok {
-			err = &wrappedError{
-				err:   err,
-				stack: callers(3),
-			}
+		var st stackTracer
+		if !errors.As(err, &st) {
+			err = errors.WithStackDepth(err, 3)
 		}
 	}
 

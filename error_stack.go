@@ -4,34 +4,28 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/pkg/errors"
+	"emperror.dev/errors"
 )
 
-// GetStackTrace returns the stack trace from an error (if any).
-func GetStackTrace(err error) (errors.StackTrace, bool) {
-	st, ok := getStackTracer(err)
-	if ok {
-		return st.StackTrace(), true
-	}
-
-	return nil, false
+type stackTracer interface {
+	StackTrace() errors.StackTrace
 }
 
-// getStackTracer returns the stack trace from an error (if any).
-func getStackTracer(err error) (stackTracer, bool) {
+// ExposeStackTrace exposes the stack trace (if any) in the outer error.
+func ExposeStackTrace(err error) error {
+	if err == nil {
+		return err
+	}
+
 	var st stackTracer
-
-	UnwrapEach(err, func(err error) bool {
-		if s, ok := err.(stackTracer); ok {
-			st = s
-
-			return false
+	if errors.As(err, &st) {
+		return &withExposedStack{
+			err: err,
+			st:  st,
 		}
+	}
 
-		return true
-	})
-
-	return st, st != nil
+	return err
 }
 
 type withExposedStack struct {
@@ -65,22 +59,5 @@ func (w *withExposedStack) Format(s fmt.State, verb rune) {
 
 	case 'q':
 		_, _ = fmt.Fprintf(s, "%q", w.Error())
-	}
-}
-
-// ExposeStackTrace exposes the stack trace (if any) in the outer error.
-func ExposeStackTrace(err error) error {
-	if err == nil {
-		return err
-	}
-
-	st, ok := getStackTracer(err)
-	if !ok {
-		return err
-	}
-
-	return &withExposedStack{
-		err: err,
-		st:  st,
 	}
 }

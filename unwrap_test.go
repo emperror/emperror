@@ -3,67 +3,8 @@ package emperror
 import (
 	"testing"
 
-	"github.com/pkg/errors"
+	"emperror.dev/errors"
 )
-
-func TestUnwrapNext(t *testing.T) {
-	nextErr := errors.New("level 0")
-	err := Wrap(
-		nextErr,
-		"level 1",
-	)
-
-	actualNextErr := Unwrap(err)
-
-	if got, want := actualNextErr, nextErr; got != want {
-		t.Errorf("next error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
-	}
-}
-
-func TestUnwrapNext_Cause(t *testing.T) {
-	nextErr := errors.New("level 0")
-	err := errors.WithMessage(
-		nextErr,
-		"level 1",
-	)
-
-	actualNextErr := Unwrap(err)
-
-	if got, want := actualNextErr, nextErr; got != want {
-		t.Errorf("next error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
-	}
-}
-
-func TestUnwrapAll(t *testing.T) {
-	lastErr := errors.New("level 0")
-	err := Wrap(
-		errors.WithMessage(
-			Wrap(
-				lastErr,
-				"level 1",
-			),
-			"level 2",
-		),
-		"level 3",
-	)
-
-	actualLastErr := UnwrapAll(err)
-
-	if got, want := actualLastErr, lastErr; got != want {
-		t.Errorf("last error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
-	}
-}
-
-func TestUnwrapAll_NoChain(t *testing.T) {
-	lastErr := errors.New("level 0")
-	err := lastErr
-
-	actualLastErr := UnwrapAll(err)
-
-	if got, want := actualLastErr, lastErr; got != want {
-		t.Errorf("last error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
-	}
-}
 
 func TestUnwrapEach(t *testing.T) {
 	err := errors.WithMessage(
@@ -86,7 +27,7 @@ func TestUnwrapEach(t *testing.T) {
 
 	UnwrapEach(err, fn)
 
-	if got, want := i, 4; got != want {
+	if got, want := i, 5; got != want {
 		t.Errorf("error chain length does not match the expected one\nactual:   %d\nexpected: %d", got, want)
 	}
 }
@@ -153,7 +94,7 @@ func TestForEachCause(t *testing.T) {
 
 	ForEachCause(err, fn)
 
-	if got, want := i, 4; got != want {
+	if got, want := i, 5; got != want {
 		t.Errorf("error chain length does not match the expected one\nactual:   %d\nexpected: %d", got, want)
 	}
 }
