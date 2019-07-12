@@ -9,20 +9,9 @@ import (
 // If err is nil, Wrap returns nil.
 //
 // Note: do not use this method when passing errors between goroutines.
+// Deprecated: use emperror.dev/errors.WrapIf instead.
 func Wrap(err error, message string) error {
-	if err == nil {
-		return nil
-	}
-
-	err = errors.WithMessage(err, message)
-
-	// There is no stack trace in the error, so attach it here
-	var st stackTracer
-	if !errors.As(err, &st) {
-		return errors.WithStackDepth(err, 1)
-	}
-
-	return err
+	return errors.WithStackDepthIf(errors.WithMessage(err, message), 1)
 }
 
 // Wrapf returns an error annotating err with a stack trace
@@ -30,18 +19,7 @@ func Wrap(err error, message string) error {
 // If err is nil, Wrapf returns nil.
 //
 // Note: do not use this method when passing errors between goroutines.
+// Deprecated: use emperror.dev/errors.WrapIff instead.
 func Wrapf(err error, format string, args ...interface{}) error {
-	if err == nil {
-		return nil
-	}
-
-	err = errors.WithMessagef(err, format, args...)
-
-	// There is no stack trace in the error, so attach it here
-	var st stackTracer
-	if !errors.As(err, &st) {
-		return errors.WithStackDepth(err, 1)
-	}
-
-	return err
+	return errors.WithStackDepthIf(errors.WithMessagef(err, format, args...), 1)
 }
