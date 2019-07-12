@@ -13,13 +13,7 @@ func WrapWith(err error, message string, keyvals ...interface{}) error {
 		return nil
 	}
 
-	err = errors.WithMessage(err, message)
-
-	// There is no stack trace in the error, so attach it here
-	var st stackTracer
-	if !errors.As(err, &st) {
-		return errors.WithStackDepth(err, 1)
-	}
+	err = errors.WithStackDepthIf(errors.WithMessage(err, message), 1)
 
 	// Attach context to the error
 	if len(keyvals) > 0 {
