@@ -5,7 +5,7 @@ import (
 	"io"
 	"net/http"
 
-	"emperror.dev/emperror"
+	"emperror.dev/errors"
 )
 
 // WithHTTPRequest attaches an HTTP request to the error.
@@ -26,7 +26,7 @@ func HTTPRequest(err error) (*http.Request, bool) {
 
 	var req *http.Request
 
-	emperror.UnwrapEach(err, func(err error) bool {
+	errors.UnwrapEach(err, func(err error) bool {
 		if httpErr, ok := err.(httpError); ok {
 			req = httpErr.HTTPRequest()
 

@@ -3,6 +3,8 @@ package emperror
 import (
 	"fmt"
 	"io"
+
+	"emperror.dev/errors"
 )
 
 // The implementation bellow is heavily influenced by go-kit's log context.
@@ -55,7 +57,7 @@ func Context(err error) []interface{} {
 
 	var kvs []interface{}
 
-	UnwrapEach(err, func(err error) bool {
+	errors.UnwrapEach(err, func(err error) bool {
 		if cerr, ok := err.(contextor); ok {
 			kvs = append(cerr.Context(), kvs...)
 		}
