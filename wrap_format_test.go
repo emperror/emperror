@@ -8,6 +8,8 @@ import (
 )
 
 func testFormatRegexp(t *testing.T, n int, arg interface{}, format, want string) {
+	t.Helper()
+
 	got := fmt.Sprintf(format, arg)
 	gotLines := strings.SplitN(got, "\n", -1)
 	wantLines := strings.SplitN(want, "\n", -1)

@@ -4,58 +4,48 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/pkg/errors"
+	"emperror.dev/errors"
 )
 
 type stackTracer interface {
 	StackTrace() errors.StackTrace
 }
 
-// StackTrace returns the stack trace from an error (if any).
-func StackTrace(err error) (errors.StackTrace, bool) {
-	st, ok := getStackTracer(err)
-	if ok {
-		return st.StackTrace(), true
+// ExposeStackTrace exposes the stack trace (if any) in the outer error.
+func ExposeStackTrace(err error) error {
+	if err == nil {
+		return err
 	}
 
-	return nil, false
-}
-
-// getStackTracer returns the stack trace from an error (if any).
-func getStackTracer(err error) (stackTracer, bool) {
 	var st stackTracer
-
-	UnwrapEach(err, func(err error) bool {
-		if s, ok := err.(stackTracer); ok {
-			st = s
-
-			return false
+	if errors.As(err, &st) {
+		return &withExposedStack{
+			err: err,
+			st:  st,
 		}
+	}
 
-		return true
-	})
-
-	return st, st != nil
+	return err
 }
 
-type withStack struct {
+type withExposedStack struct {
 	err error
 	st  stackTracer
 }
 
-func (w *withStack) Error() string {
+func (w *withExposedStack) Error() string {
 	return w.err.Error()
 }
 
-func (w *withStack) Cause() error  { return w.err }
-func (w *withStack) Unwrap() error { return w.err }
+func (w *withExposedStack) Cause() error  { return w.err }
+func (w *withExposedStack) Unwrap() error { return w.err }
 
-func (w *withStack) StackTrace() errors.StackTrace {
+func (w *withExposedStack) StackTrace() errors.StackTrace {
 	return w.st.StackTrace()
 }
 
 // Format implements the fmt.Formatter interface.
-func (w *withStack) Format(s fmt.State, verb rune) {
+func (w *withExposedStack) Format(s fmt.State, verb rune) {
 	switch verb {
 	case 'v':
 		if s.Flag('+') {
@@ -69,22 +59,5 @@ func (w *withStack) Format(s fmt.State, verb rune) {
 
 	case 'q':
 		_, _ = fmt.Fprintf(s, "%q", w.Error())
-	}
-}
-
-// ExposeStackTrace exposes the stack trace (if any) in the outer error.
-func ExposeStackTrace(err error) error {
-	if err == nil {
-		return err
-	}
-
-	st, ok := getStackTracer(err)
-	if !ok {
-		return err
-	}
-
-	return &withStack{
-		err: err,
-		st:  st,
 	}
 }

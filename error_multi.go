@@ -1,6 +1,11 @@
 package emperror
 
+import (
+	"emperror.dev/errors"
+)
+
 // Errors is responsible for listing multiple errors.
+// Deprecated: use multi error tools from emperror.dev/errors instead.
 type Errors interface {
 	// Errors returns the list of wrapped errors.
 	Errors() []error
@@ -37,6 +42,7 @@ const (
 )
 
 // MultiErrorBuilder provides an interface for aggregating errors and exposing them as a single value.
+// Deprecated: use multi error tools from emperror.dev/errors instead.
 type MultiErrorBuilder struct {
 	errors []error
 
@@ -55,11 +61,6 @@ func NewMultiErrorBuilder() *MultiErrorBuilder {
 //
 // Calling this method concurrently is not safe.
 func (b *MultiErrorBuilder) Add(err error) {
-	// Do not add nil values.
-	if err == nil {
-		return
-	}
-
 	b.errors = append(b.errors, err)
 }
 
@@ -68,15 +69,17 @@ func (b *MultiErrorBuilder) Add(err error) {
 //
 // It is useful to avoid checking if there are any errors added to the list.
 func (b *MultiErrorBuilder) ErrOrNil() error {
-	// No errors added, return nil.
-	if len(b.errors) == 0 {
+	err := errors.Combine(b.errors...)
+	if err == nil {
 		return nil
 	}
 
+	errs := errors.GetErrors(err)
+
 	// Return a single error when there is only one and the builder is told to do so.
-	if len(b.errors) == 1 && b.SingleWrapMode == ReturnSingle {
-		return b.errors[0]
+	if len(errs) == 1 && b.SingleWrapMode == ReturnSingle {
+		return errs[0]
 	}
 
-	return &multiError{b.errors, b.Message}
+	return &multiError{errs, b.Message}
 }
