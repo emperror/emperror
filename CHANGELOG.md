@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Removed
+
+- Unwrap functions
+
+### Deprecated
+
+- `MultiErrorBuilder` and `Errors`. Use multi error tools from [emperror.dev/errors](https://godoc.org/emperror.dev/errors) instead.
+- `Wrap` function. Use [emperror.dev/errors.WrapIf](https://godoc.org/emperror.dev/errors#WrapIf) instead.
+- `Wrapf` function. Use [emperror.dev/errors.WrapIff](https://godoc.org/emperror.dev/errors#WrapIff) instead.
+
 
 ## [0.20.0] - 2019-07-09
 
@@ -22,8 +32,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Deprecated
 
-- `ForEachCause` function. Use `UnwrapEach` instead.
-- `NewCompositeHandler` function. Use `Handlers` instead.
+- `ForEachCause` function. Use [emperror.dev/errors.UnwrapEach](https://godoc.org/emperror.dev/errors#UnwrapEach) instead.
+- `NewCompositeHandler` function. Use [Handlers](https://godoc.org/emperror.dev/emperror#Handlers) instead.
 
 
 ## [0.19.0] - 2019-07-04
