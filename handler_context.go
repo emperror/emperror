@@ -11,23 +11,9 @@ import (
 // keyvals is appended to the existing context, but a new error handler is returned.
 //
 // The created handler will prepend it's own context to the handled errors.
+// Deprecated: use HandlerWithDetails instead.
 func HandlerWith(handler Handler, keyvals ...interface{}) Handler {
-	if len(keyvals) == 0 {
-		return handler
-	}
-
-	kvs, handler := extractHandlerContext(handler)
-
-	kvs = append(kvs, keyvals...)
-
-	if len(kvs)%2 != 0 {
-		kvs = append(kvs, nil)
-	}
-
-	// Limiting the capacity of the stored keyvals ensures that a new
-	// backing array is created if the slice must grow in HandlerWith.
-	// Using the extra capacity without copying risks a data race.
-	return newContextualHandler(handler, kvs[:len(kvs):len(kvs)])
+	return HandlerWithDetails(handler, keyvals...)
 }
 
 // HandlerWithPrefix returns a new error handler with keyvals context prepended to it.
@@ -35,6 +21,7 @@ func HandlerWith(handler Handler, keyvals ...interface{}) Handler {
 // keyvals is prepended to the existing context, but a new error handler is returned.
 //
 // The created handler will prepend it's own context to the handled errors.
+// Deprecated: no replacement at this time.
 func HandlerWithPrefix(handler Handler, keyvals ...interface{}) Handler {
 	if len(keyvals) == 0 {
 		return handler
