@@ -30,17 +30,7 @@ func Wrapf(err error, format string, args ...interface{}) error {
 // If err is nil, Wrap returns nil.
 //
 // Note: do not use this method when passing errors between goroutines.
+// Deprecated: use emperror.dev/errors.WrapIfWithDetails instead.
 func WrapWith(err error, message string, keyvals ...interface{}) error {
-	if err == nil {
-		return nil
-	}
-
-	err = errors.WithStackDepthIf(errors.WithMessage(err, message), 1)
-
-	// Attach context to the error
-	if len(keyvals) > 0 {
-		err = With(err, keyvals...)
-	}
-
-	return err
+	return errors.WithDetails(errors.WithStackDepthIf(errors.WithMessage(err, message), 1), keyvals...)
 }

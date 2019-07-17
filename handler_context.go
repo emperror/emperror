@@ -1,5 +1,9 @@
 package emperror
 
+import (
+	"emperror.dev/errors"
+)
+
 // The implementation bellow is heavily influenced by go-kit's log context.
 
 // HandlerWith returns a new error handler with keyvals context appended to it.
@@ -87,7 +91,7 @@ func newContextualHandler(handler Handler, kvs []interface{}) Handler {
 
 // Handle prepends the handler's context to the error's (if any) and delegates the call to the underlying handler.
 func (h *contextualHandler) Handle(err error) {
-	err = With(err, h.keyvals...)
+	err = errors.WithDetails(err, h.keyvals...)
 
 	h.handler.Handle(err)
 }

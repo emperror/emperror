@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `MultiErrorBuilder` and `Errors`. Use multi error tools from [emperror.dev/errors](https://godoc.org/emperror.dev/errors) instead.
 - `Wrap` function. Use [emperror.dev/errors.WrapIf](https://godoc.org/emperror.dev/errors#WrapIf) instead.
 - `Wrapf` function. Use [emperror.dev/errors.WrapIff](https://godoc.org/emperror.dev/errors#WrapIff) instead.
+- `With` and `WrapWith` functions. Use [emperror.dev/errors.WrapIfWithDetails](https://godoc.org/emperror.dev/errors#WrapIfWithDetails) and [emperror.dev/errors.WithDetails](https://godoc.org/emperror.dev/errors#WithDetails) instead.
+- `Context` function. Use [emperror.dev/errors.GetDetails](https://godoc.org/emperror.dev/errors#GetDetails) instead.
 
 
 ## [0.20.0] - 2019-07-09
