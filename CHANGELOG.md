@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [0.21.1] - 2019-07-19
+
 ### Added
 
 - `WithDetails` function
@@ -362,7 +365,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [Bugsnag](https://bugsnag.com) handler
 
 
-[Unreleased]: https://github.com/emperror/emperror/compare/v0.21.0...HEAD
+[Unreleased]: https://github.com/emperror/emperror/compare/v0.21.1...HEAD
+[0.21.1]: https://github.com/emperror/emperror/compare/v0.21.0...v0.21.1
 [0.21.0]: https://github.com/emperror/emperror/compare/v0.20.0...v0.21.0
 [0.20.0]: https://github.com/emperror/emperror/compare/v0.19.0...v0.20.0
 [0.19.0]: https://github.com/emperror/emperror/compare/v0.18.1...v0.19.0
