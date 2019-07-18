@@ -9,6 +9,7 @@ import (
 )
 
 // WithHTTPRequest attaches an HTTP request to the error.
+// Deprecated: no replacement at this time.
 func WithHTTPRequest(err error, r *http.Request) error {
 	return &withHTTPRequest{
 		req: r,
@@ -19,6 +20,7 @@ func WithHTTPRequest(err error, r *http.Request) error {
 // HTTPRequest extracts an HTTP request from an error (if any).
 //
 // It loops through the whole error chain (if any).
+// Deprecated: no replacement at this time.
 func HTTPRequest(err error) (*http.Request, bool) {
 	type httpError interface {
 		HTTPRequest() *http.Request

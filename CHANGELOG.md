@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `HandlerWithDetails` function. Use `WithDetails` instead.
 - `keyvals.ToMap` function. Use [emperror.dev/errors/utils/keyval.ToMap](https://godoc.org/emperror.dev/errors/utils/keyval/emperror#ToMap) instead.
+- `httperr` package. No replacement (yet).
 
 
 ## [0.21.0] - 2019-07-17
