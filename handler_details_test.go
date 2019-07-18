@@ -7,11 +7,11 @@ import (
 	"emperror.dev/errors"
 )
 
-func TestHandlerWithDetails(t *testing.T) {
+func TestWithDetails(t *testing.T) {
 	testHandler := NewTestHandler()
 
 	details := []interface{}{"a", 123}
-	handler := HandlerWithDetails(testHandler, details...)
+	handler := WithDetails(testHandler, details...)
 
 	handler.Handle(errors.NewPlain("error"))
 
@@ -22,10 +22,10 @@ func TestHandlerWithDetails(t *testing.T) {
 	}
 }
 
-func TestHandlerWithDetails_Multi(t *testing.T) {
+func TestWithDetails_Multi(t *testing.T) {
 	testHandler := NewTestHandler()
 
-	handler := HandlerWithDetails(HandlerWithDetails(testHandler, "a", 123), "b", 321)
+	handler := WithDetails(WithDetails(testHandler, "a", 123), "b", 321)
 
 	handler.Handle(errors.NewPlain("error"))
 
@@ -36,10 +36,10 @@ func TestHandlerWithDetails_Multi(t *testing.T) {
 	}
 }
 
-func TestHandlerWithDetails_MultiPrefix(t *testing.T) {
+func TestWithDetails_MultiPrefix(t *testing.T) {
 	testHandler := NewTestHandler()
 
-	handler := HandlerWithPrefix(HandlerWithDetails(testHandler, "a", 123), "b", 321)
+	handler := HandlerWithPrefix(WithDetails(testHandler, "a", 123), "b", 321)
 
 	handler.Handle(errors.NewPlain("error"))
 
@@ -50,10 +50,10 @@ func TestHandlerWithDetails_MultiPrefix(t *testing.T) {
 	}
 }
 
-func TestHandlerWithDetails_MissingValue(t *testing.T) {
+func TestWithDetails_MissingValue(t *testing.T) {
 	testHandler := NewTestHandler()
 
-	handler := HandlerWithDetails(testHandler, "k0")
+	handler := WithDetails(testHandler, "k0")
 
 	handler.Handle(errors.NewPlain("error"))
 

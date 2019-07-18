@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- `WithDetails` function
+
+### Deprecated
+
+- `HandlerWithDetails` function. Use `WithDetails` instead.
+
 
 ## [0.21.0] - 2019-07-17
 

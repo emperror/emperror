@@ -11,9 +11,9 @@ import (
 // keyvals is appended to the existing context, but a new error handler is returned.
 //
 // The created handler will prepend it's own context to the handled errors.
-// Deprecated: use HandlerWithDetails instead.
+// Deprecated: use WithDetails instead.
 func HandlerWith(handler Handler, keyvals ...interface{}) Handler {
-	return HandlerWithDetails(handler, keyvals...)
+	return WithDetails(handler, keyvals...)
 }
 
 // HandlerWithPrefix returns a new error handler with keyvals context prepended to it.
