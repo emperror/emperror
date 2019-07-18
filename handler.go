@@ -1,10 +1,22 @@
 package emperror
 
+import (
+	"context"
+)
+
 // Handler is a generic error handler. It allows applications (and libraries) to handle errors
 // without worrying about the actual error handling strategy (logging, error tracking service, etc).
 type Handler interface {
 	// Handle handles an error.
 	Handle(err error)
+}
+
+// ContextAwareHandler is similar to Handler, except it receives a context as well.
+// It is useful in request terminal error handling situations.
+// An implementation MAY extract information from the context and annotate err with it.
+type ContextAwareHandler interface {
+	// Handle handles an error.
+	Handle(ctx context.Context, err error)
 }
 
 // Handlers collects a number of error handlers into a single one.
@@ -44,3 +56,18 @@ func NewNoopHandler() Handler {
 }
 
 func (*noopHandler) Handle(err error) {}
+
+// MakeContextAware wraps an error handler and turns it into a ContextAwareHandler.
+func MakeContextAware(handler Handler) ContextAwareHandler {
+	return &contextAwareHandler{handler}
+}
+
+// contextAwareHandler wraps an error handler and turns it into a ContextAwareHandler.
+type contextAwareHandler struct {
+	handler Handler
+}
+
+// Handle calls the underlying error handler.
+func (h contextAwareHandler) Handle(ctx context.Context, err error) {
+	h.handler.Handle(err)
+}

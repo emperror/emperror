@@ -1,6 +1,7 @@
 package emperror
 
 import (
+	"context"
 	"errors"
 	"testing"
 )
@@ -59,5 +60,17 @@ func TestHandle_Nil(t *testing.T) {
 
 	if got := handler.LastError(); got != nil {
 		t.Errorf("unexpected error, received: %s", got)
+	}
+}
+
+func TestMakeContextAware(t *testing.T) {
+	testHandler := NewTestHandler()
+	handler := MakeContextAware(testHandler)
+	err := errors.New("error")
+
+	handler.Handle(context.Background(), err)
+
+	if got, want := testHandler.LastError(), err; got != want {
+		t.Errorf("error does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 	}
 }
