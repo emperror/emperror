@@ -43,7 +43,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Wrapf` function. Use [emperror.dev/errors.WrapIff](https://godoc.org/emperror.dev/errors#WrapIff) instead.
 - `With` and `WrapWith` functions. Use [emperror.dev/errors.WrapIfWithDetails](https://godoc.org/emperror.dev/errors#WrapIfWithDetails) and [emperror.dev/errors.WithDetails](https://godoc.org/emperror.dev/errors#WithDetails) instead.
 - `Context` function. Use [emperror.dev/errors.GetDetails](https://godoc.org/emperror.dev/errors#GetDetails) instead.
-- `HandlerWith` function. Use [emperror.dev/emperror.HandlerWithDetails](https://godoc.org/emperror.dev/emperror#HandlerWithDetails) instead.
+- `HandlerWith` function. Use [emperror.dev/emperror.WithDetails](https://godoc.org/emperror.dev/emperror#WithDetails) instead.
 - `HandlerWithPrefix` function. No replacement at this time.
 
 
