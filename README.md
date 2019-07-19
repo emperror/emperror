@@ -94,8 +94,8 @@ func main() {
 	// nil errors will not panic
 	emperror.Panic(nil)
 	
-    // this will panic if foo returns with a non-nil error
-    // useful in main func for initial setup where "if err != nil" does not make much sense
+	// this will panic if foo returns with a non-nil error
+	// useful in main func for initial setup where "if err != nil" does not make much sense
 	emperror.Panic(foo())
 }
 
