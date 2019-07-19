@@ -8,13 +8,12 @@
 **The Emperor takes care of all errors personally.**
 
 Go's philosophy encourages to gracefully handle errors whenever possible,
-but some times recovering from an error is not possible.
+but some times recovering from an error is not.
 
 In those cases handling the error means making the best effort to record every detail
 for later inspection, doing that as high in the application stack as possible.
 
-This project provides tools (building on the well-known [pkg/errors](https://github.com/pkg/errors) package)
-to make error handling easier.
+This project provides tools to make error handling easier.
 
 Read more about the topic here:
 
@@ -26,9 +25,10 @@ Read more about the topic here:
 ## Features
 
 - Various error handling strategies (eg. logging, third-party error services) using a simple interface
-- Annotate errors with context (key-value pairs, HTTP request, etc)
 - Various helpers related to error handling (recovery from panics, etc)
-- Integrations with well-known error catchers and libraries:
+- [Integrations](https://github.com/emperror?utf8=%E2%9C%93&q=handler-*&type=&language=) with well-known error catchers and libraries:
+    - [Logur](https://github.com/goph/logur)
+    - [Logrus](https://github.com/sirupsen/logrus)
     - [Sentry](https://sentry.io) [SDK](https://godoc.org/github.com/getsentry/raven-go) (both hosted and on-premise)
     - [Bugsnag](https://bugsnag.com) [SDK](https://godoc.org/github.com/bugsnag/bugsnag-go)
     - [Airbrake](https://airbrake.com) [SDK](https://godoc.org/github.com/airbrake/gobrake) / [Errbit](https://errbit.com/)
@@ -48,38 +48,61 @@ go get emperror.dev/emperror
 
 Logging is one of the most common target to record error events.
 
-The reference implementation for logging with Emperror can be found in package [logur](https://github.com/goph/logur).
-Logur is an opinionated logging toolkit supporting multiple logging libraries (like [logrus](https://github.com/sirupsen/logrus)).
+Emperror has two logger integrations by default:
+- [Logur handler](https://github.com/emperror/handler-logur)
+- [Logrus handler](https://github.com/emperror/handler-logrus)
 
 
-### Attach context to an error
+### Annotate errors passing through an error handler
 
-Following [go-kit's logger](https://github.com/go-kit/kit/tree/master/log) context pattern
-Emperror gives you tools to attach context (eg. key-value pairs) to an error:
+Emperror can annotate errors with details as defined in [emperror.dev/errors](https://github.com/emperror/errors)
 
 ```go
 package main
 
 import (
 	"emperror.dev/emperror"
-	"github.com/pkg/errors"
+	"emperror.dev/errors"
 )
 
-func foo() error { return errors.New("error") }
-
-func bar() error {
-	err := foo()
-	if err != nil {
-	    return emperror.With(err, "key", "value")
-	}
-
-	return nil
+func main() {
+	handler := emperror.WithDetails(newHandler(), "key", "value")
+	
+	err := errors.New("error")
+	
+	// handled error will receive the handler details
+	handler.Handle(err)
 }
 ```
 
-Note that (just like with go-kit's logger) the context is *NOT* a set of key-value pairs per se,
-but most tools will convert the slice to key-value pairs.
-This is to provide flexibility in error handling implementations.
+### Panics and recovers
+
+```go
+package main
+
+import (
+	"emperror.dev/emperror"
+	"emperror.dev/errors"
+)
+
+func main() {
+	var handler emperror.Handler =  newHandler()
+	
+	// Recover from panics and handle them as errors
+	defer emperror.HandleRecover(handler)
+	
+	// nil errors will not panic
+	emperror.Panic(nil)
+	
+    // this will panic if foo returns with a non-nil error
+    // useful in main func for initial setup where "if err != nil" does not make much sense
+	emperror.Panic(foo())
+}
+
+func foo() error {
+	return errors.New("error")
+}
+```
 
 
 ## Development
