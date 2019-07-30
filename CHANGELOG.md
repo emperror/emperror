@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- `Close` function to `Handlers`
+
 
 ## [0.21.2] - 2019-07-19
 

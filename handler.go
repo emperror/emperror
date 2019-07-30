@@ -2,6 +2,8 @@ package emperror
 
 import (
 	"context"
+
+	"emperror.dev/errors"
 )
 
 // Handler is a generic error handler. It allows applications (and libraries) to handle errors
@@ -23,13 +25,26 @@ type ContextAwareHandler interface {
 type Handlers []Handler
 
 func (h Handlers) Handle(err error) {
-	if len(h) < 1 {
-		return
-	}
-
 	for _, handler := range h {
 		handler.Handle(err)
 	}
+}
+
+// Close calls Close on the underlying handlers (if there is any closable handler).
+func (h Handlers) Close() error {
+	if len(h) < 1 {
+		return nil
+	}
+
+	errs := make([]error, len(h))
+
+	for i, handler := range h {
+		if closer, ok := handler.(interface{ Close() error }); ok {
+			errs[i] = closer.Close()
+		}
+	}
+
+	return errors.Combine(errs...)
 }
 
 // HandlerFunc wraps a function and turns it into an error handler.
