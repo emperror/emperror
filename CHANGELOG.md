@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [0.21.3] - 2019-07-30
+
 ### Added
 
 - `Close` function to `Handlers`
@@ -376,7 +379,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [Bugsnag](https://bugsnag.com) handler
 
 
-[Unreleased]: https://github.com/emperror/emperror/compare/v0.21.2...HEAD
+[Unreleased]: https://github.com/emperror/emperror/compare/v0.21.3...HEAD
+[0.21.3]: https://github.com/emperror/emperror/compare/v0.21.2...v0.21.3
 [0.21.2]: https://github.com/emperror/emperror/compare/v0.21.1...v0.21.2
 [0.21.1]: https://github.com/emperror/emperror/compare/v0.21.0...v0.21.1
 [0.21.0]: https://github.com/emperror/emperror/compare/v0.20.0...v0.21.0
