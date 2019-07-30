@@ -25,6 +25,80 @@ func TestHandlers(t *testing.T) {
 	}
 }
 
+func TestHandlers_NoHandlers(t *testing.T) {
+	var handler Handlers
+
+	err := errors.New("error")
+
+	handler.Handle(err)
+}
+
+type closableHandler struct {
+	handler    Handler
+	closeError error
+}
+
+func (h *closableHandler) Handle(err error) {
+	h.handler.Handle(err)
+}
+
+func (h *closableHandler) Close() error {
+	return h.closeError
+}
+
+func TestHandlers_Close(t *testing.T) {
+	t.Run("no_handlers", func(t *testing.T) {
+		var handler Handlers
+
+		err := handler.Close()
+
+		if err != nil {
+			t.Errorf("unexpected error when closing handlers\nactual:   %+v", err)
+		}
+	})
+
+	t.Run("no_closers", func(t *testing.T) {
+		handler1 := NewTestHandler()
+		handler2 := NewTestHandler()
+
+		handler := Handlers{handler1, handler2}
+
+		err := handler.Close()
+
+		if err != nil {
+			t.Errorf("unexpected error when closing handlers\nactual:   %+v", err)
+		}
+	})
+
+	t.Run("no_errors", func(t *testing.T) {
+		handler1 := &closableHandler{handler: NewTestHandler()}
+		handler2 := NewTestHandler()
+
+		handler := Handlers{handler1, handler2}
+
+		err := handler.Close()
+
+		if err != nil {
+			t.Errorf("unexpected error when closing handlers\nactual:   %+v", err)
+		}
+	})
+
+	t.Run("error", func(t *testing.T) {
+		closeErr := errors.New("close error")
+
+		handler1 := &closableHandler{handler: NewTestHandler(), closeError: closeErr}
+		handler2 := NewTestHandler()
+
+		handler := Handlers{handler1, handler2}
+
+		err := handler.Close()
+
+		if err != closeErr {
+			t.Errorf("unexpected error when closing handlers\nactual:   %#v\nexpected: %#v", err, closeErr)
+		}
+	})
+}
+
 func TestHandlerFunc(t *testing.T) {
 	var actual error
 	log := func(err error) {
