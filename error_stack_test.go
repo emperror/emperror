@@ -4,7 +4,7 @@ import (
 	stderrors "errors"
 	"testing"
 
-	"github.com/pkg/errors"
+	"emperror.dev/errors"
 )
 
 func TestExposeStackTrace(t *testing.T) {

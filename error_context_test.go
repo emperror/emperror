@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/pkg/errors"
+	"emperror.dev/errors"
 )
 
 func TestWith(t *testing.T) {
