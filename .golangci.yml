@@ -1,11 +1,11 @@
-linters:
-    enable-all: true
-
 linters-settings:
     golint:
         min-confidence: 0.1
     goimports:
         local-prefixes: emperror.dev/emperror
+
+linters:
+    enable-all: true
 
 service:
     golangci-lint-version: 1.17.x
