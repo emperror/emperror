@@ -29,7 +29,7 @@ Read more about the topic here:
 - Various error handling strategies (eg. logging, third-party error services) using a simple interface
 - Various helpers related to error handling (recovery from panics, etc)
 - [Integrations](https://github.com/emperror?utf8=%E2%9C%93&q=handler-*&type=&language=) with well-known error catchers and libraries:
-    - [Logur](https://github.com/goph/logur)
+    - [Logur](https://github.com/logur/logur)
     - [Logrus](https://github.com/sirupsen/logrus)
     - [Sentry](https://sentry.io) [SDK](https://godoc.org/github.com/getsentry/raven-go) (both hosted and on-premise)
     - [Bugsnag](https://bugsnag.com) [SDK](https://godoc.org/github.com/bugsnag/bugsnag-go)
