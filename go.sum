@@ -1,5 +1,5 @@
-emperror.dev/errors v0.5.0 h1:+OnDVAQxGzkG5e+SgH67xFOYvMsaFgFBra8EQUzYdyw=
-emperror.dev/errors v0.5.0/go.mod h1:cA5SMsyzo+KXq997DKGK+lTV1DGx5TXLQUNtYe9p2p0=
+emperror.dev/errors v0.5.1 h1:VhZaHPUdtki3J3uFuoPJ4ov74p0Uz5/q3ZxdndPVkCo=
+emperror.dev/errors v0.5.1/go.mod h1:cA5SMsyzo+KXq997DKGK+lTV1DGx5TXLQUNtYe9p2p0=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/pkg/errors v0.8.1 h1:iURUrRGxPUNPdy5/HRSm+Yj6okJ6UtLINN0Q9M4+h3I=

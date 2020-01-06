@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Updated `emperror.dev/errors` dependency (fixed race condition)
+
 
 ## [0.22.0] - 2020-01-06
 
