@@ -7,6 +7,9 @@ linters-settings:
 linters:
     enable-all: true
     disable:
+        # TODO: fixme
+        - godox
+
         - funlen
         - wsl
 
