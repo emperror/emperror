@@ -1,11 +1,11 @@
 ![Emperror](/.github/logo.png?raw=true)
 
+[![Mentioned in Awesome Go](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/avelino/awesome-go#error-handling)
 [![CircleCI](https://circleci.com/gh/emperror/emperror.svg?style=svg)](https://circleci.com/gh/emperror/emperror)
 [![Coverage](https://gocover.io/_badge/emperror.dev/emperror)](https://gocover.io/emperror.dev/emperror)
 [![Go Report Card](https://goreportcard.com/badge/emperror.dev/emperror?style=flat-square)](https://goreportcard.com/report/emperror.dev/emperror)
 [![GolangCI](https://golangci.com/badges/github.com/emperror/emperror.svg)](https://golangci.com/r/github.com/emperror/emperror)
 [![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/emperror.dev/emperror)
-[![Mentioned in Awesome Go](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/avelino/awesome-go#error-handling)
 
 **The Emperor takes care of all errors personally.**
 
@@ -69,9 +69,9 @@ import (
 
 func main() {
 	handler := emperror.WithDetails(newHandler(), "key", "value")
-	
+
 	err := errors.New("error")
-	
+
 	// handled error will receive the handler details
 	handler.Handle(err)
 }
@@ -89,13 +89,13 @@ import (
 
 func main() {
 	var handler emperror.Handler =  newHandler()
-	
+
 	// Recover from panics and handle them as errors
 	defer emperror.HandleRecover(handler)
-	
+
 	// nil errors will not panic
 	emperror.Panic(nil)
-	
+
 	// this will panic if foo returns with a non-nil error
 	// useful in main func for initial setup where "if err != nil" does not make much sense
 	emperror.Panic(foo())
