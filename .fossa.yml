@@ -1,0 +1,14 @@
+version: 2
+cli:
+    server: https://app.fossa.com
+    fetcher: custom
+    project: emperror.dev/emperror
+analyze:
+    modules:
+        -   name: emperror.dev/emperror
+            type: go
+            target: emperror.dev/emperror
+            strategy: gomodules
+            path: .
+            options:
+                allow-unresolved: true
