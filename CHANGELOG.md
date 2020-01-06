@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- `WithFilter` function to keep certain errors from being handled
+
 
 ## [0.21.3] - 2019-07-30
 
