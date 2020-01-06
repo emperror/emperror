@@ -90,7 +90,7 @@ import (
 )
 
 func main() {
-	var handler emperror.Handler =  newHandler()
+	var handler emperror.Handler = newHandler()
 
 	// Recover from panics and handle them as errors
 	defer emperror.HandleRecover(handler)
@@ -105,6 +105,27 @@ func main() {
 
 func foo() error {
 	return errors.New("error")
+}
+```
+
+### Filter errors
+
+Sometimes you might not want to handle certain errors that reach the error handler.
+A common example is a catch-all error handler in a server. You want to return business errors to the client.
+
+```go
+package main
+
+import (
+	"emperror.dev/emperror"
+	"emperror.dev/errors/match"
+)
+
+func main() {
+	var handler emperror.Handler = emperror.WithFilter(newHandler(), match.Any{/*any emperror.ErrorMatcher*/})
+
+    // errors matching the provided matcher will not be handled
+	handler.Handle(err)
 }
 ```
 
