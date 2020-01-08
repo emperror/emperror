@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Fossa
+    name: FOSSA
     runs-on: ubuntu-latest
 
     steps:
