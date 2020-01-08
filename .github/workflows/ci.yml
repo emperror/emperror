@@ -13,9 +13,6 @@ jobs:
     strategy:
       matrix:
         go: ['1.11', '1.12', '1.13']
-        include:
-          - go: '1.13'
-            latest: true
     env:
       VERBOSE: 1
       GOFLAGS: -mod=readonly
@@ -35,7 +32,7 @@ jobs:
 
       - name: Upload coverage
         uses: codecov/codecov-action@v1
-        if: always() && matrix.latest
+        if: always()
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: build/coverage.txt
