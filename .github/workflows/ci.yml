@@ -11,9 +11,11 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 10
       matrix:
         go: ['1.11', '1.12', '1.13']
+        include:
+          - go: '1.13'
+            latest: true
     env:
       VERBOSE: 1
       GOFLAGS: -mod=readonly
@@ -30,3 +32,10 @@ jobs:
 
       - name: Run tests
         run: make test
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
+        if: always() && matrix.latest
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: build/coverage.txt
