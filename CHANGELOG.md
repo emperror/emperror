@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [0.23.0] - 2020-01-09
+
 ### Changed
 
 - Update dependencies
@@ -397,7 +400,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [Bugsnag](https://bugsnag.com) handler
 
 
-[Unreleased]: https://github.com/emperror/emperror/compare/v0.22.1...HEAD
+[Unreleased]: https://github.com/emperror/emperror/compare/v0.23.0...HEAD
+[0.23.0]: https://github.com/emperror/emperror/compare/v0.22.1...v0.23.0
 [0.22.1]: https://github.com/emperror/emperror/compare/v0.22.0...v0.22.1
 [0.22.0]: https://github.com/emperror/emperror/compare/v0.21.3...v0.22.0
 [0.21.3]: https://github.com/emperror/emperror/compare/v0.21.2...v0.21.3
