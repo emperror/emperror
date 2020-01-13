@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- `ErrorMatcher` is now a simple function type: `func(err error) bool`
+- `ErrorMatcher` is now a simple function type: `func(err error) bool` **(Breaking change)**
 - Error handlers created using composition (`WithDetails`, `WithFilter`) now return `ErrorHandlerSet`
 
 ### Deprecated
