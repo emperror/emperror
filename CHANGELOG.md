@@ -9,6 +9,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- `ErrorHandler` interface
+- `ErrorHandlerContext` interface
+- `ErrorHandlerSet` interface
+- `ErrorHandlers` error handler list
+- `ErrorHandlerFunc` error handler function wrapper
+- `ErrorHandlerContextFunc` error handler function wrapper
+- `NoopHandler` no-op error handler
+- `TestErrorHandler`, `TestErrorHandlerContext`, `TestErrorHandlerSet` test error handlers
+
+### Changed
+
+- `ErrorMatcher` is now a simple function type: `func(err error) bool`
+- Error handlers created using composition (`WithDetails`, `WithFilter`) now return `ErrorHandlerSet`
+
+### Deprecated
+
+- `Handler` interface. Use `ErrorHandler` instead.
+- `ContextAwareHandler` interface. Use `ErrorHandlerContext` instead.
+- `Handlers` error handler list. Use `ErrorHandlers` instead.
+- `HandlerFunc` error handler function wrapper. Use `ErrorHandlerFunc` instead.
+- `Handle` helper function. User `ErrorHandler.Handle` instead.
+- `NewNoopHandler` no-op error handler. Use `NoopHandler` instead.
+- `MakeContextAware` error handler context wrapper. No replacement. (Error handlers are by default context aware)
+- `TestHandler` test error handler. Use `TestErrorHandler` instead.
+
 
 ## [0.23.0] - 2020-01-09
 
