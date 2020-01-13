@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [0.30.0] - 2020-01-13
+
 ### Added
 
 - `ErrorHandler` interface
@@ -24,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `ErrorMatcher` is now a simple function type: `func(err error) bool` **(Breaking change)**
 - Error handlers created using composition (`WithDetails`, `WithFilter`) now return `ErrorHandlerSet`
+- Updated errors packages
 
 ### Deprecated
 
@@ -427,7 +431,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [Bugsnag](https://bugsnag.com) handler
 
 
-[Unreleased]: https://github.com/emperror/emperror/compare/v0.23.0...HEAD
+[Unreleased]: https://github.com/emperror/emperror/compare/v0.30.0...HEAD
+[0.30.0]: https://github.com/emperror/emperror/compare/v0.23.0...v0.30.0
 [0.23.0]: https://github.com/emperror/emperror/compare/v0.22.1...v0.23.0
 [0.22.1]: https://github.com/emperror/emperror/compare/v0.22.0...v0.22.1
 [0.22.0]: https://github.com/emperror/emperror/compare/v0.21.3...v0.22.0
