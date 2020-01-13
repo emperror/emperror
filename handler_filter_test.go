@@ -15,7 +15,7 @@ func ExampleWithFilter() {
 
 	handler := WithFilter(
 		ErrorHandlerFunc(func(err error) { fmt.Println(err) }),
-		match.Is(isErr),
+		match.Is(isErr).MatchError,
 	)
 
 	handler.Handle(err)
