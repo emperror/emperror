@@ -1,16 +1,20 @@
 package emperror
 
 import (
+	"context"
+
 	"emperror.dev/errors"
 )
 
 // WithDetails returns a new error handler that annotates every error with a set of key-value pairs.
-func WithDetails(handler Handler, details ...interface{}) Handler {
+func WithDetails(handler ErrorHandler, details ...interface{}) ErrorHandlerSet {
+	handlerSet := ensureErrorHandlerSet(handler)
+
 	if len(details) == 0 {
-		return handler
+		return handlerSet
 	}
 
-	d, handler := extractHandlerDetails(handler)
+	d, handlerSet := extractHandlerDetails(handlerSet)
 
 	d = append(d, details...)
 
@@ -21,7 +25,7 @@ func WithDetails(handler Handler, details ...interface{}) Handler {
 	// Limiting the capacity of the stored keyvals ensures that a new
 	// backing array is created if the slice must grow in HandlerWith.
 	// Using the extra capacity without copying risks a data race.
-	return newWithDetails(handler, d[:len(d):len(d)])
+	return newWithDetails(handlerSet, d[:len(d):len(d)])
 }
 
 // HandlerWithDetails returns a new error handler annotated with key-value pairs.
@@ -33,12 +37,12 @@ func HandlerWithDetails(handler Handler, details ...interface{}) Handler {
 }
 
 // extractHandlerDetails extracts the context and optionally the wrapped handler when it's the same container.
-func extractHandlerDetails(handler Handler) ([]interface{}, Handler) {
+func extractHandlerDetails(handler ErrorHandlerSet) ([]interface{}, ErrorHandlerSet) {
 	var d []interface{}
 
 	if c, ok := handler.(*withDetails); ok {
 		handler = c.handler
-		d = c.details
+		d = c.details[:] // nolint: gocritic
 	}
 
 	return d, handler
@@ -48,18 +52,16 @@ func extractHandlerDetails(handler Handler) ([]interface{}, Handler) {
 //
 // It wraps an error handler and a holds keyvals as the context.
 type withDetails struct {
-	handler Handler
+	handler ErrorHandlerSet
 	details []interface{}
 }
 
 // newWithDetails creates a new handler annotated with a set of key-value pairs.
-func newWithDetails(handler Handler, details []interface{}) Handler {
-	chandler := &withDetails{
+func newWithDetails(handler ErrorHandlerSet, details []interface{}) ErrorHandlerSet {
+	return &withDetails{
 		handler: handler,
 		details: details,
 	}
-
-	return chandler
 }
 
 // Handle adds the handler's details to err and delegates the call to the underlying handler.
@@ -68,4 +70,12 @@ func (h *withDetails) Handle(err error) {
 	err = errors.WithDetails(err, h.details...)
 
 	h.handler.Handle(err)
+}
+
+// HandleContext adds the handler's details to err and delegates the call to the underlying handler.
+func (h *withDetails) HandleContext(ctx context.Context, err error) {
+	// TODO: prepend details so the error takes higher precedence
+	err = errors.WithDetails(err, h.details...)
+
+	h.handler.HandleContext(ctx, err)
 }
