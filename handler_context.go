@@ -1,6 +1,8 @@
 package emperror
 
 import (
+	"context"
+
 	"emperror.dev/errors"
 )
 
@@ -22,12 +24,14 @@ func HandlerWith(handler Handler, keyvals ...interface{}) Handler {
 //
 // The created handler will prepend it's own context to the handled errors.
 // Deprecated: no replacement at this time.
-func HandlerWithPrefix(handler Handler, keyvals ...interface{}) Handler {
+func HandlerWithPrefix(handler Handler, keyvals ...interface{}) ErrorHandlerSet {
+	handlerSet := ensureErrorHandlerSet(handler)
+
 	if len(keyvals) == 0 {
-		return handler
+		return handlerSet
 	}
 
-	prevkvs, handler := extractHandlerContext(handler)
+	prevkvs, handlerSet := extractHandlerContext(handlerSet)
 
 	n := len(prevkvs) + len(keyvals)
 	if len(keyvals)%2 != 0 {
@@ -43,11 +47,11 @@ func HandlerWithPrefix(handler Handler, keyvals ...interface{}) Handler {
 
 	kvs = append(kvs, prevkvs...)
 
-	return newContextualHandler(handler, kvs)
+	return newContextualHandler(handlerSet, kvs)
 }
 
 // extractHandlerContext extracts the context and optionally the wrapped handler when it's the same container.
-func extractHandlerContext(handler Handler) ([]interface{}, Handler) {
+func extractHandlerContext(handler ErrorHandlerSet) ([]interface{}, ErrorHandlerSet) {
 	var kvs []interface{}
 
 	if c, ok := handler.(*contextualHandler); ok {
@@ -62,12 +66,12 @@ func extractHandlerContext(handler Handler) ([]interface{}, Handler) {
 //
 // It wraps an error handler and a holds keyvals as the context.
 type contextualHandler struct {
-	handler Handler
+	handler ErrorHandlerSet
 	keyvals []interface{}
 }
 
 // newContextualHandler creates a new *contextualHandler or a struct which is contextual and holds a stack trace.
-func newContextualHandler(handler Handler, kvs []interface{}) Handler {
+func newContextualHandler(handler ErrorHandlerSet, kvs []interface{}) ErrorHandlerSet {
 	chandler := &contextualHandler{
 		handler: handler,
 		keyvals: kvs,
@@ -81,4 +85,12 @@ func (h *contextualHandler) Handle(err error) {
 	err = errors.WithDetails(err, h.keyvals...)
 
 	h.handler.Handle(err)
+}
+
+// HandleContext prepends the handler's context to the error's (if any)
+// and delegates the call to the underlying handler.
+func (h *contextualHandler) HandleContext(ctx context.Context, err error) {
+	err = errors.WithDetails(err, h.keyvals...)
+
+	h.handler.HandleContext(ctx, err)
 }
