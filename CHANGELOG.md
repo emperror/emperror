@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `ErrorHandler` interface
 - `ErrorHandlerContext` interface
-- `ErrorHandlerSet` interface
+- `ErrorHandlerSet` interface (combination of `ErrorHandler` and `ErrorHandlerContext`)
 - `ErrorHandlers` error handler list
 - `ErrorHandlerFunc` error handler function wrapper
 - `ErrorHandlerContextFunc` error handler function wrapper
