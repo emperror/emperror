@@ -40,6 +40,14 @@ type ErrorHandlerSet interface {
 	ErrorHandlerContext
 }
 
+func ensureErrorHandlerSet(handler ErrorHandler) ErrorHandlerSet {
+	if handler, ok := handler.(ErrorHandlerSet); ok {
+		return handler
+	}
+
+	return ErrorHandlerFunc(handler.Handle)
+}
+
 // ErrorHandlers combines a number of error handlers into a single one.
 type ErrorHandlers []ErrorHandler
 
@@ -108,14 +116,6 @@ type NoopHandler struct{}
 func (NoopHandler) Handle(_ error) {}
 
 func (NoopHandler) HandleContext(_ context.Context, _ error) {}
-
-func ensureErrorHandlerSet(handler ErrorHandler) ErrorHandlerSet {
-	if handler, ok := handler.(ErrorHandlerSet); ok {
-		return handler
-	}
-
-	return ErrorHandlerFunc(handler.Handle)
-}
 
 // Handler is a generic error handler. It allows applications (and libraries) to handle errors
 // without worrying about the actual error handling strategy (logging, error tracking service, etc).
