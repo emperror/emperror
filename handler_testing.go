@@ -8,7 +8,7 @@ import (
 // TestErrorHandler is an ErrorHandler recording every error.
 //
 // Useful when you want to test behavior with an ErrorHandler, but not with ErrorHandlerContext.
-// In every other cases TestErrorHandlerSet should be the default choice of test handler.
+// In every other cases TestErrorHandlerFacade should be the default choice of test handler.
 //
 // TestErrorHandler is safe for concurrent use.
 type TestErrorHandler struct {
@@ -60,7 +60,7 @@ func (h *TestErrorHandler) Handle(err error) {
 // TestErrorHandlerContext is an ErrorHandlerContext recording every error.
 //
 // Useful when you want to test behavior with an ErrorHandlerContext, but not with ErrorHandler.
-// In every other cases TestErrorHandlerSet should be the default choice of test handler.
+// In every other cases TestErrorHandlerFacade should be the default choice of test handler.
 //
 // TestErrorHandlerContext is safe for concurrent use.
 type TestErrorHandlerContext struct {
@@ -131,18 +131,25 @@ func (h *TestErrorHandlerContext) HandleContext(ctx context.Context, err error) 
 	h.contexts = append(h.contexts, ctx)
 }
 
-// TestErrorHandlerSet is an ErrorHandlerContext recording every error.
+// TestErrorHandlerFacade is an ErrorHandlerFacade recording every error.
 //
-// TestErrorHandlerSet is safe for concurrent use.
-type TestErrorHandlerSet struct {
+// TestErrorHandlerFacade is safe for concurrent use.
+type TestErrorHandlerFacade struct {
 	errors   []error
 	contexts []context.Context
 
 	mu sync.RWMutex
 }
 
+// TestErrorHandlerSet is an ErrorHandlerSet recording every error.
+//
+// TestErrorHandlerSet is safe for concurrent use.
+//
+// Deprecated: use TestErrorHandlerFacade.
+type TestErrorHandlerSet = TestErrorHandlerFacade
+
 // Count returns the number of recorded events.
-func (h *TestErrorHandlerSet) Count() int {
+func (h *TestErrorHandlerFacade) Count() int {
 	h.mu.RLock()
 	defer h.mu.RUnlock()
 
@@ -150,7 +157,7 @@ func (h *TestErrorHandlerSet) Count() int {
 }
 
 // LastError returns the last handled error (if any).
-func (h *TestErrorHandlerSet) LastError() error {
+func (h *TestErrorHandlerFacade) LastError() error {
 	h.mu.RLock()
 	defer h.mu.RUnlock()
 
@@ -162,7 +169,7 @@ func (h *TestErrorHandlerSet) LastError() error {
 }
 
 // Errors returns all handled errors.
-func (h *TestErrorHandlerSet) Errors() []error {
+func (h *TestErrorHandlerFacade) Errors() []error {
 	h.mu.RLock()
 	defer h.mu.RUnlock()
 
@@ -170,7 +177,7 @@ func (h *TestErrorHandlerSet) Errors() []error {
 }
 
 // LastContext returns the context of the last handled error (if any).
-func (h *TestErrorHandlerSet) LastContext() context.Context {
+func (h *TestErrorHandlerFacade) LastContext() context.Context {
 	h.mu.RLock()
 	defer h.mu.RUnlock()
 
@@ -182,7 +189,7 @@ func (h *TestErrorHandlerSet) LastContext() context.Context {
 }
 
 // Contexts returns contexts of all handled errors.
-func (h *TestErrorHandlerSet) Contexts() []context.Context {
+func (h *TestErrorHandlerFacade) Contexts() []context.Context {
 	h.mu.RLock()
 	defer h.mu.RUnlock()
 
@@ -190,7 +197,7 @@ func (h *TestErrorHandlerSet) Contexts() []context.Context {
 }
 
 // Handle records an error.
-func (h *TestErrorHandlerSet) Handle(err error) {
+func (h *TestErrorHandlerFacade) Handle(err error) {
 	if err == nil {
 		return
 	}
@@ -203,7 +210,7 @@ func (h *TestErrorHandlerSet) Handle(err error) {
 }
 
 // HandleContext records an error.
-func (h *TestErrorHandlerSet) HandleContext(ctx context.Context, err error) {
+func (h *TestErrorHandlerFacade) HandleContext(ctx context.Context, err error) {
 	if err == nil {
 		return
 	}

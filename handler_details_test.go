@@ -9,7 +9,7 @@ import (
 )
 
 func TestWithDetails(t *testing.T) {
-	testHandler := &TestErrorHandlerSet{}
+	testHandler := &TestErrorHandlerFacade{}
 
 	details := []interface{}{"a", 123}
 	handler := WithDetails(testHandler, details...)
@@ -22,7 +22,7 @@ func TestWithDetails(t *testing.T) {
 }
 
 func TestWithDetails_Multi(t *testing.T) {
-	testHandler := &TestErrorHandlerSet{}
+	testHandler := &TestErrorHandlerFacade{}
 
 	handler := WithDetails(WithDetails(testHandler, "a", 123), "b", 321)
 
@@ -34,7 +34,7 @@ func TestWithDetails_Multi(t *testing.T) {
 }
 
 func TestWithDetails_MultiPrefix(t *testing.T) {
-	testHandler := &TestErrorHandlerSet{}
+	testHandler := &TestErrorHandlerFacade{}
 
 	handler := HandlerWithPrefix(WithDetails(testHandler, "a", 123), "b", 321)
 
@@ -46,7 +46,7 @@ func TestWithDetails_MultiPrefix(t *testing.T) {
 }
 
 func TestWithDetails_MissingValue(t *testing.T) {
-	testHandler := &TestErrorHandlerSet{}
+	testHandler := &TestErrorHandlerFacade{}
 
 	handler := WithDetails(testHandler, "k0")
 
@@ -57,7 +57,12 @@ func TestWithDetails_MissingValue(t *testing.T) {
 	testHandleDetails(t, handler, testHandler, cerr)
 }
 
-func testHandleDetails(t *testing.T, handler ErrorHandlerSet, testHandler *TestErrorHandlerSet, expectedError error) {
+func testHandleDetails(
+	t *testing.T,
+	handler ErrorHandlerFacade,
+	testHandler *TestErrorHandlerFacade,
+	expectedError error,
+) {
 	handler.Handle(errors.NewPlain("error"))
 
 	if want, have := expectedError, testHandler.LastError(); !reflect.DeepEqual(want, have) {

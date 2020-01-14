@@ -7,14 +7,14 @@ import (
 )
 
 // WithDetails returns a new error handler that annotates every error with a set of key-value pairs.
-func WithDetails(handler ErrorHandler, details ...interface{}) ErrorHandlerSet {
-	handlerSet := ensureErrorHandlerSet(handler)
+func WithDetails(handler ErrorHandler, details ...interface{}) ErrorHandlerFacade {
+	handlerFacade := ensureErrorHandlerFacade(handler)
 
 	if len(details) == 0 {
-		return handlerSet
+		return handlerFacade
 	}
 
-	d, handlerSet := extractHandlerDetails(handlerSet)
+	d, handlerFacade := extractHandlerDetails(handlerFacade)
 
 	d = append(d, details...)
 
@@ -25,7 +25,7 @@ func WithDetails(handler ErrorHandler, details ...interface{}) ErrorHandlerSet {
 	// Limiting the capacity of the stored keyvals ensures that a new
 	// backing array is created if the slice must grow in HandlerWith.
 	// Using the extra capacity without copying risks a data race.
-	return newWithDetails(handlerSet, d[:len(d):len(d)])
+	return newWithDetails(handlerFacade, d[:len(d):len(d)])
 }
 
 // HandlerWithDetails returns a new error handler annotated with key-value pairs.
@@ -37,9 +37,11 @@ func HandlerWithDetails(handler Handler, details ...interface{}) Handler {
 }
 
 // extractHandlerDetails extracts the context and optionally the wrapped handler when it's the same container.
-func extractHandlerDetails(handler ErrorHandlerSet) ([]interface{}, ErrorHandlerSet) {
+func extractHandlerDetails(handler ErrorHandlerFacade) ([]interface{}, ErrorHandlerFacade) {
 	var d []interface{}
 
+	// withDetails already implements ErrorHandlerFacade,
+	// so handlerFacade should be the same as handler if it's a withDetails
 	if c, ok := handler.(*withDetails); ok {
 		handler = c.handler
 		d = c.details[:] // nolint: gocritic
@@ -52,12 +54,12 @@ func extractHandlerDetails(handler ErrorHandlerSet) ([]interface{}, ErrorHandler
 //
 // It wraps an error handler and a holds keyvals as the context.
 type withDetails struct {
-	handler ErrorHandlerSet
+	handler ErrorHandlerFacade
 	details []interface{}
 }
 
 // newWithDetails creates a new handler annotated with a set of key-value pairs.
-func newWithDetails(handler ErrorHandlerSet, details []interface{}) ErrorHandlerSet {
+func newWithDetails(handler ErrorHandlerFacade, details []interface{}) ErrorHandlerFacade {
 	return &withDetails{
 		handler: handler,
 		details: details,
