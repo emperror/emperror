@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- Add a new error handler that extracts details from a context
+
 
 ## [0.30.0] - 2020-01-13
 
