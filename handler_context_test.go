@@ -1,11 +1,85 @@
 package emperror
 
 import (
+	"context"
 	"reflect"
 	"testing"
+	"time"
 
 	"emperror.dev/errors"
 )
+
+func TestNewErrorHandlerContext(t *testing.T) {
+	t.Run("no_details", func(t *testing.T) {
+		testHandler := &TestErrorHandlerSet{}
+
+		handler := NewErrorHandlerContext(testHandler, func(ctx context.Context) map[string]interface{} {
+			return nil
+		})
+
+		handler.HandleContext(context.Background(), errors.New("error"))
+
+		details := errors.GetDetails(testHandler.LastError())
+
+		if len(details) > 0 {
+			t.Error("error is not expected to have any details")
+		}
+	})
+
+	t.Run("details", func(t *testing.T) {
+		testHandler := &TestErrorHandlerSet{}
+
+		handler := NewErrorHandlerContext(testHandler, func(ctx context.Context) map[string]interface{} {
+			return map[string]interface{}{
+				"key": "value",
+			}
+		})
+
+		handler.HandleContext(context.Background(), errors.New("error"))
+
+		details := errors.GetDetails(testHandler.LastError())
+
+		if want, have := []interface{}{"key", "value"}, details; !reflect.DeepEqual(want, have) {
+			t.Errorf("unexpexted \nexpected: %v\nactual:   %v", want, have)
+		}
+	})
+}
+
+func TestContextExtractors(t *testing.T) {
+	extractor := ContextExtractors(
+		func(_ context.Context) map[string]interface{} {
+			return nil
+		},
+		func(_ context.Context) map[string]interface{} {
+			return map[string]interface{}{
+				"key":  "value",
+				"key2": "value2",
+			}
+		},
+		func(_ context.Context) map[string]interface{} {
+			return map[string]interface{}{
+				"key":  "another_value",
+				"key3": "value3",
+			}
+		},
+		func(_ context.Context) map[string]interface{} {
+			return map[string]interface{}{
+				"key4": time.Minute,
+			}
+		},
+	)
+
+	expected := map[string]interface{}{
+		"key":  "another_value",
+		"key2": "value2",
+		"key3": "value3",
+		"key4": time.Minute,
+	}
+
+	if want, have := expected, extractor(context.Background()); !reflect.DeepEqual(want, have) {
+		t.Errorf("unexpexted details\nexpected: %v\nactual:   %v", want, have)
+	}
+}
 
 func TestHandlerContext(t *testing.T) {
 	testHandler := NewTestHandler()
