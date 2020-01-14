@@ -6,6 +6,55 @@ import (
 	"emperror.dev/errors"
 )
 
+type errorHandlerContext struct {
+	handler   ErrorHandlerSet
+	extractor ContextExtractor
+}
+
+// NewErrorHandlerContext returns an error handler that extracts details from the provided context (if any)
+// and annotates the handled error with them.
+func NewErrorHandlerContext(handler ErrorHandler, extractor ContextExtractor) ErrorHandlerSet {
+	return errorHandlerContext{
+		handler:   ensureErrorHandlerSet(handler),
+		extractor: extractor,
+	}
+}
+
+func (e errorHandlerContext) Handle(err error) {
+	e.handler.Handle(err)
+}
+
+func (e errorHandlerContext) HandleContext(ctx context.Context, err error) {
+	fields := e.extractor(ctx)
+
+	details := make([]interface{}, 0, len(fields)*2)
+
+	for key, value := range fields {
+		details = append(details, key, value)
+	}
+
+	e.handler.HandleContext(ctx, errors.WithDetails(err, details...))
+}
+
+// ContextExtractor extracts a map of details from a context.
+type ContextExtractor func(ctx context.Context) map[string]interface{}
+
+// ContextExtractors combines a list of ContextExtractor.
+// The returned extractor aggregates the result of the underlying extractors.
+func ContextExtractors(extractors ...ContextExtractor) ContextExtractor {
+	return func(ctx context.Context) map[string]interface{} {
+		fields := make(map[string]interface{})
+
+		for _, extractor := range extractors {
+			for key, value := range extractor(ctx) {
+				fields[key] = value
+			}
+		}
+
+		return fields
+	}
+}
+
 // The implementation bellow is heavily influenced by go-kit's log context.
 
 // HandlerWith returns a new error handler with keyvals context appended to it.
