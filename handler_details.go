@@ -40,6 +40,7 @@ func HandlerWithDetails(handler Handler, details ...interface{}) Handler {
 func extractHandlerDetails(handler ErrorHandlerSet) ([]interface{}, ErrorHandlerSet) {
 	var d []interface{}
 
+	// withDetails already implements ErrorHandlerSet, so handlerSet should be the same as handler if it's a withDetails
 	if c, ok := handler.(*withDetails); ok {
 		handler = c.handler
 		d = c.details[:] // nolint: gocritic
