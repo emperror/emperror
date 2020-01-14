@@ -7,15 +7,15 @@ import (
 )
 
 type errorHandlerContext struct {
-	handler   ErrorHandlerSet
+	handler   ErrorHandlerFacade
 	extractor ContextExtractor
 }
 
 // NewErrorHandlerContext returns an error handler that extracts details from the provided context (if any)
 // and annotates the handled error with them.
-func NewErrorHandlerContext(handler ErrorHandler, extractor ContextExtractor) ErrorHandlerSet {
+func NewErrorHandlerContext(handler ErrorHandler, extractor ContextExtractor) ErrorHandlerFacade {
 	return errorHandlerContext{
-		handler:   ensureErrorHandlerSet(handler),
+		handler:   ensureErrorHandlerFacade(handler),
 		extractor: extractor,
 	}
 }
@@ -73,14 +73,14 @@ func HandlerWith(handler Handler, keyvals ...interface{}) Handler {
 //
 // The created handler will prepend it's own context to the handled errors.
 // Deprecated: no replacement at this time.
-func HandlerWithPrefix(handler Handler, keyvals ...interface{}) ErrorHandlerSet {
-	handlerSet := ensureErrorHandlerSet(handler)
+func HandlerWithPrefix(handler Handler, keyvals ...interface{}) ErrorHandlerFacade {
+	handlerFacade := ensureErrorHandlerFacade(handler)
 
 	if len(keyvals) == 0 {
-		return handlerSet
+		return handlerFacade
 	}
 
-	prevkvs, handlerSet := extractHandlerContext(handlerSet)
+	prevkvs, handlerFacade := extractHandlerContext(handlerFacade)
 
 	n := len(prevkvs) + len(keyvals)
 	if len(keyvals)%2 != 0 {
@@ -96,11 +96,11 @@ func HandlerWithPrefix(handler Handler, keyvals ...interface{}) ErrorHandlerSet 
 
 	kvs = append(kvs, prevkvs...)
 
-	return newContextualHandler(handlerSet, kvs)
+	return newContextualHandler(handlerFacade, kvs)
 }
 
 // extractHandlerContext extracts the context and optionally the wrapped handler when it's the same container.
-func extractHandlerContext(handler ErrorHandlerSet) ([]interface{}, ErrorHandlerSet) {
+func extractHandlerContext(handler ErrorHandlerFacade) ([]interface{}, ErrorHandlerFacade) {
 	var kvs []interface{}
 
 	if c, ok := handler.(*contextualHandler); ok {
@@ -115,12 +115,12 @@ func extractHandlerContext(handler ErrorHandlerSet) ([]interface{}, ErrorHandler
 //
 // It wraps an error handler and a holds keyvals as the context.
 type contextualHandler struct {
-	handler ErrorHandlerSet
+	handler ErrorHandlerFacade
 	keyvals []interface{}
 }
 
 // newContextualHandler creates a new *contextualHandler or a struct which is contextual and holds a stack trace.
-func newContextualHandler(handler ErrorHandlerSet, kvs []interface{}) ErrorHandlerSet {
+func newContextualHandler(handler ErrorHandlerFacade, kvs []interface{}) ErrorHandlerFacade {
 	chandler := &contextualHandler{
 		handler: handler,
 		keyvals: kvs,

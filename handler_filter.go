@@ -6,7 +6,7 @@ import (
 
 type filterHandler struct {
 	errorMatcher ErrorMatcher
-	handler      ErrorHandlerSet
+	handler      ErrorHandlerFacade
 }
 
 func (h filterHandler) Handle(err error) {
@@ -30,9 +30,9 @@ type ErrorMatcher func(err error) bool
 
 // WithDetails returns a new error handler that discards errors matching any of the specified filters.
 // Otherwise it passes errors to the next handler.
-func WithFilter(handler ErrorHandler, matcher ErrorMatcher) ErrorHandlerSet {
+func WithFilter(handler ErrorHandler, matcher ErrorMatcher) ErrorHandlerFacade {
 	return filterHandler{
 		errorMatcher: matcher,
-		handler:      ensureErrorHandlerSet(handler),
+		handler:      ensureErrorHandlerFacade(handler),
 	}
 }

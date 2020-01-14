@@ -11,7 +11,7 @@ import (
 
 func TestNewErrorHandlerContext(t *testing.T) {
 	t.Run("no_details", func(t *testing.T) {
-		testHandler := &TestErrorHandlerSet{}
+		testHandler := &TestErrorHandlerFacade{}
 
 		handler := NewErrorHandlerContext(testHandler, func(ctx context.Context) map[string]interface{} {
 			return nil
@@ -27,7 +27,7 @@ func TestNewErrorHandlerContext(t *testing.T) {
 	})
 
 	t.Run("details", func(t *testing.T) {
-		testHandler := &TestErrorHandlerSet{}
+		testHandler := &TestErrorHandlerFacade{}
 
 		handler := NewErrorHandlerContext(testHandler, func(ctx context.Context) map[string]interface{} {
 			return map[string]interface{}{

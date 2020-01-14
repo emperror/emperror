@@ -7,7 +7,7 @@ import (
 )
 
 type closableErrorHandler struct {
-	handler    ErrorHandlerSet
+	handler    ErrorHandlerFacade
 	closeError error
 }
 
@@ -26,7 +26,7 @@ func (h *closableErrorHandler) Close() error {
 func TestErrorHandlers(t *testing.T) {
 	t.Run("handler", func(t *testing.T) {
 		handler1 := &TestErrorHandler{}
-		handler2 := &TestErrorHandlerSet{}
+		handler2 := &TestErrorHandlerFacade{}
 
 		handler := ErrorHandlers{handler1, handler2}
 
@@ -65,7 +65,7 @@ func TestErrorHandlers(t *testing.T) {
 
 		t.Run("no_closers", func(t *testing.T) {
 			handler1 := &TestErrorHandler{}
-			handler2 := &TestErrorHandlerSet{}
+			handler2 := &TestErrorHandlerFacade{}
 
 			handler := ErrorHandlers{handler1, handler2}
 
@@ -77,8 +77,8 @@ func TestErrorHandlers(t *testing.T) {
 		})
 
 		t.Run("no_errors", func(t *testing.T) {
-			handler1 := &closableErrorHandler{handler: &TestErrorHandlerSet{}}
-			handler2 := &TestErrorHandlerSet{}
+			handler1 := &closableErrorHandler{handler: &TestErrorHandlerFacade{}}
+			handler2 := &TestErrorHandlerFacade{}
 
 			handler := ErrorHandlers{handler1, handler2}
 
@@ -92,7 +92,7 @@ func TestErrorHandlers(t *testing.T) {
 		t.Run("error", func(t *testing.T) {
 			closeErr := errors.New("close error")
 
-			handler1 := &closableErrorHandler{handler: &TestErrorHandlerSet{}, closeError: closeErr}
+			handler1 := &closableErrorHandler{handler: &TestErrorHandlerFacade{}, closeError: closeErr}
 			handler2 := NewTestHandler()
 
 			handler := ErrorHandlers{handler1, handler2}

@@ -27,6 +27,19 @@ type ErrorHandlerContext interface {
 	HandleContext(ctx context.Context, err error)
 }
 
+// ErrorHandlerFacade is a combination of ErrorHandler and ErrorHandlerContext.
+// It's sole purpose is to make the API of the package concise by exposing a common interface type
+// for returned handlers. It's not supposed to be used by consumers of this package.
+//
+// It goes directly against the "Use interfaces, return structs" idiom of Go,
+// but at the current phase of the package the smaller API surface makes more sense.
+//
+// In the future it might get replaced with concrete types.
+type ErrorHandlerFacade interface {
+	ErrorHandler
+	ErrorHandlerContext
+}
+
 // ErrorHandlerSet is a combination of ErrorHandler and ErrorHandlerContext.
 // It's sole purpose is to make the API of the package concise by exposing a common interface type
 // for returned handlers. It's not supposed to be used by consumers of this package.
@@ -35,13 +48,12 @@ type ErrorHandlerContext interface {
 // but at the current phase of the package the smaller API surface makes more sense.
 //
 // In the future it might get replaced with concrete types.
-type ErrorHandlerSet interface {
-	ErrorHandler
-	ErrorHandlerContext
-}
+//
+// Deprecated: use ErrorHandlerFacade.
+type ErrorHandlerSet = ErrorHandlerFacade
 
-func ensureErrorHandlerSet(handler ErrorHandler) ErrorHandlerSet {
-	if handler, ok := handler.(ErrorHandlerSet); ok {
+func ensureErrorHandlerFacade(handler ErrorHandler) ErrorHandlerFacade {
+	if handler, ok := handler.(ErrorHandlerFacade); ok {
 		return handler
 	}
 
