@@ -6,25 +6,33 @@ import (
 	"emperror.dev/errors"
 )
 
-type errorHandlerContext struct {
+type withContextExtractor struct {
 	handler   ErrorHandlerFacade
 	extractor ContextExtractor
 }
 
-// NewErrorHandlerContext returns an error handler that extracts details from the provided context (if any)
+// WithContextExtractor returns an error handler that extracts details from the provided context (if any)
 // and annotates the handled error with them.
-func NewErrorHandlerContext(handler ErrorHandler, extractor ContextExtractor) ErrorHandlerFacade {
-	return errorHandlerContext{
+func WithContextExtractor(handler ErrorHandler, extractor ContextExtractor) ErrorHandlerFacade {
+	return withContextExtractor{
 		handler:   ensureErrorHandlerFacade(handler),
 		extractor: extractor,
 	}
 }
 
-func (e errorHandlerContext) Handle(err error) {
+// NewErrorHandlerContext returns an error handler that extracts details from the provided context (if any)
+// and annotates the handled error with them.
+//
+// Deprecated: use WithContextExtractor.
+func NewErrorHandlerContext(handler ErrorHandler, extractor ContextExtractor) ErrorHandlerFacade {
+	return WithContextExtractor(handler, extractor)
+}
+
+func (e withContextExtractor) Handle(err error) {
 	e.handler.Handle(err)
 }
 
-func (e errorHandlerContext) HandleContext(ctx context.Context, err error) {
+func (e withContextExtractor) HandleContext(ctx context.Context, err error) {
 	fields := e.extractor(ctx)
 
 	details := make([]interface{}, 0, len(fields)*2)

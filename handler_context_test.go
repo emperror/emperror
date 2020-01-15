@@ -9,11 +9,11 @@ import (
 	"emperror.dev/errors"
 )
 
-func TestNewErrorHandlerContext(t *testing.T) {
-	t.Run("no_details", func(t *testing.T) {
+func TestWithContextExtractor(t *testing.T) {
+	t.Run("NoDetails", func(t *testing.T) {
 		testHandler := &TestErrorHandlerFacade{}
 
-		handler := NewErrorHandlerContext(testHandler, func(ctx context.Context) map[string]interface{} {
+		handler := WithContextExtractor(testHandler, func(ctx context.Context) map[string]interface{} {
 			return nil
 		})
 
@@ -26,10 +26,10 @@ func TestNewErrorHandlerContext(t *testing.T) {
 		}
 	})
 
-	t.Run("details", func(t *testing.T) {
+	t.Run("Details", func(t *testing.T) {
 		testHandler := &TestErrorHandlerFacade{}
 
-		handler := NewErrorHandlerContext(testHandler, func(ctx context.Context) map[string]interface{} {
+		handler := WithContextExtractor(testHandler, func(ctx context.Context) map[string]interface{} {
 			return map[string]interface{}{
 				"key": "value",
 			}
