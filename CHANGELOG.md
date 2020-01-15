@@ -13,9 +13,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - `ErrorHandlerFacade` interface (combination of `ErrorHandler` and `ErrorHandlerContext`)
 
+### Changed
+
+- Renamed `NewErrorHandlerContext` to `WithContextExtractor`
+
 ### Deprecated
 
 - `ErrorHandlerSet` interface: use `ErrorHandlerFacade` instead.
+- `NewErrorHandlerContext` handler compositor: use `WithContextExtractor` instead.
 
 
 ## [0.31.0] - 2020-01-14
