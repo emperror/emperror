@@ -7,7 +7,7 @@
 [![Go Report Card](https://goreportcard.com/badge/emperror.dev/emperror?style=flat-square)](https://goreportcard.com/report/emperror.dev/emperror)
 [![GolangCI](https://golangci.com/badges/github.com/emperror/emperror.svg)](https://golangci.com/r/github.com/emperror/emperror)
 [![Go Version](https://img.shields.io/badge/go%20version-%3E=1.12-61CFDD.svg?style=flat-square)](https://github.com/emperror/errors)
-[![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/emperror.dev/emperror)
+[![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://pkg.go.dev/emperror.dev/emperror)
 [![FOSSA Status](https://app.fossa.com/api/projects/custom%2B8125%2Femperror.dev%2Femperror.svg?type=shield)](https://app.fossa.com/projects/custom%2B8125%2Femperror.dev%2Femperror?ref=badge_shield)
 
 **The Emperor takes care of all errors personally.**
