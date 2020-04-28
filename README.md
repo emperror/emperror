@@ -2,13 +2,13 @@
 
 [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/avelino/awesome-go#error-handling)
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/emperror/emperror/CI?style=flat-square)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/emperror/emperror/CI?style=flat-square)](https://github.com/emperror/emperror/actions?query=workflow%3ACI)
 [![Codecov](https://img.shields.io/codecov/c/github/emperror/emperror?style=flat-square)](https://codecov.io/gh/emperror/emperror)
 [![Go Report Card](https://goreportcard.com/badge/emperror.dev/emperror?style=flat-square)](https://goreportcard.com/report/emperror.dev/emperror)
-[![GolangCI](https://golangci.com/badges/github.com/emperror/emperror.svg)](https://golangci.com/r/github.com/emperror/emperror)
-[![Go Version](https://img.shields.io/badge/go%20version-%3E=1.12-61CFDD.svg?style=flat-square)](https://github.com/emperror/errors)
-[![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://pkg.go.dev/emperror.dev/emperror)
+![Go Version](https://img.shields.io/badge/go%20version-%3E=1.12-61CFDD.svg?style=flat-square)
+[![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/mod/emperror.dev/emperror)
 [![FOSSA Status](https://app.fossa.com/api/projects/custom%2B8125%2Femperror.dev%2Femperror.svg?type=shield)](https://app.fossa.com/projects/custom%2B8125%2Femperror.dev%2Femperror?ref=badge_shield)
+
 
 **The Emperor takes care of all errors personally.**
 
