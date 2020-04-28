@@ -50,8 +50,10 @@ func (w *withExposedStack) Format(s fmt.State, verb rune) {
 	case 'v':
 		if s.Flag('+') {
 			_, _ = fmt.Fprintf(s, "%+v", w.Cause())
+
 			return
 		}
+
 		fallthrough
 
 	case 's':

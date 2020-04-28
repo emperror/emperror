@@ -19,6 +19,7 @@ func TestForEachCause(t *testing.T) {
 	)
 
 	var i int
+
 	fn := func(err error) bool {
 		i++
 
@@ -45,6 +46,7 @@ func TestForEachCause_BreakTheLoop(t *testing.T) {
 	)
 
 	var i int
+
 	fn := func(err error) bool {
 		i++
 
@@ -60,6 +62,7 @@ func TestForEachCause_BreakTheLoop(t *testing.T) {
 
 func TestForEachCause_NilError(t *testing.T) {
 	var i int
+
 	fn := func(err error) bool {
 		i++
 

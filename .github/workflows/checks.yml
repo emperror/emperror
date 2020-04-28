@@ -15,9 +15,9 @@ jobs:
         run: curl https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
 
       - name: Set up Go
-        uses: actions/setup-go@v1
+        uses: actions/setup-go@v2
         with:
-          go-version: 1.13
+          go-version: 1.14
 
       - name: Set up GOPATH
         run: echo "::set-env name=GOPATH::$(go env GOPATH)"

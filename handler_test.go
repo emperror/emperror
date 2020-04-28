@@ -237,6 +237,7 @@ func TestHandlers_Close(t *testing.T) {
 
 func TestHandlerFunc(t *testing.T) {
 	var actual error
+
 	log := func(err error) {
 		actual = err
 	}
