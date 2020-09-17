@@ -104,7 +104,6 @@ func TestContext(t *testing.T) {
 
 func TestWith_NilError(t *testing.T) {
 	err := With(nil)
-
 	if err != nil {
 		t.Errorf("error is expected to be nil\nactual: %v", err)
 	}

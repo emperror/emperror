@@ -30,15 +30,15 @@ func TestPanic(t *testing.T) {
 
 		st := stt.StackTrace()
 
-		if got, want := fmt.Sprintf("%n", st[0]), "TestPanic"; got != want { // nolint: govet
+		if got, want := fmt.Sprintf("%n", st[0]), "TestPanic"; got != want {
 			t.Errorf("function name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 		}
 
-		if got, want := fmt.Sprintf("%s", st[0]), "panic_test.go"; got != want { // nolint: govet
+		if got, want := fmt.Sprintf("%s", st[0]), "panic_test.go"; got != want {
 			t.Errorf("file name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 		}
 
-		if got, want := fmt.Sprintf("%d", st[0]), "46"; got != want { // nolint: govet
+		if got, want := fmt.Sprintf("%d", st[0]), "46"; got != want {
 			t.Errorf("line number does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 		}
 	}()
@@ -77,15 +77,15 @@ func assertRecoveredError(t *testing.T, err error, msg string) {
 
 	st := stt.StackTrace()
 
-	if got, want := fmt.Sprintf("%n", st[0]), "createRecoverFunc.func1"; got != want { // nolint: govet
+	if got, want := fmt.Sprintf("%n", st[0]), "createRecoverFunc.func1"; got != want {
 		t.Errorf("function name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 	}
 
-	if got, want := fmt.Sprintf("%s", st[0]), "panic_test.go"; got != want { // nolint: govet
+	if got, want := fmt.Sprintf("%s", st[0]), "panic_test.go"; got != want {
 		t.Errorf("file name does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 	}
 
-	if got, want := fmt.Sprintf("%d", st[0]), "66"; got != want { // nolint: govet
+	if got, want := fmt.Sprintf("%d", st[0]), "66"; got != want {
 		t.Errorf("line number does not match the expected one\nactual:   %s\nexpected: %s", got, want)
 	}
 
@@ -125,7 +125,7 @@ func TestRecover_Nil(t *testing.T) {
 
 	v := f()
 
-	if got, want := v, error(nil); got != want { // nolint: govet
+	if got, want := v, error(nil); got != want {
 		t.Errorf("the recovered value is expected to be nil\nactual: %v", got)
 	}
 }
