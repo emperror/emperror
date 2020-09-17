@@ -69,3 +69,9 @@ linters:
         # - nestif
         # - testpackage
         # - wsl
+
+issues:
+    exclude-rules:
+        -   text: "SA1029: should not use built-in type string as key for value; define your own type to avoid collisions"
+            linters:
+                - staticcheck

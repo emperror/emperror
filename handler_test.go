@@ -57,7 +57,6 @@ func TestErrorHandlers(t *testing.T) {
 			var handler ErrorHandlers
 
 			err := handler.Close()
-
 			if err != nil {
 				t.Errorf("unexpected error when closing handlers: %v", err)
 			}
@@ -70,7 +69,6 @@ func TestErrorHandlers(t *testing.T) {
 			handler := ErrorHandlers{handler1, handler2}
 
 			err := handler.Close()
-
 			if err != nil {
 				t.Errorf("unexpected error when closing handlers: %v", err)
 			}
@@ -83,7 +81,6 @@ func TestErrorHandlers(t *testing.T) {
 			handler := ErrorHandlers{handler1, handler2}
 
 			err := handler.Close()
-
 			if err != nil {
 				t.Errorf("unexpected error when closing handlers: %v", err)
 			}
@@ -187,7 +184,6 @@ func TestHandlers_Close(t *testing.T) {
 		var handler Handlers
 
 		err := handler.Close()
-
 		if err != nil {
 			t.Errorf("unexpected error when closing handlers\nactual:   %+v", err)
 		}
@@ -200,7 +196,6 @@ func TestHandlers_Close(t *testing.T) {
 		handler := Handlers{handler1, handler2}
 
 		err := handler.Close()
-
 		if err != nil {
 			t.Errorf("unexpected error when closing handlers\nactual:   %+v", err)
 		}
@@ -213,7 +208,6 @@ func TestHandlers_Close(t *testing.T) {
 		handler := Handlers{handler1, handler2}
 
 		err := handler.Close()
-
 		if err != nil {
 			t.Errorf("unexpected error when closing handlers\nactual:   %+v", err)
 		}

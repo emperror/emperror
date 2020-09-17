@@ -6,9 +6,11 @@ import (
 	"testing"
 )
 
-// guarantee multiError implements Errors and error
-var _ Errors = new(multiError)
-var _ error = new(multiError)
+// guarantee multiError implements Errors and error.
+var (
+	_ Errors = new(multiError)
+	_ error  = new(multiError)
+)
 
 func TestMultiErrorBuilder_ErrOrNil(t *testing.T) {
 	builder := NewMultiErrorBuilder()
