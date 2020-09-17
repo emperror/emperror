@@ -6,7 +6,7 @@
 [![Codecov](https://img.shields.io/codecov/c/github/emperror/emperror?style=flat-square)](https://codecov.io/gh/emperror/emperror)
 [![Go Report Card](https://goreportcard.com/badge/emperror.dev/emperror?style=flat-square)](https://goreportcard.com/report/emperror.dev/emperror)
 ![Go Version](https://img.shields.io/badge/go%20version-%3E=1.12-61CFDD.svg?style=flat-square)
-[![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/mod/emperror.dev/emperror)
+[![PkgGoDev](https://pkg.go.dev/badge/mod/emperror.dev/emperror)](https://pkg.go.dev/mod/emperror.dev/emperror)
 [![FOSSA Status](https://app.fossa.com/api/projects/custom%2B8125%2Femperror.dev%2Femperror.svg?type=shield)](https://app.fossa.com/projects/custom%2B8125%2Femperror.dev%2Femperror?ref=badge_shield)
 
 
