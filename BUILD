@@ -1,5 +1,5 @@
 github_repo(
     name = "pleasings2",
     repo = "sagikazarmark/mypleasings",
-    revision = "0b63e09260f2be22deae7d3896348114da77b6a0",
+    revision = "69b993a9ab5a23cf1fc2ec89a1f41595daa0bf47",
 )
