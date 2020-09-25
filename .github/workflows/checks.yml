@@ -19,6 +19,9 @@ jobs:
       - name: Set up GOPATH
         run: echo "::set-env name=GOPATH::$(go env GOPATH)"
 
+      - name: Set Please overrides
+        run: echo "::set-env name=PLZ_OVERRIDES::build.path:$PATH"
+
       - name: Checkout code
         uses: actions/checkout@v2
 
