@@ -133,12 +133,18 @@ func main() {
 
 ## Development
 
-When all coding and testing is done, please run the test suite:
+Contributions are welcome! :)
 
-```bash
-./pleasew lint
-./pleasew gotest
-```
+1. Clone the repository
+1. Make changes on a new branch
+1. Run the test suite:
+    ```bash
+    ./pleasew build
+    ./pleasew test
+    ./pleasew gotest
+    ./pleasew lint
+    ```
+1. Commit, push and open a PR
 
 
 ## License
