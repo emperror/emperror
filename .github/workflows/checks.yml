@@ -9,6 +9,9 @@ jobs:
   build:
     name: FOSSA
     runs-on: ubuntu-latest
+    env:
+      GOFLAGS: -mod=readonly
+      PLZ_ARGS: -p
 
     steps:
       - name: Set up Go
@@ -27,10 +30,8 @@ jobs:
 
       - name: Build
         run: go build ./...
-        env:
-          GOFLAGS: -mod=readonly
 
       - name: Analyze
-        run: ./pleasew run ///pleasings2//tools/misc:fossa -- analyze
+        run: ./pleasew $PLZ_ARGS run ///pleasings2//tools/misc:fossa -- analyze
         env:
           FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
