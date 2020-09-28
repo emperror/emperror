@@ -16,7 +16,6 @@ jobs:
     env:
       GOFLAGS: -mod=readonly
       GOPROXY: https://proxy.golang.org
-      PLZ_ARGS: -p
 
     steps:
       - name: Set up Go
@@ -24,11 +23,11 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
 
-      - name: Set Please overrides
-        run: echo "::set-env name=PLZ_OVERRIDES::build.path:$PATH"
-
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set up Please
+        uses: sagikazarmark/setup-please-action@master
 
       - name: Build
         run: ./pleasew $PLZ_ARGS build //...
@@ -51,7 +50,6 @@ jobs:
     env:
       GOFLAGS: -mod=readonly
       GOPROXY: https://proxy.golang.org
-      PLZ_ARGS: -p
 
     steps:
       - name: Set up Go
@@ -59,11 +57,11 @@ jobs:
         with:
           go-version: 1.15
 
-      - name: Set Please overrides
-        run: echo "::set-env name=PLZ_OVERRIDES::build.path:$PATH"
-
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set up Please
+        uses: sagikazarmark/setup-please-action@master
 
       - name: Lint
         run: ./pleasew $PLZ_ARGS lint
