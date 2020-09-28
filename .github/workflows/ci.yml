@@ -28,6 +28,11 @@ jobs:
 
       - name: Set up Please
         uses: sagikazarmark/setup-please-action@master
+        with:
+          save-logs: 'true'
+        env:
+          # See https://github.com/sagikazarmark/setup-please-action/issues/6
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
 
       - name: Build
         run: ./pleasew $PLZ_ARGS build //...
@@ -62,6 +67,8 @@ jobs:
 
       - name: Set up Please
         uses: sagikazarmark/setup-please-action@master
+        with:
+          save-logs: 'true'
 
       - name: Lint
         run: ./pleasew $PLZ_ARGS lint
