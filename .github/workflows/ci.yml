@@ -34,16 +34,13 @@ jobs:
           # See https://github.com/sagikazarmark/setup-please-action/issues/6
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
 
-      - name: Find plz
-        run: which plz
-
       - name: Build
-        run: ./pleasew $PLZ_ARGS build //...
+        run: plz build //...
 
       - name: Test
         run: |
-          ./pleasew $PLZ_ARGS test //...
-          ./pleasew $PLZ_ARGS gotest
+          plz test //...
+          plz gotest
 
       - name: Upload coverage
         uses: codecov/codecov-action@v1
