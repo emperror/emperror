@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Please
-        uses: sagikazarmark/setup-please-action@master
+        uses: sagikazarmark/setup-please-action@download
         with:
           save-logs: 'true'
         env:
