@@ -27,12 +27,15 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Please
-        uses: sagikazarmark/setup-please-action@download
+        uses: sagikazarmark/setup-please-action@master
         with:
           save-logs: 'true'
         env:
           # See https://github.com/sagikazarmark/setup-please-action/issues/6
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
+
+      - name: Find plz
+        run: which plz
 
       - name: Build
         run: ./pleasew $PLZ_ARGS build //...
