@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Please
-        uses: sagikazarmark/setup-please-action@master
+        uses: sagikazarmark/setup-please-action@v0
         with:
           save-logs: 'true'
         env:
@@ -66,9 +66,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Please
-        uses: sagikazarmark/setup-please-action@master
+        uses: sagikazarmark/setup-please-action@v0
         with:
           save-logs: 'true'
 
       - name: Lint
-        run: ./pleasew $PLZ_ARGS lint
+        run: plz lint
