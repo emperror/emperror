@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GOFLAGS: -mod=readonly
-      PLZ_ARGS: -p
 
     steps:
       - name: Set up Go
@@ -22,16 +21,18 @@ jobs:
       - name: Set up GOPATH
         run: echo "::set-env name=GOPATH::$(go env GOPATH)"
 
-      - name: Set Please overrides
-        run: echo "::set-env name=PLZ_OVERRIDES::build.path:$PATH"
-
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set up Please
+        uses: sagikazarmark/setup-please-action@v0
+        with:
+          save-logs: 'true'
 
       - name: Build
         run: go build ./...
 
       - name: Analyze
-        run: ./pleasew $PLZ_ARGS run ///pleasings2//tools/misc:fossa -- analyze
+        run: plz run ///pleasings2//tools/misc:fossa -- analyze
         env:
           FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
