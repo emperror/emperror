@@ -27,7 +27,7 @@ jobs:
       - name: Set up Please
         uses: sagikazarmark/setup-please-action@v0
         with:
-          save-logs: 'true'
+          output: all
 
       - name: Build
         run: go build ./...
