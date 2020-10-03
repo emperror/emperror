@@ -28,9 +28,6 @@ jobs:
 
       - name: Set up Please
         uses: sagikazarmark/setup-please-action@v0
-        with:
-          output: all
-          verbosity: debug
 
       - name: Build
         run: plz build //...
@@ -65,9 +62,6 @@ jobs:
 
       - name: Set up Please
         uses: sagikazarmark/setup-please-action@v0
-        with:
-          output: all
-          verbosity: debug
 
       - name: Lint
         run: plz lint
