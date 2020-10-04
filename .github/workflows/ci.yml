@@ -29,9 +29,6 @@ jobs:
       - name: Set up Please
         uses: sagikazarmark/setup-please-action@v0
 
-      - name: Build
-        run: plz build //...
-
       - name: Test
         run: |
           plz test //...
