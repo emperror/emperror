@@ -16,9 +16,9 @@ type Handler struct {
 }
 
 // New creates a new handler.
-func New(APIKey string) *Handler {
+func New(apiKey string) *Handler {
 	return NewFromNotifier(bugsnag.New(bugsnag.Configuration{
-		APIKey: APIKey,
+		APIKey: apiKey,
 	}))
 }
 

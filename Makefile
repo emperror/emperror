@@ -17,8 +17,8 @@ TEST_FORMAT = short-verbose
 endif
 
 DEP_VERSION = 0.5.0
-GOTESTSUM_VERSION = 0.3.2
-GOLANGCI_VERSION = 1.12.2
+GOTESTSUM_VERSION = 0.3.3
+GOLANGCI_VERSION = 1.15.0
 
 # Add the ability to override some variables
 # Use with care
